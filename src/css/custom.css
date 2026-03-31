@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+:root {
+  --ifm-color-primary: #f7a35b; /* REVA Orange */
+  --ifm-color-primary-dark: #f58d36;
+  --ifm-color-primary-darker: #f48224;
+  --ifm-color-primary-darkest: #ca650b;
+  --ifm-color-primary-light: #f9b980;
+  --ifm-color-primary-lighter: #fac493;
+  --ifm-color-primary-lightest: #fde7cc;
+  
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'Plus Jakarta Sans', sans-serif;
+  
+  --ifm-footer-background-color: #4a4c55; /* REVA Grey */
+}
+
+/* Glassmorphism for Navbar */
+.navbar {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-background-color: #0f172a;
+  --ifm-navbar-background-color: rgba(15, 23, 42, 0.8);
+  --ifm-color-primary: #f7a35b;
+  --ifm-color-primary-dark: #f58d36;
+  --ifm-color-primary-darker: #f48224;
+  --ifm-color-primary-darkest: #ca650b;
+  --ifm-color-primary-light: #f9b980;
+  --ifm-color-primary-lighter: #fac493;
+  --ifm-color-primary-lightest: #fde7cc;
+}
+
+/* Glassmorphism for Sidebar */
+.theme-doc-sidebar-container {
+  background: rgba(15, 23, 42, 0.5) !important;
+  backdrop-filter: blur(8px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* REVA Branded Button */
+.button--primary {
+  background-color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.button--primary:hover {
+  background-color: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+}
+

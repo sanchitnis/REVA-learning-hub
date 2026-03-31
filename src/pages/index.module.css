@@ -1,0 +1,73 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(135deg, #090e1a 0%, #1e293b 100%);
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logoContainer {
+  margin-bottom: 2.5rem;
+}
+
+.heroLogo {
+  height: 140px;
+  filter: drop-shadow(0 0 15px rgba(247, 163, 91, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.heroLogo:hover {
+  transform: scale(1.05);
+}
+
+.heroTitle {
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -1px;
+}
+
+.heroSubtitle {
+  font-size: 1.8rem;
+  color: #94a3b8;
+  margin-bottom: 3.5rem;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 3rem 1rem;
+  }
+  .heroTitle {
+    font-size: 2.8rem;
+  }
+  .heroLogo {
+    height: 100px;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hashtags {
+  margin-top: 4.5rem;
+  font-weight: 700;
+  color: #f7a35b; /* REVA Orange */
+  letter-spacing: 2px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  opacity: 0.9;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
