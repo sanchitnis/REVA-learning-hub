@@ -14,13 +14,13 @@ const config = {
   tagline: 'Educate to Enterprise',
   favicon: 'img/favicon.ico',
 
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
-  future: {
-    v4: true,
-  },
+  url: 'https://sanchitnis.github.io',
+  baseUrl: '/REVA-learning-hub/',
+  organizationName: 'sanchitnis',
+  projectName: 'REVA-learning-hub',
+  deploymentBranch: 'gh-pages',
+  trailingSlash: false,
 
-  url: 'https://learning.reva.edu.in',
-  baseUrl: '/',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
