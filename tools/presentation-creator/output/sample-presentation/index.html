@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to AI-Era Education</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .presentation {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1000px;
+            width: 100%;
+            min-height: 700px;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            padding: 60px;
+            min-height: 600px;
+        }
+        
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 { color: #667eea; font-size: 2.5em; margin-bottom: 20px; }
+        h2 { color: #764ba2; font-size: 2em; margin-bottom: 20px; }
+        h3 { color: #667eea; font-size: 1.5em; margin-bottom: 15px; }
+        p { color: #333; line-height: 1.6; margin-bottom: 15px; font-size: 1.1em; }
+        ul, ol { margin-left: 30px; margin-bottom: 20px; }
+        li { color: #555; line-height: 1.8; margin-bottom: 10px; font-size: 1.1em; }
+        strong { color: #667eea; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }
+        a { color: #667eea; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        .quiz {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .quiz-question {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .quiz-option {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover { border-color: #667eea; background: #f0f4ff; }
+        .quiz-option.correct { border-color: #28a745; background: #d4edda; }
+        .quiz-option.incorrect { border-color: #dc3545; background: #f8d7da; }
+        
+        .qr-code { text-align: center; margin: 30px 0; }
+        .qr-code img { width: 200px; height: 200px; border: 2px solid #ddd; border-radius: 10px; }
+        .qr-text { margin-top: 10px; color: #666; font-size: 0.9em; }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+        }
+        
+        .nav-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .nav-button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .nav-button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        .slide-counter { color: #666; font-weight: bold; }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="slide active">
+            <h1>Welcome to AI-Era Education</h1>
+<strong>REVA University</strong>
+<p>Transforming learning through human-AI collaboration</p>
+        </div>
+        <div class="slide ">
+            <h2>What is AI-Era Education?</h2>
+<p>Education that prepares students for a world where:</p>
+<ul>
+<li><strong>AI handles routine tasks</strong></li>
+<li><strong>Humans focus on judgment & creativity</strong></li>
+<li><strong>Collaboration trumps competition</strong></li>
+<li><strong>Continuous learning is essential</strong></li>
+</ul>
+        </div>
+        <div class="slide ">
+            <h2>The REVA Approach</h2>
+<h3>Three Pillars</h3>
+<ol>
+<li><strong>Portfolio-First Learning</strong></li>
+<li>Every course produces a deployable artifact</li>
+<li>Students showcase real competencies</li>
+<li>AI assists, humans create</li>
+</ol>
+<ol>
+<li><strong>Enterprising Mindset</strong></li>
+<li>See problems as opportunities</li>
+<li>Initiative and adaptability</li>
+<li>Ethical reasoning</li>
+</ol>
+<ol>
+<li><strong>Outcome-Based Education (OBE)</strong></li>
+<li>Clear learning outcomes</li>
+<li>Measurable attainment</li>
+<li>Continuous improvement</li>
+</ol>
+        </div>
+        <div class="slide ">
+            <h2>Test Your Understanding</h2>
+            <div class="quiz">
+                <div class="quiz-question">What is the primary focus of AI-Era Education?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'A', 'C')">A) Memorizing facts</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'B', 'C')">B) Passing exams</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'C', 'C')">C) Judgment, creativity, and collaboration</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'D', 'C')">D) Using AI tools</div>
+            </div>
+        </div>
+        <div class="slide ">
+            <h2>Human-AI Collaboration</h2>
+<h3>The Partnership Model</h3>
+<strong>AI Role:</strong>
+<ul>
+<li>Generate first drafts</li>
+<li>Accelerate research</li>
+<li>Provide feedback</li>
+<li>Analyze data</li>
+</ul>
+<strong>Human Role:</strong>
+<ul>
+<li>Make decisions</li>
+<li>Ensure quality</li>
+<li>Add context</li>
+<li>Guide direction</li>
+</ul>
+<p>> "AI is the accelerator, not the author"</p>
+        </div>
+        <div class="slide ">
+            <h2>Portfolio-First Design</h2>
+<p>Every presentation, every project, every course produces:</p>
+<ul>
+<li>📄 <strong>Documentation</strong> - Clear, professional write-ups</li>
+<li>💻 <strong>Code/Artifacts</strong> - Deployable, demonstrable work</li>
+<li>🎯 <strong>Evidence</strong> - Proof of competency</li>
+<li>🔗 <strong>Links</strong> - Shareable portfolio items</li>
+</ul>
+<strong>This presentation itself is a portfolio artifact!</strong>
+        </div>
+        <div class="slide ">
+            <h2>Quiz: Portfolio Components</h2>
+            <div class="quiz">
+                <div class="quiz-question">Which of these is NOT a portfolio component?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'A', 'B')">A) Documentation</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'B', 'B')">B) Quiz scores</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'C', 'B')">C) Deployable artifacts</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'D', 'B')">D) Evidence of competency</div>
+            </div>
+        </div>
+        <div class="slide ">
+            <h2>OBE in Action</h2>
+<h3>Course Outcomes (COs)</h3>
+<p>| CO | Description | Bloom's Level |</p>
+<p>|----|-------------|---------------|</p>
+<p>| CO1 | Understand AI concepts | Remember |</p>
+<p>| CO2 | Apply AI techniques | Apply |</p>
+<p>| CO3 | Evaluate AI solutions | Evaluate |</p>
+<p>| CO4 | Create AI systems | Create |</p>
+<strong>Target</strong>: 75% attainment across all COs
+        </div>
+        <div class="slide ">
+            <h2>Learning Pathways</h2>
+<p>REVA offers flexible learning paths:</p>
+<ul>
+<li><strong>Fast Track</strong> - Accelerated for high achievers</li>
+<li><strong>Honors</strong> - Research-focused</li>
+<li><strong>Standard</strong> - Comprehensive foundation</li>
+<li><strong>Bridge</strong> - Support for diverse backgrounds</li>
+</ul>
+<strong>AI tutors personalize the experience</strong>
+        </div>
+        <div class="slide ">
+            <h2>The Srujana Pathway</h2>
+<p>From student to entrepreneur:</p>
+<ol>
+<li><strong>Foundation</strong> - Core competencies</li>
+<li><strong>Exploration</strong> - Industry projects</li>
+<li><strong>Specialization</strong> - Deep expertise</li>
+<li><strong>Venture</strong> - Launch your startup</li>
+</ol>
+<strong>AI supports at every stage</strong>
+        </div>
+        <div class="slide ">
+            <h2>Interactive Challenge</h2>
+            <div class="quiz">
+                <div class="quiz-question">What is the Srujana Pathway's final stage?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'A', 'B')">A) Graduation</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'B', 'B')">B) Venture launch</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'C', 'B')">C) Job placement</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'D', 'B')">D) Research paper</div>
+            </div>
+        </div>
+        <div class="slide ">
+            <h2>Tools & Technologies</h2>
+<h3>Presentation Creator</h3>
+<p>This presentation was created using:</p>
+<ul>
+<li><strong>Markdown</strong> - Simple, version-controlled content</li>
+<li><strong>Python Scripts</strong> - Automated conversion</li>
+<li><strong>Modern Web</strong> - Responsive, interactive</li>
+<li><strong>GitHub</strong> - Collaborative development</li>
+</ul>
+<strong>You can create your own!</strong>
+        </div>
+        <div class="slide ">
+            <h2>Faculty Development</h2>
+<p>REVA supports faculty through:</p>
+<ul>
+<li><strong>AI Pedagogy Training</strong> - Learn to teach with AI</li>
+<li><strong>Content Development</strong> - AI-assisted materials</li>
+<li><strong>Continuous Feedback</strong> - Pedagogical coaching</li>
+<li><strong>Community of Practice</strong> - Peer learning</li>
+</ul>
+        </div>
+        <div class="slide ">
+            <h2>Student Success Metrics</h2>
+<p>What we track:</p>
+<ul>
+<li><strong>CO Attainment</strong> - Are students meeting outcomes?</li>
+<li><strong>Portfolio Quality</strong> - Deployable artifacts</li>
+<li><strong>Engagement</strong> - Active participation</li>
+<li><strong>Placement Readiness</strong> - Industry-ready skills</li>
+<li><strong>Entrepreneurship</strong> - Venture success</li>
+</ul>
+<strong>Data drives improvement</strong>
+        </div>
+        <div class="slide ">
+            <h2>Connect With Us</h2>
+<p>Want to learn more?</p>
+<p>[qr:url=https://www.reva.edu.in:text="Visit REVA Website"]</p>
+<strong>Email</strong>: learning-hub@reva.edu.in  
+<strong>Slack</strong>: #reva-learning-hub
+        </div>
+        <div class="slide ">
+            <h2>Final Quiz</h2>
+            <div class="quiz">
+                <div class="quiz-question">What is REVA's vision?</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'A', 'C')">A) Top 10 university</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'B', 'C')">B) Most students</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'C', 'C')">C) Technologically advanced, sustainable global university for wellbeing</div>
+                <div class="quiz-option" onclick="checkAnswer(this, 'D', 'C')">D) Highest placements</div>
+            </div>
+        </div>
+        <div class="slide ">
+            <h2>Key Takeaways</h2>
+<p>✅ <strong>AI-Era Education</strong> focuses on judgment and creativity  </p>
+<p>✅ <strong>Portfolio-First</strong> produces demonstrable artifacts  </p>
+<p>✅ <strong>Human-AI Collaboration</strong> accelerates learning  </p>
+<p>✅ <strong>OBE</strong> ensures measurable outcomes  </p>
+<p>✅ <strong>Srujana</strong> pathway to entrepreneurship</p>
+<strong>Every course, every semester, every student emerges transformed</strong>
+        </div>
+        <div class="slide ">
+            <h2>Thank You!</h2>
+<strong>Questions?</strong>
+<p>This presentation is part of the <strong>REVA Learning Hub</strong></p>
+<ul>
+<li>GitHub: github.com/your-org/REVA-learning-hub</li>
+<li>Documentation: <a href="../../docs/05-Tools/presentation-creator/index.md">Getting Started Guide</a></li>
+</ul>
+<strong>Let's build the future of learning together! 🚀</strong>
+        </div>
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">18</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+        <div class="footer">
+            <strong>Introduction to AI-Era Education</strong><br>Dr. Faculty Name • REVA University
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function changeSlide(direction) { showSlide(currentSlide + direction); }
+        
+        function checkAnswer(element, selected, correct) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt.textContent.startsWith(correct)) opt.classList.add('correct');
+                else opt.classList.add('incorrect');
+            });
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+        
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('totalSlides').textContent = totalSlides;
+    </script>
+</body>
+</html>
