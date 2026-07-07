@@ -84,19 +84,64 @@ vercel deploy
 
 This learning hub frontend is built using [Docusaurus](https://docusaurus.io/).
 
+**Prerequisites:** Node.js ≥ 20 and npm.
+
 ### Installation
 ```bash
-yarn
+npm install
 ```
 
 ### Local Development
 ```bash
-yarn start
+npm start
 ```
 Starts a local development server and opens a browser window. Changes are reflected live.
 
 ### Build
 ```bash
-yarn build
+npm run build
 ```
 Generates static content into the `build` directory.
+
+### Serve (preview production build locally)
+```bash
+npm run serve
+```
+
+---
+
+## 🚀 Deployment (GitHub Pages)
+
+The site is deployed to **https://sanchitnis.github.io/REVA-learning-hub/** via GitHub Actions on every push to `main`.
+
+### Automatic Deployment (CI/CD)
+
+The workflow in `.github/workflows/deploy.yml`:
+1. Triggers on push to `main` (ignoring changes to `legacy-portfolio/`, `.academic-agent/`, and `README.md`)
+2. Builds the Docusaurus site with `npm run build`
+3. Pushes the `build/` directory to the `gh-pages` branch using [JamesIves/github-pages-deploy-action](https://github.com/JamesIves/github-pages-deploy-action)
+
+**GitHub Pages must be configured to serve from the `gh-pages` branch:**
+1. Go to **Settings → Pages** in the repository
+2. Under **Source**, select **Deploy from a branch**
+3. Select **`gh-pages`** branch and **`/ (root)`** folder
+4. Save — the site will be live at `https://sanchitnis.github.io/REVA-learning-hub/`
+
+### Manual Deployment
+
+To deploy manually from your local machine:
+```bash
+# Set your GitHub credentials (used by Docusaurus deploy)
+export GIT_USER=<your-github-username>
+
+# Build and push to gh-pages branch
+npm run deploy
+```
+
+### Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+|---|---|---|
+| 404 on the site URL | `gh-pages` branch not yet created or Pages not configured | Run the CI workflow or `npm run deploy` once, then configure Pages in Settings |
+| Build fails with "Minimum Node.js version not met" | Node.js version < 20 | Upgrade to Node.js ≥ 20 |
+| Broken links error during build | A doc references a missing file or page | Fix or remove the broken link (see `onBrokenLinks: 'throw'` in `docusaurus.config.js`) |
