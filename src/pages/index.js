@@ -47,24 +47,39 @@ export default function Home() {
             <div className="col col--4">
                 <div className="card shadow--md margin-bottom--lg">
                     <div className="card__body">
-                        <h3>Innovation & Research</h3>
-                        <p>Fostering student projects, patents, and hackathons.</p>
+                        <h3>CS101: Introduction to AI</h3>
+                        <p>Exploring the foundations of Machine Learning and Neural Networks.</p>
+                    </div>
+                    <div className="card__footer">
+                        <Link className="button button--secondary button--block" to="/CS101-Introduction-to-AI/introduction">
+                            Open Course
+                        </Link>
                     </div>
                 </div>
             </div>
             <div className="col col--4">
                  <div className="card shadow--md margin-bottom--lg">
                     <div className="card__body">
-                        <h3>Entrepreneurship</h3>
-                        <p>Leverage REVA NEST for your startup journey.</p>
+                        <h3>CS102: Modern Web Development</h3>
+                        <p>Building scalable, high-performance web applications.</p>
+                    </div>
+                    <div className="card__footer">
+                        <Link className="button button--secondary button--block" to="/CS102-Modern-Web-Development/introduction">
+                            Open Course
+                        </Link>
                     </div>
                 </div>
             </div>
             <div className="col col--4">
                  <div className="card shadow--md margin-bottom--lg">
                     <div className="card__body">
-                        <h3>Industry Readiness</h3>
-                        <p>Placements, internships, and industry masterclasses.</p>
+                        <h3>CSE490: Software 3.0</h3>
+                        <p>Agentic Software Engineering with LLMs, RAG, and multi-agent systems.</p>
+                    </div>
+                    <div className="card__footer">
+                        <Link className="button button--secondary button--block" to="/CSE490-Software-3.0">
+                            Open Course
+                        </Link>
                     </div>
                 </div>
             </div>

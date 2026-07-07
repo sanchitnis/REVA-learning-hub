@@ -1,4 +1,6 @@
 ---
+sidebar_position: 3
+title: "CSE490: Software 3.0"
 # Course Descriptor — Course Buddy Builder Input Template
 # Fill this file for each course. Run build.py to generate wiki, workbook, and skill.
 # See tools/course-buddy-builder/README.md for usage instructions.

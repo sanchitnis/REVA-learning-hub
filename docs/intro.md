@@ -14,6 +14,7 @@ Use the sidebar to navigate through the available courses:
 
 - **CS101: Introduction to AI** - Exploring the foundations of Machine Learning and Neural Networks.
 - **CS102: Modern Web Development** - Building scalable, high-performance web applications.
+- **CSE490: Software 3.0** - Agentic Software Engineering with LLMs, RAG, and multi-agent systems.
 
 ## 📚 Resources
 
