@@ -4,6 +4,9 @@
 
 Welcome to the **REVA Learning Hub**. This platform is a collaborative intelligence environment where human judgment, institutional wisdom, faculty expertise, industry insight, and student agency are the primary authors — and AI acts as the accelerator, quality mirror, and tireless first-draft partner.
 
+## For AGENTS:
+Currently focusing only on tools\presentation-creator. Refer to files in that folder only. Others are for future. This project is under construction.
+
 ## 🎓 REVA Vision and Mission
 
 **Vision:** To become a technologically advanced, sustainable global university dedicated to the wellbeing of all.

@@ -266,7 +266,9 @@ Three ideas that turn an AI text-machine into an AI action-machine:
 - Speed and separation monitoring
 - Power and force limiting
 
-**86% of cobot incidents** stem from unexpected motion
+:::caution Incident Statistics
+**86% of cobot incidents** stem from unexpected motion.
+:::
 
 **Physical AI Solution**:
 - Spatial-intent prediction
@@ -372,17 +374,15 @@ Three ideas that turn an AI text-machine into an AI action-machine:
 
 ---
 
-## Key Takeaways
-
-✅ **Physical AI** is AI that perceives, reasons, and acts in the real world  
-✅ **Convergence** of sensors, compute, AI models, and robotics  
-✅ **Widespread Deployment** already happening across sectors  
-✅ **Safety-Critical** requires rigorous testing and standards  
-✅ **Human-AI Collaboration** is the dominant paradigm  
-✅ **Foundation Models** are coming to robotics  
-✅ **Economic Impact** will be transformative ($500B+ by 2035)  
-
-**Physical AI is the next frontier**
+:::success Key Takeaways
+- **Physical AI** is AI that perceives, reasons, and acts in the real world
+- **Convergence** of sensors, compute, AI models, and robotics
+- **Widespread Deployment** already happening across sectors
+- **Safety-Critical** requires rigorous testing and standards
+- **Human-AI Collaboration** is the dominant paradigm
+- **Foundation Models** are coming to robotics
+- **Economic Impact** will be transformative ($500B+ by 2035)
+:::
 
 ---
 

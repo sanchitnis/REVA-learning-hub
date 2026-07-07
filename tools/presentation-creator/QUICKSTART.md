@@ -1,138 +1,50 @@
-# Quick Start - Presentation Creator
+# Quick Start - Presentation Creator (Sprint 1)
 
-## ✅ You're Ready to Create Presentations!
+This quick start guide explains how to run, test, and verify the presentation conversion tool locally during Sprint 1.
 
-### What Just Happened?
+## Prerequisites
 
-We successfully created and tested the Presentation Creator tool:
-
-1. ✅ **Created `convert.py`** - Python script to convert markdown → HTML
-2. ✅ **Created `sample-presentation.md`** - Demo presentation about AI-Era Education
-3. ✅ **Generated `index.html`** - 18-slide interactive presentation
-4. ✅ **All dependencies installed** - PyYAML ready to use
-
-### View Your First Presentation
-
-Open this file in your browser:
-```
-d:\Github\REVA-learning-hub\tools\presentation-creator\output\sample-presentation\index.html
-```
-
-### Create Your Own Presentation
-
-#### 1. Create a Markdown File
-
-```markdown
----
-title: "My Presentation"
-author: "Your Name"
-affiliation: "REVA University"
----
-
-# Slide 1: Title
-
-Your content here
-
----
-
-## Slide 2: More Content
-
-- Point 1
-- Point 2
-
-[quiz:type=mcq]
-Question: What is 2+2?
-A) 3
-B) 4
-Correct: B
-[/quiz]
-```
-
-#### 2. Convert to HTML
+Ensure you have Python installed, along with the required dependencies:
 
 ```bash
-cd d:\Github\REVA-learning-hub\tools\presentation-creator
-python convert.py your-presentation.md
+pip install -r requirements.txt
+```
+*(Dependencies: `pyyaml`, `markdown2`, `qrcode`, `pillow`)*
+
+## Local Conversion Workflow
+
+During Sprint 1, every presentation project has its own folder containing a markdown input file. The `convert.py` script parses the markdown and writes the corresponding HTML output into the same folder.
+
+### 1. Run the Conversion
+
+To convert a specific project's markdown presentation:
+```bash
+python convert.py project1/sample-presentation.md
 ```
 
-#### 3. Open in Browser
+### 2. View the Output
 
+Open the generated HTML file in any web browser to inspect formatting, layout, and quiz functions:
 ```
-output\your-presentation\index.html
-```
-
-### Features Included
-
-✅ **Markdown Support**
-- Headers (H1, H2, H3)
-- Lists (bullets, numbered)
-- Bold, italic, code
-- Links
-
-✅ **Interactive Quizzes**
-```markdown
-[quiz:type=mcq]
-Question: Your question?
-A) Option 1
-B) Option 2
-C) Option 3
-Correct: B
-[/quiz]
+project1/index.html
 ```
 
-✅ **QR Codes**
-```markdown
-[qr:url=https://example.com:text="Scan me!"]
-```
+## Running a Test Server
 
-✅ **Keyboard Navigation**
-- ← Previous slide
-- → Next slide
+If you want to view the presentation over `localhost` (highly recommended for verifying interactive components, links, and cross-origin policies):
 
-✅ **Responsive Design**
-- Works on desktop, tablet, mobile
+1. Start Python's built-in HTTP server from the root or the tool directory:
+   ```bash
+   python -m http.server 8000
+   ```
+2. Open your browser and navigate to:
+   ```
+   http://localhost:8000/project1/index.html
+   ```
 
-### Next Steps
-
-1. **Customize the theme** - Edit CSS in `convert.py`
-2. **Add more features** - Implement diagrams, videos, etc.
-3. **Deploy to Vercel** - Share your presentation online (Phase 2)
-4. **Integrate with agents** - Connect to content-developer agent (Phase 2)
-
-### Sample Presentation Contents
-
-The `sample-presentation.md` includes:
-- 18 slides covering REVA's AI-Era Education approach
-- 4 interactive quizzes
-- 1 QR code for contact
-- Portfolio-first learning concepts
-- OBE (Outcome-Based Education) examples
-- Srujana pathway information
-
-### Troubleshooting
-
-**Issue**: `ModuleNotFoundError: No module named 'yaml'`
-**Solution**: `pip install PyYAML`
-
-**Issue**: Slides not displaying correctly
-**Solution**: Ensure `---` separator is on its own line with blank lines around it
-
-**Issue**: Quiz not working
-**Solution**: Check quiz syntax - must have Question, options (A-D), and Correct fields
-
-### Documentation
-
-- **Full Guide**: `../../docs/05-Tools/presentation-creator/index.md`
-- **Architecture**: `../../docs/05-Tools/presentation-creator/ARCHITECTURE.md`
-- **Requirements**: `../../.kiro/specs/presentation-creator/requirements.md`
-
-### Support
-
-- **GitHub Issues**: https://github.com/your-org/REVA-learning-hub/issues
-- **Email**: learning-hub@reva.edu.in
-
----
-
-**Status**: ✅ Working & Tested  
-**Last Updated**: January 6, 2025  
-**Version**: 1.0 (Phase 1)
+## Supported Features in Input markdown
+Refer to [input-template.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/input-template.md) for full details on formatting specifications, including:
+- YAML Front Matter fields (`title`, `author`, `affiliation`, etc.)
+- Slide delimiter (`---` with surrounding blank lines)
+- Interactive quiz tags (`[quiz:type=mcq]...[/quiz]`)
+- QR Code components (`[qr:url=...:text="..."]`)

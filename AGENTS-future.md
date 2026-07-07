@@ -1,5 +1,8 @@
 # Specialist Academic Agents
 
+
+# This document is for future. Do not read it now.
+
 This document defines the specialist AI collaboration partners within the REVA Academic Platform. Each agent works alongside humans — generating drafts, analyses, and structured options that humans review, adapt, and approve. **Human decision authority is non-negotiable at every stage.**
 
 ## Core Academic Lifecycle Agents

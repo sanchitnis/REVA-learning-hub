@@ -1,19 +1,31 @@
 #!/usr/bin/env python3
 """
-Simple Markdown to HTML Presentation Converter
-Converts markdown files with front matter into basic HTML presentations.
+Advanced Markdown to HTML Presentation Converter (Sprint 2 - React App Compiler)
+Converts hybrid markdown files with YAML front matter, admonitions, tabs, 
+quizzes, and QR codes into data payloads, runs the React Vite app builder, 
+and packages the final presentation output as a static web application.
 """
 
 import re
 import sys
 import os
+import json
+import subprocess
+import shutil
+from pathlib import Path
+
 try:
     import yaml
 except ImportError:
     print("Please install PyYAML: pip install PyYAML")
     sys.exit(1)
 
-from pathlib import Path
+# Try importing markdown2 for rich rendering; fall back to simple regex-based parser
+try:
+    import markdown2
+    USE_MARKDOWN2 = True
+except ImportError:
+    USE_MARKDOWN2 = False
 
 def parse_front_matter(content):
     """Extract YAML front matter from markdown."""
@@ -21,7 +33,11 @@ def parse_front_matter(content):
     match = re.match(pattern, content, re.DOTALL)
     
     if match:
-        front_matter = yaml.safe_load(match.group(1))
+        try:
+            front_matter = yaml.safe_load(match.group(1))
+        except Exception as e:
+            print(f"Warning: Failed to parse YAML front matter: {e}")
+            front_matter = {}
         remaining = content[match.end():]
         return front_matter, remaining
     
@@ -29,68 +45,435 @@ def parse_front_matter(content):
 
 def extract_slides(content):
     """Split content into slides based on --- separator."""
-    slides = re.split(r'\n---+\n', content)
+    slides = re.split(r'\n---+ *\n', content)
     return [slide.strip() for slide in slides if slide.strip()]
 
-def markdown_to_html(text):
-    """Basic markdown to HTML conversion."""
-    # Headers
-    text = re.sub(r'^# (.+)$', r'<h1>\1</h1>', text, flags=re.MULTILINE)
-    text = re.sub(r'^## (.+)$', r'<h2>\1</h2>', text, flags=re.MULTILINE)
-    text = re.sub(r'^### (.+)$', r'<h3>\1</h3>', text, flags=re.MULTILINE)
+def parse_admonitions(text):
+    """Parse Docusaurus-style admonitions into custom callouts."""
+    pattern = r':::(note|tip|info|caution|warning|danger|success)(?:\s+([^\n]+))?\n(.*?)\n:::'
     
-    # Bold and italic
-    text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
-    text = re.sub(r'\*(.+?)\*', r'<em>\1</em>', text)
+    def replace_admonition(match):
+        adm_type = match.group(1)
+        title = match.group(2)
+        content = match.group(3)
+        
+        icons = {
+            'note': '📌',
+            'tip': '💡',
+            'info': 'ℹ️',
+            'caution': '⚠️',
+            'warning': '⚠️',
+            'danger': '❌',
+            'success': '✅'
+        }
+        
+        display_title = title if title else adm_type.capitalize()
+        icon = icons.get(adm_type, '📌')
+        inner_html = render_markdown(content)
+        
+        color_maps = {
+            'note': 'border-sky-500/20 bg-sky-500/5 text-sky-400 border-l-4 border-l-sky-500',
+            'tip': 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400 border-l-4 border-l-emerald-500',
+            'info': 'border-sky-500/20 bg-sky-500/5 text-sky-400 border-l-4 border-l-sky-500',
+            'caution': 'border-amber-500/20 bg-amber-500/5 text-amber-400 border-l-4 border-l-amber-500',
+            'warning': 'border-amber-500/20 bg-amber-500/5 text-amber-400 border-l-4 border-l-amber-500',
+            'danger': 'border-rose-500/20 bg-rose-500/5 text-rose-400 border-l-4 border-l-rose-500',
+            'success': 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400 border-l-4 border-l-emerald-500'
+        }
+        classes = color_maps.get(adm_type, 'border-slate-800 bg-slate-900 text-slate-100')
+        
+        return f'<div class="callout border p-4 rounded-lg my-4 {classes}"><strong>{icon} {display_title}</strong><div class="callout-body mt-2 text-slate-300">{inner_html}</div></div>'
     
-    # Code blocks
-    text = re.sub(r'`([^`]+)`', r'<code>\1</code>', text)
+    return re.sub(pattern, replace_admonition, text, flags=re.DOTALL)
+
+def parse_h5p_directives(text, input_dir=None):
+    """Parse all 14 H5P-style custom directives into rich HTML components."""
+    # 1. Accordion
+    accordion_pattern = r':::accordion\n(.*?)\n:::'
+    def accordion_repl(match):
+        content = match.group(1).strip()
+        parts = re.split(r'^##\s+(.+)$', content, flags=re.MULTILINE)
+        if len(parts) < 3:
+            return match.group(0)
+        html_parts = ['<div class="h5p-accordion space-y-2 my-4 text-left">']
+        for i in range(1, len(parts), 2):
+            title = parts[i].strip()
+            body = parts[i+1].strip() if i+1 < len(parts) else ""
+            body_html = body.replace('\n', '<br />')
+            html_parts.append(f'''  <details class="group border border-slate-800 rounded-lg p-3 bg-slate-900/30">
+    <summary class="font-semibold text-xs cursor-pointer text-sky-400 select-none flex justify-between items-center outline-none">
+      <span>{title}</span>
+      <span class="text-[10px] transition-transform group-open:rotate-180">&#9662;</span>
+    </summary>
+    <div class="mt-2 text-xs text-slate-350 leading-relaxed pl-1">{body_html}</div>
+  </details>''')
+        html_parts.append('</div>')
+        return '\n'.join(html_parts)
+    text = re.sub(accordion_pattern, accordion_repl, text, flags=re.DOTALL)
+
+    # 2. Tabs
+    tabs_pattern = r':::tabs\n(.*?)\n:::'
+    def tabs_repl(match):
+        content = match.group(1).strip()
+        parts = re.split(r'^===\s+(.+)$', content, flags=re.MULTILINE)
+        if len(parts) < 3:
+            return match.group(0)
+        jsx_tabs = ['<Tabs>']
+        for i in range(1, len(parts), 2):
+            label = parts[i].strip()
+            body = parts[i+1].strip() if i+1 < len(parts) else ""
+            jsx_tabs.append(f'<TabItem value="{label}" label="{label}">\n{body}\n</TabItem>')
+        jsx_tabs.append('</Tabs>')
+        return '\n'.join(jsx_tabs)
+    text = re.sub(tabs_pattern, tabs_repl, text, flags=re.DOTALL)
+
+    # 3. Flashcards
+    flashcards_pattern = r':::flashcards\n(.*?)\n:::'
+    def flashcards_repl(match):
+        content = match.group(1).strip()
+        matches = re.findall(r'Q:\s*(.*?)\nA:\s*(.*?)(?:\n|$)', content)
+        if not matches:
+            return match.group(0)
+        html_parts = ['<div class="h5p-flashcards space-y-3 my-4 text-left">']
+        for q, a in matches:
+            html_parts.append(f'''  <div class="flashcard border border-slate-800 bg-slate-900/40 rounded-xl p-4 cursor-pointer hover:border-sky-400/30 transition-all" onclick="const b = this.querySelector(\'.card-back\'); b.style.display = b.style.display === \'none\' ? \'block\' : \'none\';">
+    <div class="text-[9px] uppercase tracking-wider text-sky-400 font-mono font-bold mb-1">Question (Click to flip)</div>
+    <div class="text-xs font-semibold text-slate-100">{q}</div>
+    <div class="card-back mt-3 pt-3 border-t border-slate-800/80 text-xs text-slate-350" style="display:none;">
+      <span class="text-emerald-400 font-bold block mb-1 text-[9px] uppercase font-mono tracking-wider">Answer</span>
+      {a}
+    </div>
+  </div>''')
+        html_parts.append('</div>')
+        return '\n'.join(html_parts)
+    text = re.sub(flashcards_pattern, flashcards_repl, text, flags=re.DOTALL)
+
+    # 4. MCQ
+    mcq_pattern = r':::mcq\n(.*?)\n:::'
+    def mcq_repl(match):
+        content = match.group(1).strip()
+        q_match = re.search(r'question:\s*(.*?)(?=\n|$)', content)
+        exp_match = re.search(r'explanation:\s*(.*?)(?=\n|$)', content)
+        question = q_match.group(1).strip() if q_match else ""
+        explanation = exp_match.group(1).strip() if exp_match else ""
+        options_matches = re.findall(r'\[\s*(x?)\s*\]\s*(.*?)(?=\n|$)', content)
+        quiz_str = "[quiz:type=mcq]\n"
+        quiz_str += f"Question: {question}\n"
+        correct_letter = "A"
+        for idx, (is_correct, text_val) in enumerate(options_matches):
+            letter = chr(65 + idx)
+            quiz_str += f"{letter}) {text_val.strip()}\n"
+            if is_correct:
+                correct_letter = letter
+        quiz_str += f"Correct: {correct_letter}\n"
+        if explanation:
+            quiz_str += f"Explanation: {explanation}\n"
+        quiz_str += "[/quiz]"
+        return quiz_str
+    text = re.sub(mcq_pattern, mcq_repl, text, flags=re.DOTALL)
+
+    # 5. True / False
+    tf_pattern = r':::truefalse\n(.*?)\n:::'
+    def tf_repl(match):
+        content = match.group(1).strip()
+        ans_match = re.search(r'answer:\s*(true|false)', content, re.IGNORECASE)
+        exp_match = re.search(r'explanation:\s*(.*?)(?=\n|$)', content)
+        statement = content
+        if ans_match:
+            statement = re.sub(r'answer:\s*(true|false)', '', statement, flags=re.IGNORECASE)
+        if exp_match:
+            statement = re.sub(r'explanation:\s*(.*?)(?=\n|$)', '', statement)
+        statement = statement.strip()
+        is_true = ans_match.group(1).lower() == 'true' if ans_match else True
+        correct_letter = 'A' if is_true else 'B'
+        explanation = exp_match.group(1).strip() if exp_match else ""
+        quiz_str = "[quiz:type=mcq]\n"
+        quiz_str += f"Question: {statement}\n"
+        quiz_str += "A) True\nB) False\n"
+        quiz_str += f"Correct: {correct_letter}\n"
+        if explanation:
+            quiz_str += f"Explanation: {explanation}\n"
+        quiz_str += "[/quiz]"
+        return quiz_str
+    text = re.sub(tf_pattern, tf_repl, text, flags=re.DOTALL)
+
+    # 6. Fill in the Blanks: React was created by [[Facebook]].
+    blank_pattern = r'\[\[(.*?)\]\]'
+    def blank_repl(match):
+        answer = match.group(1)
+        # Escape single quotes in answer
+        escaped_ans = answer.replace("'", "\\'")
+        return f'''<span class="inline-flex items-center mx-1">
+  <input type="text" placeholder="fill blank..." class="bg-slate-950 border border-slate-800 rounded px-2 py-0.5 text-xs text-slate-100 font-mono focus:border-sky-400 outline-none w-28 text-center" onchange="if(window.checkBlank) window.checkBlank(this, \'{escaped_ans}\')" onkeydown="if(event.key===\'Enter\' && window.checkBlank) window.checkBlank(this, \'{escaped_ans}\')" />
+</span>'''
+    text = re.sub(blank_pattern, blank_repl, text)
+
+    # 7. Matching
+    matching_pattern = r':::matching\n(.*?)\n:::'
+    def matching_repl(match):
+        content = match.group(1).strip()
+        pairs = []
+        for line in content.split('\n'):
+            if '=>' in line:
+                src, target = line.split('=>', 1)
+                pairs.append((src.strip(), target.strip()))
+        if not pairs:
+            return match.group(0)
+        all_targets = sorted(list(set(p[1] for p in pairs)))
+        html_parts = ['<div class="matching-activity space-y-3 border border-slate-800 rounded-xl p-4 bg-slate-900/30 my-4 text-left">',
+                      '  <div class="text-[10px] font-mono font-bold text-sky-400 uppercase tracking-wider mb-2">Matching Activity</div>']
+        for src, target in pairs:
+            options_html = ['<option value="">Select match...</option>']
+            for t in all_targets:
+                options_html.append(f'<option value="{t}">{t}</option>')
+            html_parts.append(f'''  <div class="flex items-center justify-between gap-4 py-1.5 border-b border-slate-800/40">
+    <span class="text-xs text-slate-200">{src}</span>
+    <select class="bg-slate-950 border border-slate-800 rounded p-1 text-xs text-slate-300 outline-none focus:border-sky-400 w-44" onchange="if(this.value==='{target}'){{this.style.borderColor='#10b981';this.style.color='#34d399';}}else{{this.style.borderColor='#f43f5e';this.style.color='#fb7185';}}">
+      {"".join(options_html)}
+    </select>
+  </div>''')
+        html_parts.append('</div>')
+        return '\n'.join(html_parts)
+    text = re.sub(matching_pattern, matching_repl, text, flags=re.DOTALL)
+
+    # 8. Sortable Sequence
+    seq_pattern = r':::sequence\n(.*?)\n:::'
+    def seq_repl(match):
+        content = match.group(1).strip()
+        steps = []
+        for line in content.split('\n'):
+            line = line.strip()
+            if line:
+                cleaned = re.sub(r'^\d+\.\s*', '', line)
+                steps.append(cleaned)
+        if not steps:
+            return match.group(0)
+        html_parts = ['<div class="sequence-activity space-y-3 border border-slate-800 rounded-xl p-4 bg-slate-900/30 my-4 text-left">',
+                      f'  <div class="text-[10px] font-mono font-bold text-sky-400 uppercase tracking-wider mb-2">Reorder Sequence (Assign Steps 1-{len(steps)})</div>']
+        for idx, step in enumerate(steps):
+            correct_pos = idx + 1
+            options_html = ['<option value="">Position...</option>']
+            for pos in range(1, len(steps) + 1):
+                options_html.append(f'<option value="{pos}">Step {pos}</option>')
+            html_parts.append(f'''  <div class="flex items-center justify-between gap-4 py-1.5 border-b border-slate-800/40">
+    <span class="text-xs text-slate-200">{step}</span>
+    <select class="bg-slate-950 border border-slate-800 rounded p-1 text-xs text-slate-300 outline-none focus:border-sky-400 w-32" onchange="if(this.value==='{correct_pos}'){{this.style.borderColor='#10b981';this.style.color='#34d399';}}else{{this.style.borderColor='#f43f5e';this.style.color='#fb7185';}}">
+      {"".join(options_html)}
+    </select>
+  </div>''')
+        html_parts.append('</div>')
+        return '\n'.join(html_parts)
+    text = re.sub(seq_pattern, seq_repl, text, flags=re.DOTALL)
+
+    # 9. Timeline
+    timeline_pattern = r':::timeline\n(.*?)\n:::'
+    def timeline_repl(match):
+        content = match.group(1).strip()
+        height_match = re.search(r'^height:\s*(.*?)$', content, re.MULTILINE)
+        orient_match = re.search(r'^orientation:\s*(.*?)$', content, re.MULTILINE)
+        
+        c_height = height_match.group(1).strip() if height_match else "300px"
+        c_orient = orient_match.group(1).strip() if orient_match else "vertical"
+        
+        # Clean header lines
+        content_clean = content
+        if height_match:
+            content_clean = re.sub(r'^height:\s*.*?$', '', content_clean, flags=re.MULTILINE)
+        if orient_match:
+            content_clean = re.sub(r'^orientation:\s*.*?$', '', content_clean, flags=re.MULTILINE)
+        
+        events = []
+        lines = [l.strip() for l in content_clean.split('\n') if l.strip()]
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            if '|' in line:
+                date_val, title = line.split('|', 1)
+                desc = ""
+                i += 1
+                if i < len(lines) and '|' not in lines[i]:
+                    desc = lines[i]
+                    i += 1
+                events.append((date_val.strip(), title.strip(), desc))
+            else:
+                i += 1
+        if not events:
+            return match.group(0)
+            
+        html_parts = [f'<div class="timeline-container border-l-2 border-slate-800 pl-4 py-2 space-y-6 my-4 text-left relative" style="max-height:{c_height}; overflow-y:auto;">']
+        for date_val, title, desc in events:
+            html_parts.append(f'''  <div class="relative">
+    <div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-sky-400 border-2 border-slate-950"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">{date_val} &bull; {title}</div>
+    {f'<div class="text-[11px] text-slate-350 mt-1 leading-relaxed">{desc}</div>' if desc else ''}
+  </div>''')
+        html_parts.append('</div>')
+        return '\n'.join(html_parts)
+    text = re.sub(timeline_pattern, timeline_repl, text, flags=re.DOTALL)
+
+    # 10. Image Hotspots
+    hotspots_pattern = r':::hotspots\n(.*?)\n:::'
+    def hotspots_repl(match):
+        content = match.group(1).strip()
+        img_match = re.search(r'image:\s*(.*?)(?=\n|$)', content)
+        if not img_match:
+            return match.group(0)
+        img_src = img_match.group(1).strip()
+        if input_dir:
+            validate_media_assets(f'src="{img_src}"', input_dir)
+        hotspot_entries = []
+        nodes = re.split(r'\((.*?)\)', content)
+        for i in range(1, len(nodes), 2):
+            coords = nodes[i].strip()
+            body = nodes[i+1].strip() if i+1 < len(nodes) else ""
+            lines = body.split('\n')
+            title = lines[0].strip() if lines else ""
+            desc = '<br/>'.join(l.strip() for l in lines[1:] if l.strip())
+            x_val, y_val = coords.split(',', 1)
+            hotspot_entries.append((x_val.strip(), y_val.strip(), title, desc))
+        html_parts = [f'<div class="hotspot-container relative inline-block my-4 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">',
+                      f'  <img src="{img_src}" class="max-h-[300px] object-cover" />']
+        for x, y, title, desc in hotspot_entries:
+            html_parts.append(f'''  <div class="absolute group cursor-pointer" style="left:{x}%; top:{y}%;">
+    <div class="h-4 w-4 rounded-full bg-sky-400 border-2 border-slate-950 animate-ping absolute"></div>
+    <div class="h-4 w-4 rounded-full bg-sky-400 border-2 border-slate-950 relative z-10"></div>
+    <div class="hidden group-hover:block absolute bg-slate-950/95 border border-slate-800 text-[10px] p-2.5 rounded-lg text-slate-200 w-44 z-50 shadow-2xl -translate-y-full -translate-x-1/2 mt-[-8px] text-left">
+      <strong class="text-sky-400 block mb-0.5">{title}</strong>
+      {desc}
+    </div>
+  </div>''')
+        html_parts.append('</div>')
+        return '\n'.join(html_parts)
+    text = re.sub(hotspots_pattern, hotspots_repl, text, flags=re.DOTALL)
+
+    # 11. Compare
+    compare_pattern = r':::compare\n(.*?)\n:::'
+    def compare_repl(match):
+        content = match.group(1).strip()
+        before_match = re.search(r'^before:\s*(.*?)$', content, re.MULTILINE)
+        after_match = re.search(r'^after:\s*(.*?)$', content, re.MULTILINE)
+        height_match = re.search(r'^height:\s*(.*?)$', content, re.MULTILINE)
+        label_b_match = re.search(r'^labelBefore:\s*(.*?)$', content, re.MULTILINE)
+        label_a_match = re.search(r'^labelAfter:\s*(.*?)$', content, re.MULTILINE)
+        pos_match = re.search(r'^sliderPosition:\s*(.*?)$', content, re.MULTILINE)
+        
+        before = before_match.group(1).strip() if before_match else ""
+        after = after_match.group(1).strip() if after_match else ""
+        c_height = height_match.group(1).strip() if height_match else "300px"
+        label_b = label_b_match.group(1).strip() if label_b_match else "Before"
+        label_a = label_a_match.group(1).strip() if label_a_match else "After"
+        pos = pos_match.group(1).strip() if pos_match else "50"
+        
+        if input_dir:
+            validate_media_assets(f'src="{before}" src="{after}"', input_dir)
+            
+        return f'''<div class="h5p-compare-slider relative border border-slate-800 rounded-xl overflow-hidden my-4 select-none w-full" style="height:{c_height};">
+  <!-- Before Layer (Background, Left) -->
+  <div class="absolute inset-0">
+    <img src="{before}" class="w-full h-full object-cover" />
+    <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-slate-950/80 text-[10px] uppercase font-mono font-bold text-slate-400">{label_b}</span>
+  </div>
+  
+  <!-- After Layer (Foreground, Right, Clipped dynamically) -->
+  <div class="after-image-layer absolute inset-0 bg-slate-950" style="clip-path: polygon({pos}% 0, 100% 0, 100% 100%, {pos}% 100%);">
+    <img src="{after}" class="w-full h-full object-cover" />
+    <span class="absolute top-2 right-2 px-2 py-0.5 rounded bg-sky-500/80 text-[10px] uppercase font-mono font-bold text-slate-900">{label_a}</span>
+  </div>
+  
+  <!-- Slider Range Control -->
+  <input type="range" min="0" max="100" value="{pos}" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-20" oninput="const val = this.value; const layer = this.parentElement.querySelector(\'.after-image-layer\'); layer.style.clipPath = \'polygon(\' + val + \'% 0, 100% 0, 100% 100%, \' + val + \'% 100%)\'; const handle = this.parentElement.querySelector(\'.slider-bar-handle\'); handle.style.left = val + \'%\';" />
+  
+  <!-- Visual Slider line separator handler bar -->
+  <div class="slider-bar-handle absolute top-0 bottom-0 w-0.5 bg-sky-400 pointer-events-none z-10" style="left:{pos}%;">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-sky-400 text-slate-950 border border-slate-950 flex items-center justify-center font-bold text-xs shadow-lg shadow-sky-400/40">&#8646;</div>
+  </div>
+</div>'''
+    text = re.sub(compare_pattern, compare_repl, text, flags=re.DOTALL)
+
+    # 12. Quiz Group
+    quiz_group_pattern = r':::quiz\n(.*?)\n:::'
+    def quiz_group_repl(match):
+        content = match.group(1).strip()
+        return f'''<div class="quiz-group-container border-2 border-purple-500/20 bg-purple-500/5 rounded-xl p-5 my-4">
+  <div class="text-[10px] font-mono font-bold text-purple-400 mb-4 flex items-center gap-1.5">
+    📌 Interactive Assessment Quiz Group
+  </div>
+  {content}
+</div>'''
+    text = re.sub(quiz_group_pattern, quiz_group_repl, text, flags=re.DOTALL)
+
+    # 13. Cards
+    cards_pattern = r':::cards\n(.*?)\n:::'
+    def cards_repl(match):
+        content = match.group(1).strip()
+        items = []
+        for line in content.split('\n'):
+            line = line.strip()
+            if line.startswith('Card:'):
+                title = line.replace('Card:', '').strip()
+                items.append([title, []])
+            elif line and items:
+                items[-1][1].append(line)
+        html_parts = ['<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">']
+        for title, desc_lines in items:
+            desc = ' '.join(desc_lines)
+            html_parts.append(f'''  <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/30 hover:border-sky-400/40 transition-colors text-left">
+    <div class="text-xs font-bold text-sky-400 mb-1">{title}</div>
+    <div class="text-xs text-slate-350 leading-relaxed">{desc}</div>
+  </div>''')
+        html_parts.append('</div>')
+        return '\n'.join(html_parts)
+    text = re.sub(cards_pattern, cards_repl, text, flags=re.DOTALL)
+
+    # 14. Interactive Book chapter separator
+    text = text.replace('---chapter---', '<hr class="border-dashed border-slate-800 my-8" />')
+    return text
+
+def parse_tabs(text):
+    """Parse Docusaurus-style Tabs and TabItems into interactive tabs."""
+    text = re.sub(r'import\s+Tabs\s+from\s+[\'"]@theme/Tabs[\'"];?', '', text)
+    text = re.sub(r'import\s+TabItem\s+from\s+[\'"]@theme/TabItem[\'"];?', '', text)
     
-    # Links
-    text = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', text)
+    tab_group_idx = [0]
     
-    # Lists
-    lines = text.split('\n')
-    in_list = False
-    result = []
-    
-    for line in lines:
-        if line.strip().startswith('- '):
-            if not in_list:
-                result.append('<ul>')
-                in_list = True
-            result.append(f'<li>{line.strip()[2:]}</li>')
-        elif line.strip().startswith(('1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.')):
-            if not in_list:
-                result.append('<ol>')
-                in_list = 'ol'
-            result.append(f'<li>{line.strip().split(".", 1)[1].strip()}</li>')
-        else:
-            if in_list:
-                if in_list == 'ol':
-                    result.append('</ol>')
-                else:
-                    result.append('</ul>')
-                in_list = False
-            if line.strip() and not line.strip().startswith('<'):
-                result.append(f'<p>{line}</p>')
-            elif line.strip().startswith('<'):
-                result.append(line)
-    
-    if in_list:
-        if in_list == 'ol':
-            result.append('</ol>')
-        else:
-            result.append('</ul>')
-    
-    return '\n'.join(result)
+    def replace_tabs(tabs_match):
+        tab_group_idx[0] += 1
+        content = tabs_match.group(1)
+        
+        tab_items = re.findall(r'<TabItem\s+value="([^"]+)"\s+label="([^"]+)"( default)?>\n(.*?)\n</TabItem>', content, re.DOTALL)
+        
+        if not tab_items:
+            return tabs_match.group(0)
+            
+        headers_html = []
+        bodies_html = []
+        
+        for i, (val, label, is_default, body_content) in enumerate(tab_items):
+            active_class = "active border-sky-400 text-sky-400 bg-sky-500/10" if is_default or (not any(x[2] for x in tab_items) and i == 0) else "border-slate-800 text-slate-400 hover:border-slate-700 hover:text-white"
+            display_style = "" if "active" in active_class else 'style="display:none;"'
+            
+            headers_html.append(f'<button class="tab-btn px-4 py-2 border-b-2 font-medium transition-all {active_class}" onclick="switchTab(this, \'tab-body-{tab_group_idx[0]}-{val}\')">{label}</button>')
+            inner_body_html = render_markdown(body_content)
+            bodies_html.append(f'<div id="tab-body-{tab_group_idx[0]}-{val}" class="tab-body p-4 {active_class if "active" in active_class else ""}" {display_style}>{inner_body_html}</div>')
+            
+        return f'''<div class="tabs-container border border-slate-850 rounded-lg overflow-hidden my-4 bg-slate-900/30">
+            <div class="tabs-header flex border-b border-slate-800 bg-slate-955/40">
+                {" ".join(headers_html)}
+            </div>
+            <div class="tabs-content">
+                {" ".join(bodies_html)}
+            </div>
+        </div>'''
+        
+    pattern = r'<Tabs.*?>\n(.*?)\n</Tabs>'
+    return re.sub(pattern, replace_tabs, text, flags=re.DOTALL)
 
 def extract_quiz(content):
     """Extract quiz blocks from content."""
     quiz_pattern = r'\[quiz:type=(\w+)\](.*?)\[/quiz\]'
     quizzes = []
     
-    for match in re.finditer(quiz_pattern, content, re.DOTALL):
+    def replace_quiz(match):
         quiz_type = match.group(1)
         quiz_content = match.group(2).strip()
         
@@ -114,10 +497,9 @@ def extract_quiz(content):
             'options': options,
             'correct': correct
         })
-    
-    # Remove quiz blocks from content
-    content = re.sub(quiz_pattern, '', content, flags=re.DOTALL)
-    
+        return f'<!-- QUIZ_{len(quizzes)-1} -->'
+        
+    content = re.sub(quiz_pattern, replace_quiz, content, flags=re.DOTALL)
     return content, quizzes
 
 def extract_qr_codes(content):
@@ -125,239 +507,368 @@ def extract_qr_codes(content):
     qr_pattern = r'\[qr:url=([^:]+):text="([^"]+)"\]'
     qr_codes = []
     
-    for match in re.finditer(qr_pattern, content):
+    def replace_qr(match):
         qr_codes.append({
             'url': match.group(1),
             'text': match.group(2)
         })
-    
-    # Remove QR markers from content
-    content = re.sub(qr_pattern, '', content)
-    
+        return f'<!-- QR_{len(qr_codes)-1} -->'
+        
+    content = re.sub(qr_pattern, replace_qr, content)
     return content, qr_codes
 
-def generate_html_template(title, author, affiliation, total_slides):
-    """Generate the HTML template with embedded CSS and JavaScript."""
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
-    <style>
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        
-        body {{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }}
-        
-        .presentation {{
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 1000px;
-            width: 100%;
-            min-height: 700px;
-            overflow: hidden;
-        }}
-        
-        .slide {{
-            display: none;
-            padding: 60px;
-            min-height: 600px;
-        }}
-        
-        .slide.active {{
-            display: block;
-            animation: fadeIn 0.5s;
-        }}
-        
-        @keyframes fadeIn {{
-            from {{ opacity: 0; transform: translateY(20px); }}
-            to {{ opacity: 1; transform: translateY(0); }}
-        }}
-        
-        h1 {{ color: #667eea; font-size: 2.5em; margin-bottom: 20px; }}
-        h2 {{ color: #764ba2; font-size: 2em; margin-bottom: 20px; }}
-        h3 {{ color: #667eea; font-size: 1.5em; margin-bottom: 15px; }}
-        p {{ color: #333; line-height: 1.6; margin-bottom: 15px; font-size: 1.1em; }}
-        ul, ol {{ margin-left: 30px; margin-bottom: 20px; }}
-        li {{ color: #555; line-height: 1.8; margin-bottom: 10px; font-size: 1.1em; }}
-        strong {{ color: #667eea; }}
-        code {{ background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }}
-        a {{ color: #667eea; text-decoration: none; }}
-        a:hover {{ text-decoration: underline; }}
-        
-        .quiz {{
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }}
-        
-        .quiz-question {{
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-        }}
-        
-        .quiz-option {{
-            padding: 10px;
-            margin: 8px 0;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }}
-        
-        .quiz-option:hover {{ border-color: #667eea; background: #f0f4ff; }}
-        .quiz-option.correct {{ border-color: #28a745; background: #d4edda; }}
-        .quiz-option.incorrect {{ border-color: #dc3545; background: #f8d7da; }}
-        
-        .qr-code {{ text-align: center; margin: 30px 0; }}
-        .qr-code img {{ width: 200px; height: 200px; border: 2px solid #ddd; border-radius: 10px; }}
-        .qr-text {{ margin-top: 10px; color: #666; font-size: 0.9em; }}
-        
-        .navigation {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 60px;
-            background: #f8f9fa;
-            border-top: 1px solid #ddd;
-        }}
-        
-        .nav-button {{
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s;
-        }}
-        
-        .nav-button:hover {{
-            background: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }}
-        
-        .nav-button:disabled {{ background: #ccc; cursor: not-allowed; transform: none; }}
-        .slide-counter {{ color: #666; font-weight: bold; }}
-        
-        .footer {{
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            color: #666;
-            font-size: 0.9em;
-        }}
-    </style>
-</head>
-<body>
-    <div class="presentation">
-"""
+def strip_html_comments(text):
+    """Strip HTML comments that are not slide identifiers or quiz/qr placeholders."""
+    def comment_replacer(match):
+        comment = match.group(0)
+        if 'QUIZ_' in comment or 'QR_' in comment or 'SLIDE' in comment:
+            return comment
+        return ""
+    return re.sub(r'<!--.*?-->', comment_replacer, text, flags=re.DOTALL)
 
-def generate_html(front_matter, slides, output_path):
-    """Generate HTML presentation."""
+def render_markdown(text):
+    """Render basic markdown to HTML."""
+    if USE_MARKDOWN2:
+        html = markdown2.markdown(text, extras=["tables", "fenced-code-blocks", "break-on-newline"])
+        html = html.replace('<table>', '<table class="w-full border-collapse border border-slate-800 rounded-lg overflow-hidden my-4 text-sm">')
+        html = html.replace('<th>', '<th class="bg-slate-900/60 p-3 text-left font-semibold border-b border-slate-800 text-sky-400">')
+        html = html.replace('<td>', '<td class="p-3 border-b border-slate-800/40 text-slate-300">')
+        html = html.replace('<blockquote>', '<blockquote class="border-l-4 border-sky-400 pl-4 italic my-4 text-slate-300">')
+        return html
+        
+    # Fallback Parser
+    text = re.sub(r'^# (.+)$', r'<h1 class="text-4xl font-bold font-serif mb-4 text-sky-400">\1</h1>', text, flags=re.MULTILINE)
+    text = re.sub(r'^## (.+)$', r'<h2 class="text-2xl font-semibold font-serif mb-3 text-sky-400 border-l-4 border-sky-400 pl-3">\1</h2>', text, flags=re.MULTILINE)
+    text = re.sub(r'^### (.+)$', r'<h3 class="text-xl font-medium mb-2 text-sky-400">\1</h3>', text, flags=re.MULTILINE)
+    text = re.sub(r'\*\*(.+?)\*\*', r'<strong class="text-white font-semibold">\1</strong>', text)
+    text = re.sub(r'\*(.+?)\*', r'<em class="italic">\1</em>', text)
+    text = re.sub(r'`([^`]+)`', r'<code class="font-mono bg-slate-900 px-1.5 py-0.5 rounded text-sky-400 text-sm">\1</code>', text)
+    text = re.sub(r'\[([^\]]+)\]\(([^\)]+)\)', r'<a href="\2" class="text-sky-400 hover:text-white underline">\1</a>', text)
+    
+    lines = text.split('\n')
+    in_list = False
+    result = []
+    
+    for line in lines:
+        if line.strip().startswith('- '):
+            if not in_list:
+                result.append('<ul class="list-disc pl-6 mb-4 space-y-1.5 text-slate-300">')
+                in_list = True
+            result.append(f'<li>{line.strip()[2:]}</li>')
+        elif line.strip().startswith(('1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.')):
+            if not in_list:
+                result.append('<ol class="list-decimal pl-6 mb-4 space-y-1.5 text-slate-300">')
+                in_list = 'ol'
+            result.append(f'<li>{line.strip().split(".", 1)[1].strip()}</li>')
+        else:
+            if in_list:
+                if in_list == 'ol':
+                    result.append('</ol>')
+                else:
+                    result.append('</ul>')
+                in_list = False
+            if line.strip() and not line.strip().startswith('<'):
+                result.append(f'<p class="mb-4 text-slate-300 leading-relaxed">{line}</p>')
+            elif line.strip().startswith('<'):
+                result.append(line)
+    
+    if in_list:
+        if in_list == 'ol':
+            result.append('</ol>')
+        else:
+            result.append('</ul>')
+            
+    return '\n'.join(result)
+
+def parse_slide_front_matter(slide_content):
+    """Parse slide-level local YAML frontmatter block if it exists."""
+    if '\n---' in slide_content:
+        parts = slide_content.split('\n---', 1)
+        meta_part = parts[0].strip()
+        body_part = parts[1].strip()
+        
+        # If the meta part has no H1 or H2 slide titles, it is likely local metadata
+        if not any(line.strip().startswith('#') for line in meta_part.split('\n')):
+            try:
+                slide_meta = yaml.safe_load(meta_part)
+                if isinstance(slide_meta, dict):
+                    return slide_meta, body_part
+            except Exception:
+                pass
+    return {}, slide_content
+
+
+
+def format_layout_content(layout, html_content):
+    """Enhance parsed slide HTML content based on its layout specification."""
+    if layout == 'two-column':
+        parts = re.split(r'(?=<h3)', html_content)
+        if len(parts) >= 3:
+            cols = []
+            for p in parts[1:]:
+                cols.append(f'<div class="flex-1 p-4 rounded-xl bg-slate-900/30 border border-slate-800/40">{p}</div>')
+            return f'{parts[0]}<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">{"".join(cols)}</div>'
+            
+    elif layout == 'three-column':
+        parts = re.split(r'(?=<h3)', html_content)
+        if len(parts) >= 4:
+            cols = []
+            for p in parts[1:4]:
+                cols.append(f'<div class="flex-1 p-4 rounded-xl bg-slate-900/30 border border-slate-800/40">{p}</div>')
+            return f'{parts[0]}<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">{"".join(cols)}</div>'
+            
+    elif layout == 'swot':
+        parts = re.split(r'(?=<h3)', html_content)
+        if len(parts) >= 3:
+            cols = []
+            colors = [
+                "border-emerald-500/20 bg-emerald-500/5 text-emerald-400 border-l-4 border-l-emerald-500",
+                "border-amber-500/20 bg-amber-500/5 text-amber-400 border-l-4 border-l-amber-500",
+                "border-sky-500/20 bg-sky-500/5 text-sky-400 border-l-4 border-l-sky-500",
+                "border-rose-500/20 bg-rose-500/5 text-rose-400 border-l-4 border-l-rose-500"
+            ]
+            for idx, p in enumerate(parts[1:]):
+                color = colors[idx % len(colors)]
+                cols.append(f'<div class="p-4 rounded-xl border {color}">{p}</div>')
+            return f'{parts[0]}<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">{"".join(cols)}</div>'
+            
+    elif layout == 'quote':
+        return f'<div class="text-center max-w-2xl mx-auto my-8 italic text-slate-300 border-l-4 border-sky-400 pl-4">{html_content}</div>'
+        
+    return html_content
+
+def normalize_jsx_components(text):
+    """Normalize standard JSX tags to standard bracketed delimiters for easy pipeline processing."""
+    # 1. Normalize QRCode JSX: <QRCode url="X" text="Y" /> or multiline
+    qr_pattern = r'<QRCode\s+url="([^"]+)"\s+text="([^"]+)"\s*/?>'
+    def qr_repl(match):
+        return f'[qr:url={match.group(1)}:text="{match.group(2)}"]'
+    text = re.sub(qr_pattern, qr_repl, text)
+    
+    qr_pattern_multi = r'<QRCode\s+([^>]+)\s*/?>'
+    def qr_repl_multi(match):
+        attrs = match.group(1)
+        url_match = re.search(r'url="([^"]+)"', attrs)
+        text_match = re.search(r'text="([^"]+)"', attrs)
+        if url_match and text_match:
+            return f'[qr:url={url_match.group(1)}:text="{text_match.group(2)}"]'
+        return match.group(0)
+    text = re.sub(qr_pattern_multi, qr_repl_multi, text)
+
+    # 2. Normalize Quiz JSX: <Quiz type="X" question="Q" a="A" b="B" ... />
+    quiz_pattern = r'<Quiz\s+([^>]+)\s*/?>'
+    def quiz_repl(match):
+        attrs = match.group(1)
+        type_match = re.search(r'type="([^"]+)"', attrs)
+        q_match = re.search(r'question="([^"]+)"', attrs)
+        correct_match = re.search(r'correct="([^"]+)"', attrs)
+        
+        if type_match and q_match and correct_match:
+            q_type = type_match.group(1)
+            q_text = q_match.group(1)
+            correct_val = correct_match.group(1)
+            
+            options = []
+            for letter in ['a', 'b', 'c', 'd']:
+                opt_match = re.search(fr'{letter}="([^"]+)"', attrs)
+                if opt_match:
+                    options.append(f"{letter.upper()}) {opt_match.group(1)}")
+            
+            quiz_str = f'[quiz:type={q_type}]\nQuestion: {q_text}\n'
+            for opt in options:
+                quiz_str += f'{opt}\n'
+            quiz_str += f'Correct: {correct_val.upper()}\n[/quiz]'
+            return quiz_str
+        return match.group(0)
+    text = re.sub(quiz_pattern, quiz_repl, text)
+    
+    return text
+
+def parse_metric_components(text):
+    """Parse standard MDX Metric tags to premium styled HTML cards."""
+    # Match both standard <Metric ... /> and escaped &lt;Metric ... /&gt; or &lt;Metric ... &gt;
+    metric_pattern = r'(?:<Metric|&lt;Metric)\s+([^>;&]+?)(?:/?>|/&gt;|&gt;)'
+    def metric_repl(match):
+        attrs = match.group(1)
+        # Normalize escaped quotes &quot; to "
+        attrs = attrs.replace('&quot;', '"').replace('&#x27;', "'")
+        
+        label_match = re.search(r'label="([^"]+)"', attrs)
+        value_match = re.search(r'value="([^"]+)"', attrs)
+        trend_match = re.search(r'trend="([^"]+)"', attrs)
+        
+        label = label_match.group(1) if label_match else ""
+        value = value_match.group(1) if value_match else ""
+        trend = trend_match.group(1) if trend_match else ""
+        
+        trend_color = "text-emerald-400" if "+" in trend else "text-rose-400" if "-" in trend else "text-slate-400"
+        
+        return f'''<div class="metric-card p-5 rounded-2xl border border-slate-800 bg-slate-950/40 relative overflow-hidden my-4 flex-1 animate-fade-up">
+<div class="text-[10px] uppercase tracking-wider font-mono font-bold text-slate-500 mb-1">{label}</div>
+<div class="text-3xl font-extrabold text-slate-100 font-sans tracking-tight">{value}</div>
+{f'<div class="text-xs font-mono font-bold {trend_color} mt-2 flex items-center gap-1">{trend}</div>' if trend else ''}
+</div>'''
+    return re.sub(metric_pattern, metric_repl, text)
+
+def parse_chart_components(text):
+    """Parse standard MDX Chart tags to hydration markers for React component mounting."""
+    # Match both standard <Chart ... /> and escaped &lt;Chart ... /&gt; or &lt;Chart ... &gt;
+    chart_pattern = r'(?:<Chart|&lt;Chart)\s+([^>;&]+?)(?:/?>|/&gt;|&gt;)'
+    def chart_repl(match):
+        attrs = match.group(1)
+        attrs = attrs.replace('&quot;', '"').replace('&#x27;', "'")
+        
+        type_match = re.search(r'type="([^"]+)"', attrs)
+        dataset_match = re.search(r'dataset="([^"]+)"', attrs)
+        x_match = re.search(r'x="([^"]+)"', attrs)
+        y_match = re.search(r'y="([^"]+)"', attrs)
+        
+        c_type = type_match.group(1) if type_match else "line"
+        c_dataset = dataset_match.group(1) if dataset_match else ""
+        c_x = x_match.group(1) if x_match else ""
+        c_y = y_match.group(1) if y_match else ""
+        
+        return f'<div class="chart-hydration-marker" data-chart-type="{c_type}" data-dataset="{c_dataset}" data-x="{c_x}" data-y="{c_y}"></div>'
+    return re.sub(chart_pattern, chart_repl, text)
+
+def validate_media_assets(text, input_dir):
+    """Check if media paths referenced in Markdown/HTML exist next to input directory and print warnings if missing."""
+    media_paths = []
+    # 1. Markdown image syntax: ![Alt](media/filename.jpg)
+    md_matches = re.findall(r'!\[.*?\]\((media/[^)]+)\)', text)
+    media_paths.extend(md_matches)
+    # 2. HTML src attribute syntax: src="media/filename.mp4"
+    src_matches = re.findall(r'src=["\'](media/[^"\']+)["\']', text)
+    media_paths.extend(src_matches)
+    
+    for path in set(media_paths):
+        full_path = Path(input_dir) / path
+        if not full_path.exists():
+            print(f"Warning: Media file '{full_path.relative_to(full_path.parents[2]) if len(full_path.parents) > 2 else full_path}' referenced in slide does not exist.")
+
+def generate_react_payload(front_matter, slides, input_dir=None):
+    """Compile presentation slides list to JSON structured model."""
     title = front_matter.get('title', 'Presentation')
-    author = front_matter.get('author', '')
-    affiliation = front_matter.get('affiliation', '')
+    author = front_matter.get('author', 'Author')
+    affiliation = front_matter.get('affiliation', 'Institution')
+    date_str = front_matter.get('date', '2025')
+    tagline = front_matter.get('description', 'Transforming learning through human-AI collaboration')
     
-    html = generate_html_template(title, author, affiliation, len(slides))
+    slide_metadata = []
+    numbered_count = 0
+    current_topic_idx = -1
     
-    # Add slides
-    for i, slide_content in enumerate(slides):
-        slide_content, quizzes = extract_quiz(slide_content)
-        slide_content, qr_codes = extract_qr_codes(slide_content)
-        slide_html = markdown_to_html(slide_content)
+    i = 0
+    while i < len(slides):
+        slide_content = slides[i].strip()
+        if not slide_content:
+            i += 1
+            continue
+            
+        # Parse local metadata block if present
+        slide_meta = {}
+        if ':' in slide_content and '\n' in slide_content:
+            if not any(line.strip().startswith('#') for line in slide_content.split('\n')):
+                try:
+                    parsed = yaml.safe_load(slide_content)
+                    if isinstance(parsed, dict) and ('slideId' in parsed or 'layout' in parsed or 'purpose' in parsed):
+                        slide_meta = parsed
+                        i += 1  # Advance to the actual content segment
+                        if i < len(slides):
+                            slide_content = slides[i].strip()
+                        else:
+                            slide_content = ""
+                except Exception:
+                    pass
+
+        if not slide_content:
+            i += 1
+            continue
+
+        h1_match = re.search(r'^#\s+(.+)$', slide_content, re.MULTILINE)
+        h2_match = re.search(r'^##\s+(.+)$', slide_content, re.MULTILINE)
         
-        html += f'        <div class="slide {"active" if i == 0 else ""}">\n'
-        html += f'            {slide_html}\n'
+        out_idx = len(slide_metadata)
         
-        # Add quizzes
-        for quiz in quizzes:
-            html += '            <div class="quiz">\n'
-            html += f'                <div class="quiz-question">{quiz["question"]}</div>\n'
+        if h1_match:
+            title_text = h1_match.group(1).strip()
+            is_major = True
+            label = ""
+            current_topic_idx = out_idx
+        elif h2_match:
+            title_text = h2_match.group(1).strip()
+            is_major = False
+            numbered_count += 1
+            label = f"{numbered_count:02d}"
+        else:
+            title_text = f"Slide {out_idx + 1}"
+            is_major = False
+            numbered_count += 1
+            label = f"{numbered_count:02d}"
+            
+        # Run pre-processing of H5P directives, standard JSX tags and metadata validators
+        slide_content_parsed = parse_h5p_directives(slide_content, input_dir)
+        slide_content_parsed = normalize_jsx_components(slide_content_parsed)
+        
+        if input_dir:
+            validate_media_assets(slide_content_parsed, input_dir)
+            
+        slide_content_parsed = parse_admonitions(slide_content_parsed)
+        slide_content_parsed = parse_tabs(slide_content_parsed)
+        slide_content_parsed, quizzes = extract_quiz(slide_content_parsed)
+        slide_content_parsed, qr_codes = extract_qr_codes(slide_content_parsed)
+        slide_content_parsed = strip_html_comments(slide_content_parsed)
+        slide_html = render_markdown(slide_content_parsed)
+        
+        # Inject HTML Quizzes
+        for idx, quiz in enumerate(quizzes):
+            quiz_html = f'''<div class="quiz border border-slate-800 bg-slate-900/50 rounded-lg p-5 my-4 border-l-4 border-l-purple-500">
+                        <div class="quiz-question font-semibold text-slate-100 text-lg mb-4">{quiz["question"]}</div>\n'''
             for option in quiz['options']:
-                html += f'                <div class="quiz-option" onclick="checkAnswer(this, \'{option[0]}\', \'{quiz["correct"]}\')">{option}</div>\n'
-            html += '            </div>\n'
+                opt_letter = option[0] if option else ""
+                quiz_html += f'                        <div class="quiz-option p-3 bg-slate-950/40 border border-slate-800 rounded-lg cursor-pointer transition-all my-2 font-mono" onclick="checkAnswer(this, \'{opt_letter}\', \'{quiz["correct"]}\')">{option}</div>\n'
+            quiz_html += '                </div>\n'
+            slide_html = slide_html.replace(f'<!-- QUIZ_{idx} -->', quiz_html)
+            
+        # Inject HTML QR Codes
+        for idx, qr in enumerate(qr_codes):
+            qr_html = f'''<div class="qr-code text-center my-6">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={qr['url']}" alt="QR Code" class="inline-block bg-white p-2 rounded-lg shadow-lg">
+                        <div class="qr-text text-sm text-slate-400 mt-2 font-medium">{qr['text']}</div>
+                    </div>\n'''
+            slide_html = slide_html.replace(f'<!-- QR_{idx} -->', qr_html)
+
+        # Parse metrics and charts on output HTML to avoid escaping issues
+        slide_html = parse_metric_components(slide_html)
+        slide_html = parse_chart_components(slide_html)
+
+        slide_layout = slide_meta.get('layout', 'hero' if is_major and out_idx == 0 else 'content')
+        slide_html = format_layout_content(slide_layout, slide_html)
+
+        slide_metadata.append({
+            'title': title_text,
+            'is_major': is_major,
+            'label': label,
+            'topic_idx': current_topic_idx if current_topic_idx != -1 else 0,
+            'content': slide_html,
+            'layout': slide_layout,
+            'purpose': slide_meta.get('purpose', 'explain'),
+            'duration': slide_meta.get('duration', 60),
+            'importance': slide_meta.get('importance', 'normal'),
+            'learningObjective': slide_meta.get('learningObjective', []),
+            'interactionLevel': slide_meta.get('interactionLevel', 'none'),
+            'ai': slide_meta.get('ai', {})
+        })
+        i += 1
         
-        # Add QR codes
-        for qr in qr_codes:
-            html += f'''            <div class="qr-code">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={qr['url']}" alt="QR Code">
-                <div class="qr-text">{qr['text']}</div>
-            </div>\n'''
-        
-        html += '        </div>\n'
-    
-    # Add navigation and footer
-    html += f"""        <div class="navigation">
-            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
-            <div class="slide-counter">
-                <span id="currentSlide">1</span> / <span id="totalSlides">{len(slides)}</span>
-            </div>
-            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next →</button>
-        </div>
-        <div class="footer">
-            <strong>{title}</strong><br>{author} • {affiliation}
-        </div>
-    </div>
-    
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-        
-        function showSlide(n) {{
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (n + totalSlides) % totalSlides;
-            slides[currentSlide].classList.add('active');
-            document.getElementById('currentSlide').textContent = currentSlide + 1;
-            document.getElementById('prevBtn').disabled = currentSlide === 0;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
-        }}
-        
-        function changeSlide(direction) {{ showSlide(currentSlide + direction); }}
-        
-        function checkAnswer(element, selected, correct) {{
-            const options = element.parentElement.querySelectorAll('.quiz-option');
-            options.forEach(opt => {{
-                opt.style.pointerEvents = 'none';
-                if (opt.textContent.startsWith(correct)) opt.classList.add('correct');
-                else opt.classList.add('incorrect');
-            }});
-        }}
-        
-        document.addEventListener('keydown', (e) => {{
-            if (e.key === 'ArrowLeft') changeSlide(-1);
-            if (e.key === 'ArrowRight') changeSlide(1);
-        }});
-        
-        document.getElementById('prevBtn').disabled = true;
-        document.getElementById('totalSlides').textContent = totalSlides;
-    </script>
-</body>
-</html>"""
-    
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(html)
-    
-    print(f"✅ Presentation generated: {output_path}")
-    print(f"   Slides: {len(slides)}")
-    print(f"   Title: {title}")
+    return {
+        "title": title,
+        "author": author,
+        "affiliation": affiliation,
+        "date": date_str,
+        "tagline": tagline,
+        "slides": slide_metadata
+    }
 
 def main():
     if len(sys.argv) < 2:
@@ -367,9 +878,16 @@ def main():
     input_file = sys.argv[1]
     
     if not os.path.exists(input_file):
-        print(f"❌ Error: File '{input_file}' not found")
+        print(f"Error: File '{input_file}' not found")
         sys.exit(1)
+        
+    script_dir = Path(__file__).parent.absolute()
+    renderer_dir = script_dir / 'renderer'
     
+    if not renderer_dir.exists():
+        print(f"Error: React renderer template directory '{renderer_dir}' not found.")
+        sys.exit(1)
+        
     with open(input_file, 'r', encoding='utf-8') as f:
         content = f.read()
     
@@ -377,16 +895,55 @@ def main():
     slides = extract_slides(content)
     
     if not slides:
-        print("❌ Error: No slides found")
+        print("Error: No slides found")
         sys.exit(1)
+        
+    input_path = Path(input_file).absolute()
+    output_dir = input_path.parent
     
-    output_dir = Path('output') / Path(input_file).stem
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_file = output_dir / 'index.html'
+    # 1. Compile slides to JSON data asset
+    payload = generate_react_payload(front_matter, slides, input_path.parent)
     
-    generate_html(front_matter, slides, output_file)
+    json_path = renderer_dir / 'src' / 'presentation-data.json'
+    with open(json_path, 'w', encoding='utf-8') as f:
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+    print(f"Slide deck payload written to {json_path}")
     
-    print(f"\n🚀 To view: Open {output_file} in your browser")
+    # 2. Build the React application
+    print("Building dynamic presentation via Vite compiler...")
+    try:
+        # Use shell=True for windows compatibility
+        subprocess.run("npm run build", shell=True, cwd=str(renderer_dir), check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Compilation Error during Vite compile: {e}")
+        sys.exit(1)
+        
+    # 3. Package output to target markdown directory
+    input_path = Path(input_file).absolute()
+    output_dir = input_path.parent
+    
+    dist_dir = renderer_dir / 'dist'
+    if not dist_dir.exists():
+        print("Error: Vite compilation did not produce 'dist' folder.")
+        sys.exit(1)
+        
+    # Remove old index.html and assets in output folder
+    out_html = output_dir / 'index.html'
+    out_assets = output_dir / 'assets'
+    
+    if out_html.exists():
+        os.remove(out_html)
+    if out_assets.exists():
+        shutil.rmtree(out_assets)
+        
+    # Copy build artifacts
+    shutil.copy(dist_dir / 'index.html', out_html)
+    shutil.copytree(dist_dir / 'assets', out_assets)
+    
+    print(f"\nPresentation successfully compiled and packaged!")
+    print(f"Output files written to: {output_dir}")
+    print(f"   - {out_html.name}")
+    print(f"   - {out_assets.name}/")
 
 if __name__ == '__main__':
     main()
