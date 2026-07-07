@@ -310,11 +310,11 @@ This project follows the REVA AI-Augmented Development Loop:
 4. **Implementation**: Changes are implemented and tested
 5. **Deployment**: Updates deployed to production
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+See the repository's CONTRIBUTING.md for details.
 
 ## License
 
-MIT License - See [LICENSE](./LICENSE) for details.
+MIT License.
 
 ## Support
 
@@ -325,4 +325,4 @@ MIT License - See [LICENSE](./LICENSE) for details.
 
 ---
 
-**Part of the REVA Learning Hub Ecosystem** | [Specification](./.kiro/specs/presentation-creator/requirements.md) | [Architecture](./../../specification/architecture.md)
+**Part of the REVA Learning Hub Ecosystem**
