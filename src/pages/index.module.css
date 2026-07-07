@@ -71,3 +71,84 @@
   font-size: 0.9rem;
 }
 
+/* Premium Enhancements */
+.heroGlow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(247, 163, 91, 0.08) 0%, rgba(247, 163, 91, 0) 70%);
+  top: -200px;
+  left: calc(50% - 300px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+}
+
+.glassCard {
+  background: rgba(30, 41, 59, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.glassCard:hover {
+  transform: translateY(-6px);
+  border-color: rgba(247, 163, 91, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(247, 163, 91, 0.1);
+}
+
+.cardBody {
+  padding: 2.25rem 2rem;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.cardFooter {
+  padding: 1.5rem 2rem 2.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.cardIcon {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(247, 163, 91, 0.1);
+  color: #f7a35b;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  border: 1px solid rgba(247, 163, 91, 0.15);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(247, 163, 91, 0.15);
+  color: #f9b980;
+  border: 1px solid rgba(247, 163, 91, 0.25);
+  margin-bottom: 1rem;
+}
+
+.badgeGreen {
+  background: rgba(16, 185, 129, 0.15);
+  color: #a7f3d0;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
