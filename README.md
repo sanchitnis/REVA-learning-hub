@@ -47,96 +47,100 @@ Additional platform components:
 
 ### AI-Powered Presentation Creator
 
-The **Presentation Creator** is a key tool in the REVA Learning Hub ecosystem that converts markdown content into modern, interactive Next.js web applications deployed on Vercel.
+The **Presentation Creator** converts markdown-based course contents into modern, interactive React/Vite-based single-page presentations. 
 
 **Key Features:**
-- **Markdown-to-Next.js Conversion**: Transform educational content into performant web applications
-- **AI-Native Learning Experience**: Server-side rendering, API routes, and AI integration readiness
-- **OBE Support**: Foundation for tracking learning outcomes (Phase 2)
-- **Portfolio-First**: Every presentation is a deployable portfolio artifact
-- **Human-AI Collaboration**: AI generates drafts; faculty ensures quality
-
-**Architecture:**
-- Frontend: Next.js with React components and SSR
-- Deployment: Vercel with edge network and auto-scaling
-- Future Backend: Supabase for learner analytics (Phase 2)
-- Content: Markdown files in Git (version controlled)
-
-**Quick Start:**
-```bash
-# Navigate to presentation creator
-cd docs/05-Tools/presentation-creator
-
-# Create a presentation from markdown
-python scripts/markdown-to-nextjs.py your-content.md
-
-# Deploy to Vercel
-vercel deploy
-```
-
-**Documentation:** See [Presentation Creator Docs](./docs/05-Tools/presentation-creator/index.md)
-
-**Specification:** See [Requirements](./.kiro/specs/presentation-creator/requirements.md)
+* **Hybrid Markdown Parsing**: Renders standard Markdown along with interactive components (quizzes, H5P-style tabs/accordions/flashcards, and QR codes).
+* **Flexible Compilation**: Outputs static web pages and assets that can be served independently or integrated directly into Docusaurus.
+* **Portfolio-First**: Every slide deck compiled serves as a deployable and shareable portfolio artifact.
+* **Phase 1 Static-Ready**: Interactive quizzes, H5P components, and navigations run entirely client-side, making them fully compatible with GitHub Pages hosting.
 
 ---
 
-## 🛠️ Developer Setup (Docusaurus)
+## 🛠️ Developer Setup & Integration
 
-This learning hub frontend is built using [Docusaurus](https://docusaurus.io/).
+This project is organized as a unified monorepo where the main documentation portal is powered by Docusaurus, and presentations are integrated as static sub-pages.
+
+### 1. Main Portal (Docusaurus) Setup
 
 **Prerequisites:** Node.js ≥ 20 and npm.
 
-### Installation
-```bash
-npm install
-```
+1. **Install Root Dependencies:**
+   ```bash
+   npm install
+   ```
 
-### Local Development
-```bash
-npm start
-```
-Starts a local development server and opens a browser window. Changes are reflected live.
+2. **Run Local Dev Server:**
+   ```bash
+   npm start
+   ```
+   This starts the main portal preview at `http://localhost:3000/`.
 
-### Build
-```bash
-npm run build
-```
-Generates static content into the `build` directory.
+3. **Build Main Portal:**
+   ```bash
+   npm run build
+   ```
+   Generates the optimized static distribution inside the `build/` directory.
 
-### Serve (preview production build locally)
-```bash
-npm run serve
-```
+---
+
+### 2. Presentation Creator Setup & Output Reorganization
+
+The presentation compiler has been restructured to output files directly into the Docusaurus asset pipeline.
+
+1. **Install Python Prerequisites:**
+   ```bash
+   pip install -r tools/presentation-creator/requirements.txt
+   ```
+
+2. **Install Vite Renderer Dependencies:**
+   ```bash
+   cd tools/presentation-creator/renderer
+   npm install
+   cd ../../..
+   ```
+
+3. **Compile Presentations Directly to Docusaurus Static Folder:**
+   To make a presentation publishable as part of the portal, compile it directly to the Docusaurus `static/presentations/` directory by providing it as the second command-line argument:
+   ```bash
+   # Usage: python tools/presentation-creator/convert.py <markdown-file> <output-directory>
+   
+   python tools/presentation-creator/convert.py tools/presentation-creator/project1/sample-presentation.md static/presentations/sample-presentation
+   ```
+   This will compile the presentation and output:
+   * `static/presentations/sample-presentation/index.html`
+   * `static/presentations/sample-presentation/assets/`
+
+4. **Integration with Docusaurus Doc Pages:**
+   Since Docusaurus publishes all files inside `static/` directly at the root, your presentation will be hosted at `/presentations/sample-presentation/`. You can link or embed it inside any Docusaurus Markdown document:
+   
+   * **Direct Link**:
+     ```markdown
+     [View Presentation](/presentations/sample-presentation/)
+     ```
+   
+   * **Embedded Iframe**:
+     ```html
+     <iframe src="/presentations/sample-presentation/" width="100%" height="600px" style={{ border: 'none', borderRadius: '8px' }} allowFullScreen />
+     ```
 
 ---
 
 ## 🚀 Deployment (GitHub Pages)
 
-The site is deployed to **https://sanchitnis.github.io/REVA-learning-hub/** via GitHub Actions on every push to `main`.
+The main portal and all integrated presentations are deployed to **https://sanchitnis.github.io/REVA-learning-hub/** via GitHub Actions on every push to `main`.
 
 ### Automatic Deployment (CI/CD)
 
 The workflow in `.github/workflows/deploy.yml`:
-1. Triggers on push to `main` (ignoring changes to `legacy-portfolio/`, `.academic-agent/`, and `README.md`)
-2. Builds the Docusaurus site with `npm run build`
-3. Pushes the `build/` directory to the `gh-pages` branch using [JamesIves/github-pages-deploy-action](https://github.com/JamesIves/github-pages-deploy-action)
+1. Triggers on push to `main` (ignoring changes to `legacy-portfolio/`, `.academic-agent/`, and `README.md`).
+2. Builds the Docusaurus site with `npm run build` (which automatically bundle and copy all compiled presentations in `static/` to the build output).
+3. Pushes the `build/` directory to the `gh-pages` branch.
 
-**GitHub Pages must be configured to serve from the `gh-pages` branch:**
-1. Go to **Settings → Pages** in the repository
-2. Under **Source**, select **Deploy from a branch**
-3. Select **`gh-pages`** branch and **`/ (root)`** folder
-4. Save — the site will be live at `https://sanchitnis.github.io/REVA-learning-hub/`
-
-### Manual Deployment
-
-To deploy manually from your local machine:
-```bash
-# Set your GitHub credentials (used by Docusaurus deploy)
-export GIT_USER=<your-github-username>
-
-# Build and push to gh-pages branch
-npm run deploy
-```
+**GitHub Pages Configuration:**
+1. Go to **Settings → Pages** in the repository.
+2. Under **Source**, select **Deploy from a branch**.
+3. Select the **`gh-pages`** branch and **`/ (root)`** folder, then Save.
 
 ### Troubleshooting
 

@@ -872,10 +872,15 @@ def generate_react_payload(front_matter, slides, input_dir=None):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python convert.py <markdown-file>")
+        print("Usage: python convert.py <markdown-file> [output-directory]")
         sys.exit(1)
     
     input_file = sys.argv[1]
+    
+    # Check for optional output directory override
+    output_dir_override = None
+    if len(sys.argv) >= 3:
+        output_dir_override = Path(sys.argv[2]).absolute()
     
     if not os.path.exists(input_file):
         print(f"Error: File '{input_file}' not found")
@@ -899,7 +904,6 @@ def main():
         sys.exit(1)
         
     input_path = Path(input_file).absolute()
-    output_dir = input_path.parent
     
     # 1. Compile slides to JSON data asset
     payload = generate_react_payload(front_matter, slides, input_path.parent)
@@ -918,9 +922,14 @@ def main():
         print(f"Compilation Error during Vite compile: {e}")
         sys.exit(1)
         
-    # 3. Package output to target markdown directory
-    input_path = Path(input_file).absolute()
-    output_dir = input_path.parent
+    # 3. Package output to target directory
+    if output_dir_override:
+        output_dir = output_dir_override
+    else:
+        output_dir = input_path.parent
+        
+    # Ensure output directory exists
+    output_dir.mkdir(parents=True, exist_ok=True)
     
     dist_dir = renderer_dir / 'dist'
     if not dist_dir.exists():
