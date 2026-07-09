@@ -1,4 +1,4 @@
-# Manifest - Presentation Creator (Sprint 1)
+# Manifest - Presentation Creator
 
 This manifest lists the directories, files, templates, inputs, outputs, and scripts under `tools/presentation-creator/`.
 
@@ -10,18 +10,19 @@ This manifest lists the directories, files, templates, inputs, outputs, and scri
 
 ## Documentation & Guidance
 
-- [README.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/README.md): Overview, file structure, and Sprint 1 requirements.
+- [README.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/README.md): Overview, file structure, and requirements.
 - [QUICKSTART.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/QUICKSTART.md): Step-by-step developer setup and local verification guide.
 - [AGENTS.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/AGENTS.md): Coding rules, parsing requirements, and directory constraints for AI agents.
 - [input-template.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/input-template.md): Hybrid markdown structure specification.
 - [specification.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/specification.md): Interactive Presentation Specification (IPS) Version 1.0 outlining the React, MDX, and H5P roadmap.
 
-## Projects
+## Course Presentation Sources
 
-- [project1/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/project1/):
+- [sample-presentation/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/sample-presentation/):
   - `sample-presentation.md`: A demo presentation input file.
-  - `index.html`: Compiled presentation slide output.
-- [project2/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/project2/):
+  - `media/`: Supporting assets folder.
+- [physical-ai/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/physical-ai/):
   - `physical-ai.md`: Presentation input for Physical AI.
-- [project3/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/project3/):
+- [SW3/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/SW3/):
   - `AI-Ready Faculty Certification.md`: Comprehensive certification presentation input.
+  - `media/`: Supporting assets folder.

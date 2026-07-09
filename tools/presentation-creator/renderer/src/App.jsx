@@ -465,6 +465,47 @@ function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [theme, setTheme] = useState('dark');
   
+  // I18n state
+  const [lang, setLang] = useState('en');
+  
+  // Progress State
+  const [progress, setProgress] = useState(() => {
+    const key = `reva_progress_${title.replace(/\s+/g, '_')}`;
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : {
+      startedAt: new Date().toISOString(),
+      completedAt: null,
+      visitedSlides: [0]
+    };
+  });
+  
+  // Sync progress effect
+  useEffect(() => {
+    const key = `reva_progress_${title.replace(/\s+/g, '_')}`;
+    setProgress(prev => {
+      const visited = prev.visitedSlides.includes(currentSlide) 
+        ? prev.visitedSlides 
+        : [...prev.visitedSlides, currentSlide].sort((a, b) => a - b);
+      
+      const completedAt = (currentSlide === slides.length - 1 && !prev.completedAt) 
+        ? new Date().toISOString() 
+        : prev.completedAt;
+        
+      const next = {
+        ...prev,
+        visitedSlides: visited,
+        completedAt
+      };
+      localStorage.setItem(key, JSON.stringify(next));
+      return next;
+    });
+  }, [currentSlide, slides.length, title]);
+
+  // Sync lang effect
+  useEffect(() => {
+    document.documentElement.setAttribute('data-lang', lang);
+  }, [lang]);
+
   // Timer States
   const [secondsElapsed, setSecondsElapsed] = useState(160); // 2m 40s default
   const [timerRunning, setTimerRunning] = useState(true);
@@ -810,6 +851,42 @@ function App() {
           {renderSidebarAccordion()}
         </nav>
         
+        {/* Student Progress Tracker */}
+        <div className="p-4 border-t border-slate-800 bg-slate-950/40 text-left">
+          <div className="text-[10px] uppercase tracking-wider text-slate-500 font-mono mb-2 flex items-center justify-between">
+            <span>Learning Progress</span>
+            <span className="text-sky-400 font-semibold font-mono">
+              {Math.round((progress.visitedSlides.length / slides.length) * 100)}%
+            </span>
+          </div>
+          <div className="w-full bg-slate-800 rounded-full h-1.5 mb-3 overflow-hidden">
+            <div 
+              className="bg-sky-400 h-1.5 rounded-full transition-all duration-300 animate-pulse"
+              style={{ width: `${(progress.visitedSlides.length / slides.length) * 100}%` }}
+            />
+          </div>
+          <div className="text-[9px] text-slate-400 leading-normal mb-2.5">
+            <div>Started: <strong className="text-slate-300 font-mono">{new Date(progress.startedAt).toLocaleDateString()}</strong></div>
+            {progress.completedAt && (
+              <div>Completed: <strong className="text-emerald-400 font-mono">{new Date(progress.completedAt).toLocaleDateString()}</strong></div>
+            )}
+          </div>
+          <button
+            onClick={() => {
+              const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(progress, null, 2));
+              const downloadAnchor = document.createElement('a');
+              downloadAnchor.setAttribute("href", dataStr);
+              downloadAnchor.setAttribute("download", `progress-${title.toLowerCase().replace(/\s+/g, '-')}.json`);
+              document.body.appendChild(downloadAnchor);
+              downloadAnchor.click();
+              downloadAnchor.remove();
+            }}
+            className="w-full py-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white font-bold text-[9px] uppercase tracking-wide transition-all text-center flex items-center justify-center gap-1.5"
+          >
+            📥 Download Progress
+          </button>
+        </div>
+
         {/* Bottom Talk Timer */}
         <div className="p-4 border-t border-slate-800 bg-slate-950/60">
           <div className="text-[10px] uppercase tracking-wider text-slate-500 font-mono mb-2 flex items-center justify-between">
@@ -867,7 +944,6 @@ function App() {
           </div>
           
           <div className="flex items-center gap-4">
-            <span className="text-xs text-slate-400 hidden lg:inline">Presenter: <strong className="text-slate-200">{author}</strong></span>
             
             {/* Live IST Clock */}
             <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-full px-3.5 py-1 text-slate-300 text-xs font-mono">
@@ -876,6 +952,18 @@ function App() {
               <span className="text-[9px] text-slate-500 tracking-wider">IST &bull; INDIA</span>
             </div>
             
+            {/* Language Selector Toggle */}
+            <div className="relative">
+              <select
+                value={lang}
+                onChange={(e) => setLang(e.target.value)}
+                className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 outline-none focus:border-sky-400 font-semibold cursor-pointer transition-all"
+              >
+                <option value="en">🇺🇸 English</option>
+                <option value="hi">🇮🇳 हिंदी (Hindi)</option>
+              </select>
+            </div>
+
             <button 
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="h-9 w-9 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors animate-fade-up"
@@ -895,7 +983,7 @@ function App() {
         <main className="flex-1 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-y-auto p-4 md:p-8 flex items-center justify-center max-h-[calc(100vh-9rem)]">
           <div className="w-full max-w-4xl max-h-[calc(100vh-11rem)] overflow-y-auto rounded-2xl relative">
             <div className="slide slide-container slide-active">
-              <div className="bg-slate-900/40 border border-slate-800/50 backdrop-blur rounded-2xl p-6 md:p-8 shadow-2xl animate-fade-up">
+              <div className={`bg-slate-900/40 border border-slate-800/50 backdrop-blur rounded-2xl p-6 md:p-8 shadow-2xl animate-fade-up layout-${activeSlideData.layout || 'content'}`}>
                 
                 {/* Dynamically Render Layout templates */}
                 {currentSlide === 0 ? (
@@ -957,8 +1045,8 @@ function App() {
               <div className="flex items-center gap-2" id="jump-dots">
                 {renderDots()}
               </div>
-              <div id="slide-progress" className="text-[10px] font-mono text-slate-500">
-                Presenter: {author} &bull; Slide {currentSlide + 1} of {slides.length}
+              <div id="slide-progress" className="text-xs font-mono text-slate-300 font-bold">
+                Presenter: {author} {presentationData.version ? `(${presentationData.version.trim()})` : ''} &bull; Slide {currentSlide + 1} of {slides.length}
               </div>
             </div>
             

@@ -7,17 +7,6 @@ Welcome to the **REVA Learning Hub**. This platform is a collaborative intellige
 ## For AGENTS:
 Currently focusing only on tools\presentation-creator. Refer to files in that folder only. Others are for future. This project is under construction.
 
-## 🎓 REVA Vision and Mission
-
-**Vision:** To become a technologically advanced, sustainable global university dedicated to the wellbeing of all.
-
-**Mission:**
-- Provide learner-centric education leveraged with cutting-edge technologies.
-- Foster stewardship by nurturing talent, leadership qualities, and entrepreneurial thinking in a safe and secure environment.
-- Promote liberal studies and foster the pursuit of performing arts, literature, sports, and other creative and intellectual disciplines.
-- Promote a culture of collaboration and cooperation.
-- Serve humanity and promote sustainability through higher education based on universal values.
-
 ## ✨ The Platform Promise
 Every course, every semester, every student emerges with a richer portfolio, a sharper enterprising mindset, a verified skill credential, and a clear personal trajectory — while REVA advances to Top 100 NIRF, deepens global partnerships, and lives its vision of wellbeing for all.
 

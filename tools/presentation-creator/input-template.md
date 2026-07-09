@@ -13,9 +13,12 @@ specVersion: 1.0
 title: "Introduction to AI-Era Education"
 subtitle: "Pioneering the Future of Learning"
 author: "Dr. Sanjay Chitnis"
+email: "sanjay.chitnis@reva.edu.in"
+social: "https://linkedin.com/in/sanjaychitnis"
 affiliation: "REVA University"
 theme: "university-corporate"
 date: "2025"
+version: "v1.0"
 aspectRatio: "16:9"
 audience:
   - faculty
@@ -314,5 +317,75 @@ Slide body content goes here.
 
 :::notes
 Highlight the difference between exam grading and project evidence validation.
+:::
+```
+
+---
+
+## 9. New Semantic Visual Blocks
+
+These custom directives explicitly tag slides content and are rendered with colored highlight borders and specific icons:
+
+### Definition Block
+```markdown
+:::definition Object-Oriented Programming (OOP)
+A programming paradigm based on the concept of "objects".
+:::
+```
+
+### Mnemonic Block
+```markdown
+:::mnemonic REVA TRACK
+**T**eaching, **R**esearch, **A**dministration, **C**onsulting, **K**aizen.
+:::
+```
+
+### Analogy Block
+```markdown
+:::analogy Polymorphism
+Polymorphism is like a single button on different devices—a power button turns on a phone, a TV, or a PC, but each performs the action differently.
+:::
+```
+
+### Example Block
+```markdown
+:::example Code Example
+`public class Main { ... }`
+:::
+```
+
+---
+
+## 10. Multi-Language Support (I18n)
+
+Support English and Hindi (or other languages) directly in the same presentation:
+
+### Block-Level Lang Directive
+```markdown
+:::lang en
+This slide explains attention mechanisms.
+:::
+:::lang hi
+यह स्लाइड अटेंशन मैकेनिज्म को समझाती है।
+:::
+```
+
+### Inline Translation Spans
+```markdown
+This is the [[en:Attention Weight]][[hi:अटेंशन वेट]] dashboard.
+```
+
+---
+
+## 11. Glossary Double-Bracket Tooltips
+
+Terms enclosed in double brackets (`[[term]]` or `[[term|custom label]]`) render as hoverable tooltips. The definitions are parsed from a glossary block placed at the bottom of the presentation markdown file:
+
+```markdown
+The model uses [[self-attention]] to weigh inputs. We implement [[polymorphism|many forms]] in Java.
+
+:::glossary
+[[self-attention]]: A mechanism mapping queries to key-value pairs to determine context.
+[[polymorphism]]: The ability of a message or function to be displayed in more than one form.
 :::
 ```

@@ -10,8 +10,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'REVA Learning Hub',
-  tagline: 'Educate to Enterprise',
+  title: 'REVA TRACK',
+  tagline: 'AI Empowerment Hub',
   favicon: 'img/favicon.ico',
 
   url: 'https://sanchitnis.github.io',
@@ -39,12 +39,25 @@ const config = {
           sidebarPath: './sidebars.js',
           routeBasePath: '/', // Serve docs at the root
         },
-        blog: false, // Disable blog for a pure learning hub
+        blog: {}, // Enable blog
         theme: {
           customCss: './src/css/custom.css',
         },
       }),
     ],
+  ],
+
+  plugins: [
+    async function tailwindPlugin(context, options) {
+      return {
+        name: "docusaurus-tailwindcss",
+        configurePostCss(postcssOptions) {
+          postcssOptions.plugins.push(require("@tailwindcss/postcss"));
+          postcssOptions.plugins.push(require("autoprefixer"));
+          return postcssOptions;
+        },
+      };
+    },
   ],
 
   themeConfig:
@@ -58,22 +71,52 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'REVA Learning Hub',
+        title: '',
         logo: {
           alt: 'REVA University Logo',
           src: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/REVA_University_Bangalore.png',
         },
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            to: '/intro#explore-our-courses',
             position: 'left',
-            label: 'Courses',
+            label: 'Contents',
+          },
+          {
+            to: '/intro',
+            position: 'left',
+            label: 'Introduction',
+            activeBasePath: 'never-active', // Prevents double highlighting of root pages
+          },
+          {
+            to: '/intro#interactive-presentations',
+            position: 'left',
+            label: 'Microlearning',
+          },
+          {
+            to: '/pdf500-faculty-guides/pdf501-content-creation',
+            position: 'left',
+            label: 'Create Content',
+          },
+          {
+            to: '/blog',
+            position: 'left',
+            label: 'Blogs',
+          },
+          {
+            to: '/Common-Resources',
+            position: 'left',
+            label: 'Resources',
           },
           {
             href: 'https://reva.edu.in',
             label: 'REVA University',
             position: 'right',
+          },
+          {
+            href: 'https://aihub.reva.edu.in',
+            position: 'right',
+            label: 'AI Hub',
           },
         ],
       },
@@ -88,8 +131,8 @@ const config = {
                 href: 'https://reva.edu.in',
               },
               {
-                label: 'REVA NEST',
-                href: 'https://revanest.com',
+                label: 'REVA RACE',
+                href: 'https://race.reva.edu.in/',
               },
             ],
           },

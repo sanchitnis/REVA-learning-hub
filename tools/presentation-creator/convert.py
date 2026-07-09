@@ -86,8 +86,8 @@ def parse_admonitions(text):
     
     return re.sub(pattern, replace_admonition, text, flags=re.DOTALL)
 
-def parse_h5p_directives(text, input_dir=None):
-    """Parse all 14 H5P-style custom directives into rich HTML components."""
+def parse_h5p_directives(text, input_dir=None, glossary=None):
+    """Parse all H5P-style custom directives, language tags, glossary tooltips, and visual elements."""
     # 1. Accordion
     accordion_pattern = r':::accordion\n(.*?)\n:::'
     def accordion_repl(match):
@@ -197,16 +197,22 @@ def parse_h5p_directives(text, input_dir=None):
         return quiz_str
     text = re.sub(tf_pattern, tf_repl, text, flags=re.DOTALL)
 
-    # 6. Fill in the Blanks: React was created by [[Facebook]].
-    blank_pattern = r'\[\[(.*?)\]\]'
-    def blank_repl(match):
-        answer = match.group(1)
-        # Escape single quotes in answer
-        escaped_ans = answer.replace("'", "\\'")
+    # 6. Glossary & Blanks
+    brackets_pattern = r'\[\[([^\]|:]+?)(?:\|([^\]]+?))?\]\]'
+    def brackets_repl(match):
+        term = match.group(1).strip()
+        label = match.group(2).strip() if match.group(2) else term
+        term_lower = term.lower()
+        
+        if glossary and term_lower in glossary:
+            escaped_def = glossary[term_lower].replace("'", "\\'")
+            return f'''<span class="glossary-term" data-definition="{escaped_def}">{label}<span class="invisible group-hover:visible absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-slate-950 text-slate-100 text-xs rounded-lg shadow-xl border border-slate-800 w-56 text-center leading-normal normal-case font-normal pointer-events-none">{glossary[term_lower]}</span></span>'''
+            
+        escaped_ans = label.replace("'", "\\'")
         return f'''<span class="inline-flex items-center mx-1">
   <input type="text" placeholder="fill blank..." class="bg-slate-950 border border-slate-800 rounded px-2 py-0.5 text-xs text-slate-100 font-mono focus:border-sky-400 outline-none w-28 text-center" onchange="if(window.checkBlank) window.checkBlank(this, \'{escaped_ans}\')" onkeydown="if(event.key===\'Enter\' && window.checkBlank) window.checkBlank(this, \'{escaped_ans}\')" />
 </span>'''
-    text = re.sub(blank_pattern, blank_repl, text)
+    text = re.sub(brackets_pattern, brackets_repl, text)
 
     # 7. Matching
     matching_pattern = r':::matching\n(.*?)\n:::'
@@ -425,7 +431,67 @@ def parse_h5p_directives(text, input_dir=None):
         return '\n'.join(html_parts)
     text = re.sub(cards_pattern, cards_repl, text, flags=re.DOTALL)
 
-    # 14. Interactive Book chapter separator
+    # 14. Explicit Semantic Blocks (Mnemonic, Analogy, Definition, Example)
+    mnemonic_pattern = r':::mnemonic(?:\s+([^\n]+))?\n(.*?)\n:::'
+    def mnemonic_repl(match):
+        title = match.group(1).strip() if match.group(1) else "Mnemonic Memory Aid"
+        content = match.group(2).strip()
+        inner_html = render_markdown(content)
+        return f'''<div class="mnemonic-block">
+    <div class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">🧠 {title}</div>
+    <div class="text-xs text-slate-350 leading-relaxed pl-1">{inner_html}</div>
+  </div>'''
+    text = re.sub(mnemonic_pattern, mnemonic_repl, text, flags=re.DOTALL)
+
+    analogy_pattern = r':::analogy(?:\s+([^\n]+))?\n(.*?)\n:::'
+    def analogy_repl(match):
+        title = match.group(1).strip() if match.group(1) else "Real-World Analogy"
+        content = match.group(2).strip()
+        inner_html = render_markdown(content)
+        return f'''<div class="analogy-block">
+    <div class="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">⚖️ {title}</div>
+    <div class="text-xs text-slate-350 leading-relaxed pl-1">{inner_html}</div>
+  </div>'''
+    text = re.sub(analogy_pattern, analogy_repl, text, flags=re.DOTALL)
+
+    definition_pattern = r':::definition(?:\s+([^\n]+))?\n(.*?)\n:::'
+    def definition_repl(match):
+        title = match.group(1).strip() if match.group(1) else "Formal Definition"
+        content = match.group(2).strip()
+        inner_html = render_markdown(content)
+        return f'''<div class="definition-block">
+    <div class="text-[10px] font-mono font-bold text-sky-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">📖 {title}</div>
+    <div class="text-xs text-slate-350 leading-relaxed pl-1">{inner_html}</div>
+  </div>'''
+    text = re.sub(definition_pattern, definition_repl, text, flags=re.DOTALL)
+
+    example_pattern = r':::example(?:\s+([^\n]+))?\n(.*?)\n:::'
+    def example_repl(match):
+        title = match.group(1).strip() if match.group(1) else "Math / Code Example"
+        content = match.group(2).strip()
+        inner_html = render_markdown(content)
+        return f'''<div class="example-block">
+    <div class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">📝 {title}</div>
+    <div class="text-xs text-slate-350 leading-relaxed pl-1">{inner_html}</div>
+  </div>'''
+    text = re.sub(example_pattern, example_repl, text, flags=re.DOTALL)
+
+    # 15. I18n Multi-Language Parser
+    lang_pattern = r':::lang\s+(\w+)\n(.*?)\n:::'
+    def lang_repl(match):
+        locale = match.group(1).strip()
+        body = match.group(2).strip()
+        return f'<div class="lang-block" data-lang="{locale}">\n{body}\n</div>'
+    text = re.sub(lang_pattern, lang_repl, text, flags=re.DOTALL)
+
+    inline_lang_pattern = r'\[\[([a-z]{2}):(.*?)\]\]'
+    def inline_lang_repl(match):
+        locale = match.group(1)
+        translation = match.group(2)
+        return f'<span class="lang-inline" data-lang="{locale}">{translation}</span>'
+    text = re.sub(inline_lang_pattern, inline_lang_repl, text)
+
+    # 16. Interactive Book chapter separator
     text = text.replace('---chapter---', '<hr class="border-dashed border-slate-800 my-8" />')
     return text
 
@@ -599,7 +665,7 @@ def parse_slide_front_matter(slide_content):
 
 
 
-def format_layout_content(layout, html_content):
+def format_layout_content(layout, html_content, email='', social='', author=''):
     """Enhance parsed slide HTML content based on its layout specification."""
     if layout == 'two-column':
         parts = re.split(r'(?=<h3)', html_content)
@@ -634,6 +700,19 @@ def format_layout_content(layout, html_content):
             
     elif layout == 'quote':
         return f'<div class="text-center max-w-2xl mx-auto my-8 italic text-slate-300 border-l-4 border-sky-400 pl-4">{html_content}</div>'
+        
+    elif layout == 'thankyou':
+        contact_html = ''
+        if email or social:
+            contact_html += '<div class="mt-8 pt-8 border-t border-slate-800 max-w-md mx-auto text-center space-y-2">'
+            if author:
+                contact_html += f'<div class="text-sm font-semibold text-slate-350">{author}</div>'
+            if email:
+                contact_html += f'<div class="text-xs text-slate-400">📧 <a href="mailto:{email}" class="text-sky-400 hover:underline">{email}</a></div>'
+            if social:
+                contact_html += f'<div class="text-xs text-slate-400">🔗 <a href="{social}" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">{social}</a></div>'
+            contact_html += '</div>'
+        return f'<div class="text-center py-12">{html_content}{contact_html}</div>'
         
     return html_content
 
@@ -746,13 +825,16 @@ def validate_media_assets(text, input_dir):
         if not full_path.exists():
             print(f"Warning: Media file '{full_path.relative_to(full_path.parents[2]) if len(full_path.parents) > 2 else full_path}' referenced in slide does not exist.")
 
-def generate_react_payload(front_matter, slides, input_dir=None):
+def generate_react_payload(front_matter, slides, input_dir=None, glossary=None):
     """Compile presentation slides list to JSON structured model."""
     title = front_matter.get('title', 'Presentation')
     author = front_matter.get('author', 'Author')
     affiliation = front_matter.get('affiliation', 'Institution')
     date_str = front_matter.get('date', '2025')
     tagline = front_matter.get('description', 'Transforming learning through human-AI collaboration')
+    email = front_matter.get('email', '')
+    social = front_matter.get('social', '')
+    version = str(front_matter.get('version', ''))
     
     slide_metadata = []
     numbered_count = 0
@@ -807,7 +889,7 @@ def generate_react_payload(front_matter, slides, input_dir=None):
             label = f"{numbered_count:02d}"
             
         # Run pre-processing of H5P directives, standard JSX tags and metadata validators
-        slide_content_parsed = parse_h5p_directives(slide_content, input_dir)
+        slide_content_parsed = parse_h5p_directives(slide_content, input_dir, glossary)
         slide_content_parsed = normalize_jsx_components(slide_content_parsed)
         
         if input_dir:
@@ -843,7 +925,7 @@ def generate_react_payload(front_matter, slides, input_dir=None):
         slide_html = parse_chart_components(slide_html)
 
         slide_layout = slide_meta.get('layout', 'hero' if is_major and out_idx == 0 else 'content')
-        slide_html = format_layout_content(slide_layout, slide_html)
+        slide_html = format_layout_content(slide_layout, slide_html, email, social, author)
 
         slide_metadata.append({
             'title': title_text,
@@ -867,6 +949,9 @@ def generate_react_payload(front_matter, slides, input_dir=None):
         "affiliation": affiliation,
         "date": date_str,
         "tagline": tagline,
+        "email": email,
+        "social": social,
+        "version": version,
         "slides": slide_metadata
     }
 
@@ -897,6 +982,21 @@ def main():
         content = f.read()
     
     front_matter, content = parse_front_matter(content)
+    # Parse glossary
+    glossary = {}
+    glossary_match = re.search(r':::glossary\n(.*?)\n:::', content, re.DOTALL)
+    if glossary_match:
+        glossary_block = glossary_match.group(1).strip()
+        for line in glossary_block.split('\n'):
+            line = line.strip()
+            if ']]:' in line:
+                term_match = re.search(r'\[\[(.*?)\]\]:\s*(.*)', line)
+                if term_match:
+                    term_key = term_match.group(1).strip().lower()
+                    term_def = term_match.group(2).strip()
+                    glossary[term_key] = term_def
+        content = content.replace(glossary_match.group(0), '')
+        
     slides = extract_slides(content)
     
     if not slides:
@@ -906,7 +1006,7 @@ def main():
     input_path = Path(input_file).absolute()
     
     # 1. Compile slides to JSON data asset
-    payload = generate_react_payload(front_matter, slides, input_path.parent)
+    payload = generate_react_payload(front_matter, slides, input_path.parent, glossary)
     
     json_path = renderer_dir / 'src' / 'presentation-data.json'
     with open(json_path, 'w', encoding='utf-8') as f:
@@ -926,7 +1026,9 @@ def main():
     if output_dir_override:
         output_dir = output_dir_override
     else:
-        output_dir = input_path.parent
+        course_name = input_path.parent.name
+        workspace_root = script_dir.parent.parent
+        output_dir = workspace_root / 'static' / 'presentations' / course_name
         
     # Ensure output directory exists
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -949,6 +1051,15 @@ def main():
     shutil.copy(dist_dir / 'index.html', out_html)
     shutil.copytree(dist_dir / 'assets', out_assets)
     
+    # Copy any local media folders if they exist next to the source markdown
+    source_media = input_path.parent / 'media'
+    if source_media.exists():
+        dest_media = output_dir / 'media'
+        if dest_media.exists():
+            shutil.rmtree(dest_media)
+        shutil.copytree(source_media, dest_media)
+        print(f"Copied source media assets to {dest_media}")
+        
     print(f"\nPresentation successfully compiled and packaged!")
     print(f"Output files written to: {output_dir}")
     print(f"   - {out_html.name}")
