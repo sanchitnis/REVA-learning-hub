@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunktemp_hub=globalThis.webpackChunktemp_hub||[]).push([[1903],{1912(h){h.exports=JSON.parse('{"blogBasePath":"/REVA-learning-hub/blog","blogTitle":"Blog","authorsListPath":"/REVA-learning-hub/blog/authors"}')}}]);
