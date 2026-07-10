@@ -45,6 +45,11 @@ export default function AIVivaLauncher({ vivaUrl }) {
                 <strong className="text-slate-100 block mb-1">🔑 Account & Library Setup:</strong>
                 When you click the button below, we will navigate you to <strong>Microsoft M365 Copilot</strong>. Please login using your official Microsoft/University account and add the Viva agent to your personal library of agents.
               </div>
+
+              <div className="border-t border-purple-500/10 pt-3">
+                <strong className="text-amber-400 block mb-1">🤝 Honor Code & Learning Sincerity:</strong>
+                Please approach this viva sincerely as a constructive learning experience. While it is possible to bypass or cheat the automated system, doing so defeats the developmental intent of the certification, and you will only lose out on actual capability growth.
+              </div>
             </div>
 
             <button

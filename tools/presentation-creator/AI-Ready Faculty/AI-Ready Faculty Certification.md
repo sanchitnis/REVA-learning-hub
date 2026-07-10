@@ -2108,6 +2108,7 @@ Prepare to launch your 30-minute interactive oral assessment.
 - Ensure you are logged into your official Microsoft/University account.
 - The button below will redirect this tab to Microsoft M365 Copilot, where you will add the Viva agent to your personal library.
 - You can speak your responses using the microphone icon inside the Copilot chatbot window.
+- **Honor Code**: Sincerity is key. While it may be possible to cheat or bypass the automated agent evaluation, doing so defeats the developmental intent of this certification—you only lose out on actual pedagogical growth.
 
 <AIVivaLauncher />
 
