@@ -7,6 +7,8 @@ affiliation: "REVA University"
 theme: "default"
 date: "2025"
 description: "Designing assessment and learning for the AI era under the Educate to Enterprise philosophy."
+aiTutorUrl: "https://gemini.google.com/gem/1auwYhUhbdTjS4dGKjSE0KUoh7SEjcaa2?usp=sharing"
+aiVivaUrl: "https://m365.cloud.microsoft/chat/?titleId=T_8bd42c85-6f2d-b006-c9dc-5475e3dc6b9f&source=embedded-builder"
 ---
 
 # PART A: FACILITATION DECK
@@ -63,10 +65,13 @@ tone that is neither alarmist nor dismissive of AI's impact."
 -->
 
 ---
-
-## MODULE 1: AI and the Future of Learning
-
-<!-- SLIDE 1.1 -->
+slideId: mod1-intro
+layout: section
+purpose: introduce
+duration: 90
+learningObjective:
+  - Understand why teaching and assessment need redesign in the AI era
+---
 
 # Module 1: AI and the Future of Learning
 
@@ -75,6 +80,7 @@ not because AI is bad, but because it changes what is worth
 teaching and how learning can be verified.
 
 By the end of this module, you will be able to:
+
 - Identify where AI creates real risk vs. real opportunity in
   your own course
 - Apply the "Jagged Intelligence" lens to teach verification
@@ -89,6 +95,11 @@ map of their own course's AI exposure — not a finished solution.
 The solutions arrive in Modules 3–5.
 -->
 
+---
+slideId: mod1-impact
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 1.2 -->
@@ -125,6 +136,11 @@ workshop slide."
 -->
 
 ---
+slideId: mod1-opportunities
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 1.3 -->
 
@@ -157,6 +173,11 @@ Indian higher-education context, no named tools or brands."
 -->
 
 ---
+slideId: mod1-risks
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 1.4 -->
 
@@ -188,6 +209,11 @@ supply chain management / water conservation]. Keep each under 80
 words so both fit on one comparison slide."
 -->
 
+---
+slideId: mod1-jagged-intel
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 1.5 -->
@@ -226,6 +252,11 @@ version separately, not visible on the slide."
 -->
 
 ---
+slideId: mod1-ai-divide
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 1.6 -->
 
@@ -263,6 +294,11 @@ speculation, keep politically neutral and non-alarmist in tone."
 -->
 
 ---
+slideId: mod1-preparing-roles
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 1.7 -->
 
@@ -285,6 +321,11 @@ one canonical progression model used across REVA, not to re-teach
 it from scratch.
 -->
 
+---
+slideId: mod1-activity-audit
+layout: content
+purpose: execute
+duration: 180
 ---
 
 <!-- SLIDE 1.8 -->
@@ -323,6 +364,28 @@ sliderPosition: 50
 :::
 
 ---
+slideId: module1-summary
+layout: content
+purpose: outline
+duration: 60
+---
+
+## Module 1 Revision Flashcards
+
+Review key concepts from Module 1 by clicking to flip:
+
+:::flashcards
+Q: What is Jagged Intelligence?
+A: The phenomenon where AI excels at some hard tasks but fails at some easy ones unpredictably.
+Q: What is an AI-Vulnerable assessment?
+A: An assessment that can be fully outsourced to AI without any process verification.
+Q: What is an AI-Resistant assessment?
+A: An assessment that is difficult to outsource due to structural constraints (e.g. time-bound checks, locked browsers).
+Q: What is an AI-Ready assessment?
+A: An assessment designed assuming AI collaboration that evaluates critical human judgment and process.
+:::
+
+---
 slideId: module1-quiz
 layout: quiz
 purpose: check
@@ -346,32 +409,27 @@ The primary goal of AI-Ready assessment is to evaluate the process of learning r
 :::
 :::
 
----
-slideId: module1-summary
-layout: content
-purpose: outline
-duration: 60
----
-
-## Module 1 Summary
-
-* **Key Takeaway**: Education must pivot from teaching simple content generation to teaching design and critical judgment.
-* **Rubric Focus**: Shift assignments from *AI-Vulnerable* to *AI-Ready*.
-* **Next Steps**: In Module 2, we will build core AI Literacy skills.
-
 ---chapter---
 
 ---
-
-## MODULE 2: AI Literacy for Faculty
+slideId: mod2-intro
+layout: section
+purpose: introduce
+duration: 60
+learningObjective:
+  - Acquire core AI literacy standards (prompting, evaluation, and ethics)
+---
 
 <!-- SLIDE 2.1 -->
 
 # Module 2: AI Literacy for Faculty
 
-Goal: Use AI intelligently — neither fearing it nor trusting it
-blindly. This module builds the working knowledge that Modules
-3–6 assume you already have.
+Purpose: Acquire core AI literacy standards. This module builds the working knowledge that subsequent modules assume you already have.
+
+We will cover:
+- Prompt Engineering patterns (Zero-shot, Few-shot, Chain-of-Thought)
+- Durable Verification (Accuracy, Completeness, Creativity, Reliability)
+- Faculty Ethics, Academic Integrity, and Data Privacy
 
 <!--
 FACILITATOR NOTES:
@@ -380,6 +438,11 @@ Position this as infrastructure for what follows, not a standalone
 verification, evaluation, disclosure — not general tool familiarity.
 -->
 
+---
+slideId: mod2-landscape
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 2.2 -->
@@ -415,6 +478,11 @@ processes as comparisons (avoid technical jargon entirely)."
 -->
 
 ---
+slideId: mod2-hallucinations
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 2.3 -->
 
@@ -448,6 +516,11 @@ slide shown to participants."
 -->
 
 ---
+slideId: mod2-automation-bias
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 2.4 -->
 
@@ -477,6 +550,11 @@ general research area without inventing specific fake study
 citations."
 -->
 
+---
+slideId: mod2-prompt-eng
+layout: content
+purpose: explain
+duration: 120
 ---
 
 <!-- SLIDE 2.5 -->
@@ -514,6 +592,24 @@ see the iteration process modeled step by step."
 -->
 
 ---
+slideId: mod2-colab-exercise
+layout: content
+purpose: execute
+duration: 180
+---
+
+## Colab Practice: Prompt Iteration Notebook
+
+Practice the zero-shot to few-shot prompting patterns in Python using our Google Colab sandbox environment:
+
+<ExerciseLauncher url="https://colab.research.google.com/" title="Google Colab Prompting Sandbox" instructions="Open the Google Colab prompt iteration workspace. Snap your presentation window to the left, and follow the instructions in the notebook to complete the coding exercises." />
+
+---
+slideId: mod2-eval-output
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 2.6 -->
 
@@ -548,18 +644,23 @@ themselves."
 -->
 
 ---
+slideId: mod2-ethics-practice
+layout: two-column
+purpose: explain
+duration: 120
+---
 
 <!-- SLIDE 2.7 -->
 
 ## Ethics in Practice — Two Scenarios
 
-Scenario A — Intellectual Property
+### Scenario A — Intellectual Property
 A student submits code where a large, functioning chunk was
 AI-generated verbatim, undisclosed. Is this different from copying
 a chunk from an online forum, undisclosed? What makes it the same
 or different?
 
-Scenario B — Privacy
+### Scenario B — Privacy
 A faculty member pastes a student's exam answer, including their
 name, into a public AI chatbot to check for plagiarism patterns.
 What is the actual privacy exposure here, and what should have
@@ -610,6 +711,28 @@ A: Prompting the model to outline its step-by-step reasoning explicitly.
 :::
 
 ---
+slideId: module2-summary
+layout: content
+purpose: outline
+duration: 60
+---
+
+## Module 2 Revision Flashcards
+
+Review key concepts from Module 2 by clicking to flip:
+
+:::flashcards
+Q: What does the Accuracy check evaluate?
+A: Factuality, logic, and citation verification in generated output.
+Q: What does the Completeness check evaluate?
+A: Identifying missing perspectives, edge cases, or omitted details.
+Q: What does the Creativity check evaluate?
+A: Assessing whether the response is original or a statistically generic template.
+Q: What does the Reliability check evaluate?
+A: Testing consistency by querying the model in different ways.
+:::
+
+---
 slideId: module2-quiz
 layout: quiz
 purpose: check
@@ -634,25 +757,15 @@ Copying functional AI code verbatim without disclosure is always ethical as long
 :::
 :::
 
----
-slideId: module2-summary
-layout: content
-purpose: outline
-duration: 60
----
-
-## Module 2 Summary
-
-* **Key Takeaway**: Prompt iteration (Zero-shot -> Few-shot -> Chain-of-Thought) and four-part evaluations are necessary faculty literacy standards.
-* **Refinement Focus**: Always check for bias, privacy exposures, and generic responses.
-* **Next Steps**: In Module 3, we design "Lovable" project-first assessments.
-
 ---chapter---
 
 ---
-
-## MODULE 3: Designing Lovable Assignments
-
+slideId: mod3-intro
+layout: section
+purpose: introduce
+duration: 60
+learningObjective:
+  - Design lovable and intrinsically motivating assignments
 ---
 
 <!-- SLIDE 3.1 -->
@@ -666,6 +779,7 @@ something they actually want to do.
 
 Two different defenses against AI outsourcing exist side by side
 in this program:
+
 - LOVABLE (this module) — psychological: why would I skip the
   part I enjoy?
 - AI-Resistant / AI-Proof design (Module 4) — structural: the
@@ -680,6 +794,11 @@ the rest of the module — this distinction prevents faculty from
 seeing Module 3 and Module 4 as redundant or competing.
 -->
 
+---
+slideId: mod3-lovable-framework
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 3.2 -->
@@ -722,19 +841,24 @@ faculty workshop slide. Provide 2 variations."
 -->
 
 ---
+slideId: mod3-worked-example
+layout: three-column
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 3.3 -->
 
 ## Worked Example
 
-Traditional:
+### Traditional
 "Explain the Internet of Things."
 
-Redesigned:
+### Redesigned
 "Design and pitch an IoT solution for water scarcity in your
 locality."
 
-What changed:
+### What changed
 - Learner Agency — student picks the specific water problem
 - Local Context — their own neighborhood or area
 - Authentic Audience — a real pitch, not just a submission
@@ -747,21 +871,26 @@ faculty should see the framework applied, not just asserted.
 -->
 
 ---
+slideId: mod3-tech-worked-example
+layout: three-column
+purpose: explain
+duration: 120
+---
 
 <!-- SLIDE 3.4 -->
 
 ## A Technical Worked Example
 
-Traditional:
+### Traditional
 "Implement a hash table."
 
-Redesigned:
+### Redesigned
 "Build a duplicate-file finder for your own Downloads folder using
 a hash-based approach. Present your before-and-after storage
 savings to a classmate — did their file types behave differently
 than yours?"
 
-What changed:
+### What changed
 - Build/Create — a working tool, not a textbook implementation
 - Local Context — their own actual machine and files
 - Authentic Audience — a real peer, a real comparison
@@ -786,6 +915,11 @@ a plausible local Bengaluru context (e.g., traffic, water supply,
 electricity load), suitable for a faculty workshop slide."
 -->
 
+---
+slideId: mod3-genre-examples
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 3.5 -->
@@ -822,6 +956,11 @@ Engineering, Business, and Science disciplines. One line each,
 genre name plus a one-sentence description."
 -->
 
+---
+slideId: mod3-note-rigor
+layout: quote
+purpose: explain
+duration: 60
 ---
 
 <!-- SLIDE 3.6 -->
@@ -861,6 +1000,26 @@ Meme Creation => High-density summarization
 :::
 
 ---
+slideId: module3-summary
+layout: content
+purpose: outline
+duration: 60
+---
+
+## Module 3 Revision Flashcards
+
+Review key concepts from Module 3 by clicking to flip:
+
+:::flashcards
+Q: What is Lovable Design?
+A: An engagement strategy where assignments are made intrinsically motivating so students choose not to outsource.
+Q: What is Disciplinary Rigor?
+A: Ensuring that highly creative or alternative tasks still assess and verify core domain-specific skills.
+Q: What is the purpose of portfolios?
+A: To provide authentic evidence of student learning through multiple concrete, verifiable creations over time.
+:::
+
+---
 slideId: module3-quiz
 layout: quiz
 purpose: check
@@ -884,25 +1043,15 @@ A designed assignment can be highly engaging but still fail to test core discipl
 :::
 :::
 
----
-slideId: module3-summary
-layout: content
-purpose: outline
-duration: 60
----
-
-## Module 3 Summary
-
-* **Key Takeaway**: Authentic, project-based assignments build durable student portfolios.
-* **Rubric Focus**: Pair LOVABLE engagement styles with disciplinary rigor checks.
-* **Next Steps**: In Module 4, we redesign assessment criteria for AI-Ready portfolios.
-
 ---chapter---
 
 ---
-
-## MODULE 4: AI-Resistant to AI-Ready Assessment
-
+slideId: mod4-intro
+layout: section
+purpose: introduce
+duration: 90
+learningObjective:
+  - Design assessments that verify genuine learning and prevent cognitive outsourcing
 ---
 
 <!-- SLIDE 4.1 -->
@@ -915,6 +1064,7 @@ where outsourcing is either impractical, detectable, or
 pedagogically self-defeating.
 
 By the end of this module, you will be able to:
+
 - Place any assessment on the AI-Resistant → AI-Proof → AI-Ready →
   AI-Native spectrum
 - Design a scalable, multi-tier verification process for your
@@ -931,6 +1081,11 @@ work themselves. This module gives you a spectrum and a mechanism,
 not a guarantee.
 -->
 
+---
+slideId: mod4-spectrum
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 4.2 -->
@@ -957,6 +1112,11 @@ difficulty and decreasing payoff for outsourcing, not an absolute
 guarantee. This framing keeps the module honest and credible.
 -->
 
+---
+slideId: mod4-four-approaches
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 4.3 -->
@@ -988,24 +1148,27 @@ categories without changing the underlying learning objective.
 -->
 
 ---
+slideId: mod4-discipline-transformations
+layout: three-column
+purpose: explain
+duration: 120
+---
 
 <!-- SLIDE 4.4 -->
 
 ## Discipline Transformations
 
-Engineering
-Instead of: "Write code."
-Use: "Defend your algorithm choices in a viva."
+### Engineering
+- **Instead of**: "Write code."
+- **Use**: "Defend your algorithm choices in a viva."
 
-Business
-Instead of: "Write a marketing plan."
-Use: "Interview real local businesses and base your plan on what
-you find."
+### Business
+- **Instead of**: "Write a marketing plan."
+- **Use**: "Interview real local businesses and base your plan on what you find."
 
-Science
-Instead of: "Submit a lab report."
-Use: "Analyze a deliberately flawed experiment and identify what
-went wrong."
+### Science
+- **Instead of**: "Submit a lab report."
+- **Use**: "Analyze a deliberately flawed experiment and identify what went wrong."
 
 Notice: the underlying skill being tested does not change. What
 changes is how it is verified.
@@ -1026,6 +1189,11 @@ as the Engineering/Business/Science examples already given, suitable
 for a faculty workshop slide."
 -->
 
+---
+slideId: mod4-validity-reliability
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 4.5 -->
@@ -1053,6 +1221,11 @@ and dismissing the concern will cost you credibility in the room.
 Acknowledge it fully before presenting the solution.
 -->
 
+---
+slideId: mod4-tiered-verification
+layout: content
+purpose: explain
+duration: 120
 ---
 
 <!-- SLIDE 4.6 -->
@@ -1097,6 +1270,11 @@ generated live rather than drawn from any reusable bank.
 -->
 
 ---
+slideId: mod4-why-rigor
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 4.7 -->
 
@@ -1120,6 +1298,11 @@ questioned, but can be skipped in a time-constrained session
 without losing the practical mechanism.
 -->
 
+---
+slideId: mod4-activity-redesign
+layout: content
+purpose: execute
+duration: 180
 ---
 
 <!-- SLIDE 4.8 -->
@@ -1164,6 +1347,26 @@ Order the verification tiers from lowest stake (automated scale) to highest stak
 :::
 
 ---
+slideId: module4-summary
+layout: content
+purpose: outline
+duration: 60
+---
+
+## Module 4 Revision Flashcards
+
+Review key concepts from Module 4 by clicking to flip:
+
+:::flashcards
+Q: What is Tiered Verification?
+A: A multi-level assessment workflow that scales verification (Self-Assessment -> AI Viva -> Expert Viva).
+Q: What is the main role of the Tier 2 AI-Viva?
+A: To automatically generate personalized follow-up questions to verify understanding for all students.
+Q: What is the purpose of the Tier 3 Expert Viva?
+A: To focus human faculty evaluation on the edge cases and boundaries of the grade distribution.
+:::
+
+---
 slideId: module4-quiz
 layout: quiz
 purpose: check
@@ -1187,34 +1390,27 @@ Rater inconsistency is highest at the extreme ends of the grade distribution, wh
 :::
 :::
 
----
-slideId: module4-summary
-layout: content
-purpose: outline
-duration: 60
----
-
-## Module 4 Summary
-
-* **Key Takeaway**: Tiered verification scales quality control without overwhelming faculty workload.
-* **Rubric Focus**: Use AI to grade the middle of the curve, and focus human expertise on top/bottom boundaries.
-* **Next Steps**: In Module 5, we design for students' "critical judgment" skills.
-
 ---chapter---
 
 ---
-
-## MODULE 5: Designing for Judgment
-
+slideId: mod5-intro
+layout: section
+purpose: introduce
+duration: 90
+learningObjective:
+  - Design assessments focused on human-only cognitive judgment and critical thinking
 ---
 
 <!-- SLIDE 5.1 -->
 
 # Module 5: Designing for Judgment
 
-Philosophy: Do not prohibit AI. Teach students to collaborate with
-it intelligently — knowing what to hand to AI, and what to keep
-for themselves.
+Purpose: Learn to design assessments that target students' critical judgment rather than content generation.
+
+We will cover:
+- The "Shift Up and Left" on the task matrix
+- AI as an Imperfect Collaborator for critiquing and debugging
+- Audience Shifting and Portfolio Viva defenses
 
 <!--
 FACILITATOR NOTES:
@@ -1224,6 +1420,11 @@ to do the work (Module 3) and a way to verify it was actually done
 (Module 4).
 -->
 
+---
+slideId: mod5-shift-up-left
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 5.2 -->
@@ -1254,6 +1455,11 @@ team lead does that a fresh hire does not," and this makes the
 abstract axis concrete without further explanation.
 -->
 
+---
+slideId: mod5-quadrant-illustrated
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 5.3 -->
@@ -1288,18 +1494,23 @@ diagnostic exercise in the module.
 -->
 
 ---
+slideId: mod5-human-ai-responsibilities
+layout: two-column
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 5.4 -->
 
 ## Human and AI Responsibilities
 
-Human responsibilities
+### Human Responsibilities
 - Purpose
 - Values
 - Decision-making
 - Critical evaluation
 
-AI responsibilities
+### AI Responsibilities
 - Drafting
 - Research support
 - Idea generation
@@ -1316,6 +1527,11 @@ point to which "human responsibility" box the assignment is really
 testing.
 -->
 
+---
+slideId: mod5-canvas
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 5.5 -->
@@ -1340,6 +1556,11 @@ print it as a one-page worksheet faculty can fill in for any
 assignment, not just the samples on the following slides.
 -->
 
+---
+slideId: mod5-samples
+layout: content
+purpose: explain
+duration: 120
 ---
 
 <!-- SLIDE 5.6 -->
@@ -1371,6 +1592,11 @@ because it forces the student to judge what changes across
 audiences — something AI can draft but cannot decide on its own.
 -->
 
+---
+slideId: mod5-tech-example
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 5.7 -->
@@ -1409,6 +1635,11 @@ facilitator's answer key."
 -->
 
 ---
+slideId: mod5-mother-assignment
+layout: content
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 5.8 -->
 
@@ -1420,17 +1651,17 @@ The most ambitious task in this program. Students:
 2. Benchmark it against a comparable course or curriculum elsewhere.
 
 ---
-slideId: judgment-ai-tutor
+slideId: AI-ready-assignment
 layout: two-column
 purpose: explain
 duration: 120
 ---
 
-## Judgment Defender Simulation
+## Check for AI ready assignment
 
 Interact with the tutor panel to defend your design choices:
 
-<AITutor />
+<ExerciseLauncher url="https://gemini.google.com/gem/1zRzHNnat8xQcmxoemaDyNs8YTIj8TyjX?usp=sharing" title="AI ready assignment" instructions="Provide your assignment in which shtudents are required to use AI and provide the syllabus of the course and check how AI ready it is and get feedback from AI on how to make it more ready" />
 
 ---
 slideId: sequence-mother-steps
@@ -1448,6 +1679,26 @@ Order the chronological steps involved in "The Mother of All Assignments":
 2. Benchmark against international syllabi
 3. Solve the paper manually
 4. Document the design thinking log
+:::
+
+---
+slideId: module5-summary
+layout: content
+purpose: outline
+duration: 60
+---
+
+## Module 5 Revision Flashcards
+
+Review key concepts from Module 5 by clicking to flip:
+
+:::flashcards
+Q: What does it mean to "Shift Up and Left"?
+A: Moving student tasks from simple generation towards evaluation, verification, and critical judgment.
+Q: What is the "Imperfect Collaborator" role?
+A: Using AI as a draft generator where the student's task is to find flaws, debug, and improve the output.
+Q: What is "Audience Shifting"?
+A: An exercise where students translate technical AI findings to suit different target readers.
 :::
 
 ---
@@ -1474,34 +1725,28 @@ Audience Shifting forces students to decide what details to change for different
 :::
 :::
 
----
-slideId: module5-summary
-layout: content
-purpose: outline
-duration: 60
----
-
-## Module 5 Summary
-
-* **Key Takeaway**: High-rigor tasks focus on critical judgment, debugging flawed AI output, and peer benchmarking.
-* **Refinement Focus**: Shift up and left on the task matrix (higher student origination, higher judgment).
-* **Next Steps**: In Module 6, we address institutional rollout and course audits.
-
 ---chapter---
 
 ---
 
-## MODULE 6: Curriculum Design and Institutional Fit
-
+slideId: mod6-intro
+layout: section
+purpose: introduce
+duration: 90
+learningObjective:
+  - Understand curriculum mapping and institutional policy alignment
 ---
 
 <!-- SLIDE 6.1 -->
 
 # Module 6: Curriculum Design and Institutional Fit
 
-Purpose: Assignment redesign alone is not enough. This module
-addresses whole-course and whole-curriculum redesign, and connects
-your classroom decisions to REVA's institutional AI usage policy.
+Purpose: Connect classroom redesign decisions to whole-course curriculum architectures and REVA's institutional AI usage policy.
+
+We will cover:
+- Whole-course redesign & curriculum mapping
+- The AI Pedagogy Maturity Model (Levels 1-5)
+- REVA's FDP Certification, CAC approval, and implementation paths
 
 <!--
 FACILITATOR NOTES:
@@ -1510,20 +1755,25 @@ This module closes the loop from individual assignments (Modules
 -->
 
 ---
+slideId: mod6-skills-categories
+layout: three-column
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 6.2 -->
 
 ## Three Categories of Skills
 
-Human-Only Skills
+### Human-Only Skills
 Leadership, ethics, empathy, negotiation, entrepreneurship,
 critical thinking, systems thinking, sensemaking, ethical
 reasoning, communication, interdisciplinary problem solving
 
-Human + AI Skills
+### Human + AI Skills
 Research, design, innovation, consulting, analysis
 
-AI-Assisted Skills
+### AI-Assisted Skills
 Coding, drafting, documentation, information retrieval
 
 Every Course Learning Outcome (CLO) in your course belongs in one
@@ -1537,6 +1787,11 @@ durable human capabilities, not as a short list to which more
 items get appended elsewhere.
 -->
 
+---
+slideId: mod6-curriculum-mapping
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 6.3 -->
@@ -1568,18 +1823,23 @@ this tag.
 -->
 
 ---
+slideId: mod6-policy-zones
+layout: three-column
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 6.4 -->
 
 ## AI Usage Policy Zones
 
-Green Zone — Freely Allowed
+### Green Zone — Freely Allowed
 Brainstorming, research support, idea generation, outlining
 
-Yellow Zone — Allowed With Disclosure
+### Yellow Zone — Allowed With Disclosure
 Coding, drafting, analysis, design support
 
-Red Zone — Not Allowed
+### Red Zone — Not Allowed
 Closed-book exams, viva, oral defense, in-class writing
 
 Every assignment and assessment in your course should have an
@@ -1592,6 +1852,11 @@ exam paper going forward — ambiguity here is one of the most
 common sources of academic integrity disputes.
 -->
 
+---
+slideId: mod6-disclosing-ai
+layout: content
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 6.5 -->
@@ -1618,6 +1883,11 @@ form — this saves significant Module 6 preparation time and keeps
 disclosure format consistent across departments.
 -->
 
+---
+slideId: mod6-rubric
+layout: table
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 6.6 -->
@@ -1647,6 +1917,11 @@ grading.
 -->
 
 ---
+slideId: mod6-srujana-pathway
+layout: roadmap
+purpose: explain
+duration: 90
+---
 
 <!-- SLIDE 6.7 -->
 
@@ -1675,27 +1950,30 @@ their redesign effort contributes beyond their own course.
 -->
 
 ---
+slideId: mod6-capstone
+layout: two-column
+purpose: explain
+duration: 120
+---
 
 <!-- SLIDE 6.8 -->
 
 ## Faculty Capstone: Redesign One Complete Course
 
-Required deliverables:
-
+### Required Deliverables
 - Course Audit (using the Module 1 rubric)
 - AI Risk Analysis
 - AI Usage Policy for the course (Green / Yellow / Red zones stated)
 - Three Lovable Assignments
-- Two AI-Resistant or AI-Ready Assessments (with tiered verification
-  sketched, per Module 4)
+- Two AI-Resistant or AI-Ready Assessments (with tiered verification sketched, per Module 4)
 - Revised Rubric
 - Reflection Report
 - Implementation Plan
 
-Certification tiers:
-- Bronze — one example of each required type, awareness-level
-- Silver — full Capstone as specified above
-- Gold — Silver, plus measured student outcome data from a pilot run
+### Certification Tiers
+- **Bronze**: One example of each required type, awareness-level
+- **Silver**: Full Capstone as specified above
+- **Gold**: Silver, plus measured student outcome data from a pilot run
 
 <!--
 FACILITATOR NOTES:
@@ -1706,6 +1984,11 @@ requirement. Encourage peer-pod review of Capstone drafts before
 submission.
 -->
 
+---
+slideId: mod6-maturity-model
+layout: roadmap
+purpose: explain
+duration: 90
 ---
 
 <!-- SLIDE 6.9 -->
@@ -1732,7 +2015,6 @@ before the program moves to the Pilot phase.
 -->
 
 ---
-
 slideId: transition-timeline
 layout: timeline
 purpose: outline
@@ -1753,6 +2035,26 @@ Month 2 | Pilot Launch
 Run certified course designs in engineering and business tracks.
 Month 3 | Quality Audits
 Perform random audits of Tier 3 viva recordings.
+:::
+
+---
+slideId: module6-summary
+layout: content
+purpose: outline
+duration: 60
+---
+
+## Module 6 Revision Flashcards
+
+Review key concepts from Module 6 by clicking to flip:
+
+:::flashcards
+Q: What is Bronze Certification?
+A: Redesign of a single course including syllabus, learning outcomes, and assessment strategy.
+Q: What is Gold Certification?
+A: An approved redesigned course that has completed a pilot and has viva validation active.
+Q: What is the AI Pedagogy Maturity Model?
+A: A 5-level scale (Traditional to AI-Native) measuring curriculum-wide AI integration.
 :::
 
 ---
@@ -1793,6 +2095,23 @@ Scan the QR code below to submit your capstone course redesign proposal:
 <QRCode url="https://reva.edu.in/ai-ready-fdp" text="Scan to visit the FDP Portal" />
 
 ---
+slideId: final-ai-viva
+layout: content
+purpose: execute
+duration: 180
+---
+
+## Final AI Viva & Gold Certification
+
+Prepare to launch your 30-minute interactive oral assessment.
+
+- Ensure you are logged into your official Microsoft/University account.
+- The button below will redirect this tab to Microsoft M365 Copilot, where you will add the Viva agent to your personal library.
+- You can speak your responses using the microphone icon inside the Copilot chatbot window.
+
+<AIVivaLauncher />
+
+---
 slideId: thankyou-slide
 layout: thankyou
 purpose: close
@@ -1807,6 +2126,11 @@ REVA University
 
 *Let us design learning experiences that build capabilities that grow MORE valuable because AI exists.*
 
+---
+slideId: closing
+layout: summary
+purpose: close
+duration: 90
 ---
 
 <!-- SLIDE 6.10 -->

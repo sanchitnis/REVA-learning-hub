@@ -11,7 +11,7 @@ You are tasked with maintaining and improving the conversion pipeline in `conver
 ## Technical Constraints & Requirements
 
 1. **Course Directory and Output Convention**:
-   - Source files live in course folders (e.g. `sample-presentation`, `physical-ai`, `SW3`).
+   - Source files live in course folders (e.g. `sample-presentation`, `physical-ai`, `AI-Ready Faculty`).
    - The compiled output HTML and bundled assets must be output to the public static directory:
      `static/presentations/<course-name>/`
    - Local `media` folders in the source directory must be copied automatically to `static/presentations/<course-name>/media/`.

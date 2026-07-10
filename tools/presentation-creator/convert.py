@@ -400,10 +400,7 @@ def parse_h5p_directives(text, input_dir=None, glossary=None):
     quiz_group_pattern = r':::quiz\n(.*?)\n:::'
     def quiz_group_repl(match):
         content = match.group(1).strip()
-        return f'''<div class="quiz-group-container border-2 border-purple-500/20 bg-purple-500/5 rounded-xl p-5 my-4">
-  <div class="text-[10px] font-mono font-bold text-purple-400 mb-4 flex items-center gap-1.5">
-    📌 Interactive Assessment Quiz Group
-  </div>
+        return f'''<div class="quiz-group-container border border-purple-500/10 bg-purple-500/5 rounded-xl p-3 my-2 text-xs">
   {content}
 </div>'''
     text = re.sub(quiz_group_pattern, quiz_group_repl, text, flags=re.DOTALL)
@@ -600,6 +597,15 @@ def render_markdown(text):
         html = html.replace('<th>', '<th class="bg-slate-900/60 p-3 text-left font-semibold border-b border-slate-800 text-sky-400">')
         html = html.replace('<td>', '<td class="p-3 border-b border-slate-800/40 text-slate-300">')
         html = html.replace('<blockquote>', '<blockquote class="border-l-4 border-sky-400 pl-4 italic my-4 text-slate-300">')
+        
+        # Convert language-mermaid blocks to <div class="mermaid">...</div>
+        mermaid_pattern = r'<pre><code class="language-mermaid">(.*?)</code></pre>'
+        def mermaid_repl(match):
+            code = match.group(1).strip()
+            # Decode HTML entities (like &gt;, &lt;, &amp;) back to raw characters for Mermaid parser
+            code = code.replace('&gt;', '>').replace('&lt;', '<').replace('&amp;', '&').replace('&quot;', '"').replace('&#x27;', "'")
+            return f'<div class="mermaid">{code}</div>'
+        html = re.sub(mermaid_pattern, mermaid_repl, html, flags=re.DOTALL)
         return html
         
     # Fallback Parser
@@ -835,6 +841,8 @@ def generate_react_payload(front_matter, slides, input_dir=None, glossary=None):
     email = front_matter.get('email', '')
     social = front_matter.get('social', '')
     version = str(front_matter.get('version', ''))
+    aiTutorUrl = front_matter.get('aiTutorUrl', '')
+    aiVivaUrl = front_matter.get('aiVivaUrl', '')
     
     slide_metadata = []
     numbered_count = 0
@@ -904,11 +912,11 @@ def generate_react_payload(front_matter, slides, input_dir=None, glossary=None):
         
         # Inject HTML Quizzes
         for idx, quiz in enumerate(quizzes):
-            quiz_html = f'''<div class="quiz border border-slate-800 bg-slate-900/50 rounded-lg p-5 my-4 border-l-4 border-l-purple-500">
-                        <div class="quiz-question font-semibold text-slate-100 text-lg mb-4">{quiz["question"]}</div>\n'''
+            quiz_html = f'''<div class="quiz border border-slate-800 bg-slate-900/50 rounded-lg p-3 my-2 border-l-4 border-l-purple-500 text-xs">
+                        <div class="quiz-question font-semibold text-slate-100 text-sm mb-2">{quiz["question"]}</div>\n'''
             for option in quiz['options']:
                 opt_letter = option[0] if option else ""
-                quiz_html += f'                        <div class="quiz-option p-3 bg-slate-950/40 border border-slate-800 rounded-lg cursor-pointer transition-all my-2 font-mono" onclick="checkAnswer(this, \'{opt_letter}\', \'{quiz["correct"]}\')">{option}</div>\n'
+                quiz_html += f'                        <div class="quiz-option p-2 bg-slate-950/40 border border-slate-800 rounded-lg cursor-pointer transition-all my-1.5 font-mono text-xs" onclick="checkAnswer(this, \'{opt_letter}\', \'{quiz["correct"]}\')">{option}</div>\n'
             quiz_html += '                </div>\n'
             slide_html = slide_html.replace(f'<!-- QUIZ_{idx} -->', quiz_html)
             
@@ -952,6 +960,8 @@ def generate_react_payload(front_matter, slides, input_dir=None, glossary=None):
         "email": email,
         "social": social,
         "version": version,
+        "aiTutorUrl": aiTutorUrl,
+        "aiVivaUrl": aiVivaUrl,
         "slides": slide_metadata
     }
 

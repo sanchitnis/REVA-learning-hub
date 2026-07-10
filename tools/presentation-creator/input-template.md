@@ -19,6 +19,8 @@ affiliation: "REVA University"
 theme: "university-corporate"
 date: "2025"
 version: "v1.0"
+aiTutorUrl: "https://gemini.google.com/gem/..."
+aiVivaUrl: "https://m365.cloud.microsoft/chat/..."
 aspectRatio: "16:9"
 audience:
   - faculty
@@ -389,3 +391,32 @@ The model uses [[self-attention]] to weigh inputs. We implement [[polymorphism|m
 [[polymorphism]]: The ability of a message or function to be displayed in more than one form.
 :::
 ```
+
+---
+
+## 12. Rich Content Extensions (LaTeX Math & Mermaid Diagrams)
+
+The presentation player natively renders rich math equations and flowcharts dynamically:
+
+### LaTeX Math Support
+Both inline and display equations are rendered using KaTeX.
+- **Inline Math**: Wrapped in single dollar signs `$E = mc^2$`.
+- **Block Math**: Wrapped in double dollar signs:
+  ```markdown
+  $$
+  f(x) = \int_{-\infty}^{\infty} \hat{f}(\xi)\,e^{2 \pi i \xi x}\,d\xi
+  $$
+  ```
+
+### Mermaid Diagrams
+Flowcharts, sequence diagrams, and architecture maps are supported using fenced code blocks with the `mermaid` language tag:
+- **Mermaid Block**:
+  ````markdown
+  ```mermaid
+  graph TD
+      A[Traditional Assessment] --> B[AI Outsource Risk]
+      B --> C{Verify Process?}
+      C -- Yes --> D[AI-Ready Portfolio]
+      C -- No --> E[Cognitive Dependency]
+  ```
+  ````

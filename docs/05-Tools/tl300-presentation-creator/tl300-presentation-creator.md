@@ -313,3 +313,23 @@ The slideshow player maintains learner state in browser `localStorage`.
 * **Tracked State**: Starts date/time, completion date/time (set when the last slide is visited), visited slides list, and quiz scores.
 * **Progress Panel**: Displays a completion bar (e.g. `Progress: 45%`) and dates inside the left navigation sidebar.
 * **Certificate Export**: Allows students to download their locally saved progress logs as a signed JSON progress certificate which can be emailed or submitted to the instructor.
+
+### 5. LaTeX Math & Mermaid Diagrams Support
+Faculty can incorporate mathematical models and flowcharts directly into their slide decks:
+* **LaTeX Equations**:
+  - Use inline math by wrapping standard LaTeX code in single dollar signs: `$E = mc^2$`.
+  - Use block equations by enclosing code in double dollar signs:
+    ```markdown
+    $$
+    f(x) = \int_{-\infty}^{\infty} \hat{f}(\xi)\,e^{2 \pi i \xi x}\,d\xi
+    $$
+    ```
+* **Mermaid Flowcharts**:
+  - Draw diagrams directly inside slides using standard Mermaid syntax enclosed in a fenced code block marked with `mermaid`:
+    ````markdown
+    ```mermaid
+    graph TD
+        A[Problem Definition] --> B[AI Prompt Formulation]
+        B --> C[Verify Output Accuracy]
+    ```
+    ````
