@@ -2122,7 +2122,7 @@ duration: 60
 ## Thank You
 
 **Dr. Sanjay R. Chitnis**  
-Director, REVA Academy for Corporate Excellence (RACE)  
+Vice Chancellor, REVA University  
 REVA University  
 
 *Let us design learning experiences that build capabilities that grow MORE valuable because AI exists.*

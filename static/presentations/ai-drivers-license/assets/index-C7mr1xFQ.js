@@ -1437,7 +1437,7 @@ this Capstone?</p>
 `,layout:`content`,purpose:`execute`,duration:180,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Thank You`,is_major:!1,label:`67`,topic_idx:60,content:`<div class="text-center py-12"><h2>Thank You</h2>
 
 <p><strong>Dr. Sanjay R. Chitnis</strong><br />
-Director, REVA Academy for Corporate Excellence (RACE)<br />
+Vice Chancellor, REVA University<br />
 REVA University  </p>
 
 <p><em>Let us design learning experiences that build capabilities that grow MORE valuable because AI exists.</em></p>
