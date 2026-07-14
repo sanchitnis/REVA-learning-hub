@@ -15,7 +15,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://sanchitnis.github.io',
-  baseUrl: '/REVA-learning-hub/',
+  baseUrl: process.env.VERCEL ? '/' : '/REVA-learning-hub/',
   organizationName: 'sanchitnis',
   projectName: 'REVA-learning-hub',
   deploymentBranch: 'gh-pages',
