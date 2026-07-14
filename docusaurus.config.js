@@ -4,14 +4,14 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
-import {themes as prismThemes} from 'prism-react-renderer';
+import { themes as prismThemes } from 'prism-react-renderer';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'REVA TRACK',
-  tagline: 'AI Empowerment Hub',
+  title: 'REVA LEARNING HUB',
+  tagline: 'Learn & Build - Collaborate & Innovate with AI',
   favicon: 'img/favicon.ico',
 
   url: 'https://sanchitnis.github.io',
@@ -23,7 +23,11 @@ const config = {
 
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   i18n: {
     defaultLocale: 'en',

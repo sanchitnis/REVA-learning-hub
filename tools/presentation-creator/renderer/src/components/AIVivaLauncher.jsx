@@ -70,7 +70,7 @@ export default function AIVivaLauncher({ vivaUrl }) {
           <div className="space-y-2">
             <h4 className="text-lg font-bold text-slate-100">Thank You!</h4>
             <p className="text-xs text-slate-350 max-w-sm mx-auto">
-              Thank you for participating in the REVA AI-Ready Faculty Certification Program. We appreciate your dedication to designing next-frontier learning experiences.
+              Thank you for participating in the REVA AI Driver's License. We appreciate your dedication to designing next-frontier learning experiences.
             </p>
             <p className="text-[10px] text-slate-450 italic pt-2">
               Redirecting to Microsoft M365 Copilot...

@@ -1,5 +1,5 @@
 ---
-title: "AI-Ready Faculty Certification Program"
+title: "AI Driver's License Program"
 author: "Dr. Sanjay R. Chitnis"
 email: "sanjay.chitnis@reva.edu.in"
 social: "https://linkedin.com/in/sanjaychitnis"
@@ -22,7 +22,7 @@ learningObjective:
   - Welcome participants and outline the Educate to Enterprise philosophy
 ---
 
-# AI-Ready Faculty Certification
+# AI Driver's License
 
 **REVA University**
 

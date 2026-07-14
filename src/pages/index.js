@@ -82,7 +82,7 @@ export default function Home() {
       title: 'CSA490: Software 3.0',
       desc: 'Agentic Software Engineering. Learn context orchestration, ReAct patterns, RAG pipelines, and multi-agent frameworks.',
       route: '/csa490-software3',
-      slidesRoute: 'pathname:///presentations/AI-Ready%20Faculty/',
+      slidesRoute: 'pathname:///presentations/ai-drivers-license/',
       icon: '🤖',
       colorClass: styles.pillarRose
     }

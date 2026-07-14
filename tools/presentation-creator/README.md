@@ -25,8 +25,8 @@ tools/presentation-creator/
 │   └── media/
 ├── physical-ai/            # Physical AI presentation source
 │   └── physical-ai.md
-└── AI-Ready Faculty/       # AI-Ready Faculty Certification source
-    ├── AI-Ready Faculty Certification.md
+└── ai-drivers-license/      # AI Driver's License source
+    ├── ai-drivers-license.md
     └── media/
 ```
 

@@ -42,7 +42,7 @@ Use the sidebar or the links below to navigate through the available courses:
 Explore the interactive slide decks compiled using the REVA presentation creator:
 *   [Sample Presentation](pathname:///presentations/sample-presentation/) - Demo slide deck showcasing quizzes and components.
 *   [Physical AI](pathname:///presentations/physical-ai/) - Introduction to Physical AI, hardware integration, and edge intelligence.
-*   [AI-Ready Faculty Certification](pathname:///presentations/AI-Ready%20Faculty/) - Professional development certification for AI-era pedagogy.
+*   [AI Driver's License](pathname:///presentations/ai-drivers-license/) - Professional development certification for AI-era pedagogy.
 
 ---
 

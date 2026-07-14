@@ -1,5 +1,5 @@
 ---
-title: "AI-Ready Faculty Certification"
+title: "AI Driver's License"
 author: "Dr. Sanjay Chitnis"
 is_presentation: true
 ---

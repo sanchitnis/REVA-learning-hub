@@ -1,4 +1,4 @@
-# AI-Ready Faculty Certification Program
+# AI Driver's License Program
 ## Redesigning Teaching, Learning, Assessment and Curriculum for the AI Era
 
 ### REVA University

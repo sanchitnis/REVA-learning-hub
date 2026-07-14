@@ -7,8 +7,7 @@ Welcome to the **REVA Learning Hub**. This platform is a collaborative intellige
 ## For AGENTS:
 Currently focusing only on tools\presentation-creator. Refer to files in that folder only. Others are for future. This project is under construction.
 
-## ✨ The Platform Promise
-Every course, every semester, every student emerges with a richer portfolio, a sharper enterprising mindset, a verified skill credential, and a clear personal trajectory — while REVA advances to Top 100 NIRF, deepens global partnerships, and lives its vision of wellbeing for all.
+
 
 ## 🧠 Foundational Design Philosophy
 

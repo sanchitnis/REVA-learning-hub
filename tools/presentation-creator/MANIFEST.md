@@ -23,6 +23,6 @@ This manifest lists the directories, files, templates, inputs, outputs, and scri
   - `media/`: Supporting assets folder.
 - [physical-ai/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/physical-ai/):
   - `physical-ai.md`: Presentation input for Physical AI.
-- [AI-Ready Faculty/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/AI-Ready%20Faculty/):
-  - `AI-Ready Faculty Certification.md`: Comprehensive certification presentation input.
+- [ai-drivers-license/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/ai-drivers-license/):
+  - `ai-drivers-license.md`: Comprehensive AI Driver's License presentation input.
   - `media/`: Supporting assets folder.
