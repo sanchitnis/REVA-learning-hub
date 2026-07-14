@@ -11,7 +11,7 @@ is_presentation: true
 ```
 SLIDE 0.1
 ─────────────────────────────────────
-# AI-Ready Educate to Enterprise Faculty Certification Program
+# AI Driver's License Program - Educate to Enterprise
 
 Designing learning experiences for REVA University students to:
 - Promote genuine student learning
