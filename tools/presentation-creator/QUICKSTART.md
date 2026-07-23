@@ -17,18 +17,18 @@ Ensure Node.js is installed to support the React renderer build environment.
 
 ## Local Conversion Workflow
 
-Every presentation has its own folder containing a source markdown input file. The `convert.py` script parses this file, compiles the React payload, triggers the Vite builder, and writes the output HTML structure to the public `static/presentations/` directory.
+Every presentation has its own folder containing a source markdown input file (located in the sibling `CourseDesign` workspace folder). The `convert.py` script parses this file, compiles the React payload, triggers the Vite builder, and writes the output HTML structure to the public `static/presentations/` directory.
 
 ### 1. Run the Conversion
 
-To convert a specific course's markdown presentation, run the compiler from the root of the repository:
+To convert a specific course's markdown presentation, run the compiler from the root of the `REVA-learning-hub` repository:
 ```bash
-python tools/presentation-creator/convert.py tools/presentation-creator/<course-name>/<filename>.md
+python tools/presentation-creator/convert.py ../CourseDesign/<course-name>/<filename>.md
 ```
 
 *Example compiling the sample presentation:*
 ```bash
-python tools/presentation-creator/convert.py tools/presentation-creator/sample-presentation/sample-presentation.md
+python tools/presentation-creator/convert.py ../CourseDesign/sample-presentation/sample-presentation.md
 ```
 
 ### 2. View the Output

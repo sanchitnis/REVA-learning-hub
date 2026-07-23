@@ -25,11 +25,11 @@ When this skill is invoked, update the following files to ensure consistency:
 
 3. **`tools/presentation-creator/QUICKSTART.md`**:
    - Provide up-to-date CLI usage guides for `convert.py` showing the source and static destinations:
-     `python tools/presentation-creator/convert.py tools/presentation-creator/<course-name>/<file>.md`
+     `python tools/presentation-creator/convert.py ../CourseDesign/<course-name>/<file>.md`
    - Document prerequisites and manual verification steps.
 
-4. **`tools/presentation-creator/README.md`** & **`tools/presentation-creator/MANIFEST.md`**:
-   - Sync file listings, folder locations, and describe the current course-based directory layout (e.g. `sample-presentation/`, `physical-ai/`, `SW3/`).
+4: **`tools/presentation-creator/README.md`** & **`tools/presentation-creator/MANIFEST.md`**:
+   - Sync file listings, folder locations, and describe the current course-based directory layout in `CourseDesign` workspace (e.g. `sample-presentation/`, `physical-ai/`, `ai-drivers-license/`).
 
 5. **`tools/presentation-creator/AGENTS.md`**:
    - Document conventions for AI agents writing slides content to guarantee full compatibility.

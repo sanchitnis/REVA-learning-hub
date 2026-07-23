@@ -16,13 +16,16 @@ This manifest lists the directories, files, templates, inputs, outputs, and scri
 - [input-template.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/input-template.md): Hybrid markdown structure specification.
 - [specification.md](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/specification.md): Interactive Presentation Specification (IPS) Version 1.0 outlining the React, MDX, and H5P roadmap.
 
-## Course Presentation Sources
+## Course Presentation Sources (External Workspace)
 
-- [sample-presentation/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/sample-presentation/):
-  - `sample-presentation.md`: A demo presentation input file.
-  - `media/`: Supporting assets folder.
-- [physical-ai/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/physical-ai/):
-  - `physical-ai.md`: Presentation input for Physical AI.
-- [ai-drivers-license/](file:///d:/Github/REVA-learning-hub/tools/presentation-creator/ai-drivers-license/):
-  - `ai-drivers-license.md`: Comprehensive AI Driver's License presentation input.
-  - `media/`: Supporting assets folder.
+The course syllabus and presentation source files are located in the sibling `CourseDesign` workspace folder:
+
+- [sample-presentation/](file:///d:/Github/CourseDesign/sample-presentation/):
+  - [sample-presentation.md](file:///d:/Github/CourseDesign/sample-presentation/sample-presentation.md): A demo presentation input file.
+  - [media/](file:///d:/Github/CourseDesign/sample-presentation/media/): Supporting assets folder.
+- [physical-ai/](file:///d:/Github/CourseDesign/physical-ai/):
+  - [physical-ai.md](file:///d:/Github/CourseDesign/physical-ai/physical-ai.md): Presentation input for Physical AI.
+- [ai-drivers-license/](file:///d:/Github/CourseDesign/ai-drivers-license/):
+  - [ai-drivers-license.md](file:///d:/Github/CourseDesign/ai-drivers-license/ai-drivers-license.md): Comprehensive AI Driver's License presentation input.
+  - [syllabus-ai-drivers-license.md](file:///d:/Github/CourseDesign/ai-drivers-license/syllabus-ai-drivers-license.md): Syllabus source document.
+  - [media/](file:///d:/Github/CourseDesign/ai-drivers-license/media/): Supporting assets folder.

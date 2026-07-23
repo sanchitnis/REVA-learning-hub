@@ -10,7 +10,8 @@ AGENTS.md              - Guidance and constraints for AI agents
 MANIFEST.md            - Markdown version of file manifest
 MANIFEST               - Plain text version of file manifest
 
-# Course Folders
+# Course Folders (Moved to sibling CourseDesign workspace)
+# Location: d:\Github\CourseDesign\
 sample-presentation/   - Sample presentation inputs (sample-presentation.md)
 physical-ai/           - Physical AI inputs (physical-ai.md)
-ai-drivers-license/    - AI Driver's License inputs (ai-drivers-license.md)
+ai-drivers-license/    - AI Driver's License inputs & syllabus (ai-drivers-license.md, syllabus-ai-drivers-license.md)

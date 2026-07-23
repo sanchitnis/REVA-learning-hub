@@ -15,9 +15,9 @@ The purpose of AI integration at REVA University is not merely to improve produc
 
 # Expected Program Deliverable
 
-At the completion of the certification, every faculty member will possess:
+At the completion of the program, every faculty member will possess:
 
-- A fully redesigned AI-ready course.
+- A fully redesigned AI-ready course in their domain.
 - AI-ready Course Outcomes and assessment strategies.
 - Redesigned learning activities and assignments aligned to Human Advantage attributes.
 - A global AI education benchmarking study.
@@ -47,9 +47,9 @@ The certification program will enable faculty members to:
 
 Upon successful completion of the certification program, faculty will be able to:
 
-## CO-1: Conduct AI Course Audits
+## CO-1: Conduct AI Course Evaluation as per ADDIE
 
-Evaluate existing courses and assessments to identify AI vulnerabilities, opportunities and redesign priorities using institutional audit frameworks.
+Evaluate existing courses and assessments to identify AI vulnerabilities, opportunities and redesign priorities using institutional Course evaluation frameworks.
 
 ## CO-2: Demonstrate AI Literacy and Responsible Use
 

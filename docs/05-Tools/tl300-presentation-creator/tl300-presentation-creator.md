@@ -8,13 +8,13 @@ The Presentation Creator is part of the **REVA Learning Hub**—a Human-AI colla
 
 This tool decouples educational content (Markdown) from the presentation layer (React + Vite). 
 
-* **Source Location**: All source `.md` files and their local assets (e.g. `media/` folder) live under `tools/presentation-creator/<course-name>/` (e.g. `SW3/`, `physical-ai/`, `sample-presentation/`).
+* **Source Location**: All source `.md` files and their local assets (e.g. `media/` folder) live under the sibling `CourseDesign` workspace folder (e.g. `../CourseDesign/physical-ai/`, `../CourseDesign/sample-presentation/`, `../CourseDesign/ai-drivers-license/`).
 * **Static Output Location**: Running the compiler outputs the compiled slideshow assets directly to `static/presentations/<course-name>/` (copying the `index.html`, javascript bundles, and local `media` folder). This folder is served automatically by Docusaurus.
 
 ```text
-/tools/presentation-creator/<course-name>/ (Markdown Source)
+/CourseDesign/<course-name>/ (Markdown Source in sibling workspace)
          ↓  [Runs: python tools/presentation-creator/convert.py]
-/static/presentations/<course-name>/ (Compiled HTML slideshow + copied media assets)
+/static/presentations/<course-name>/ (Compiled HTML slideshow + copied media assets in REVA-learning-hub)
 ```
 
 ---
@@ -22,13 +22,13 @@ This tool decouples educational content (Markdown) from the presentation layer (
 ## 🛠️ 2. Getting Started & Compilation
 
 ### Compilation Command
-To compile a presentation, run `convert.py` from the root workspace folder, passing the path to the source Markdown file:
+To compile a presentation, run `convert.py` from the root of `REVA-learning-hub` folder, passing the path to the source Markdown file in the sibling `CourseDesign` workspace folder:
 ```bash
-python tools/presentation-creator/convert.py tools/presentation-creator/<course-name>/<file-name>.md
+python tools/presentation-creator/convert.py ../CourseDesign/<course-name>/<file-name>.md
 ```
 *Example:*
 ```bash
-python tools/presentation-creator/convert.py tools/presentation-creator/sample-presentation/sample-presentation.md
+python tools/presentation-creator/convert.py ../CourseDesign/sample-presentation/sample-presentation.md
 ```
 This automatically compiles the presentation, bundles the React runtime via Vite, copies the build artifacts and any source `media/` files to `static/presentations/sample-presentation/`, and outputs `index.html`.
 
