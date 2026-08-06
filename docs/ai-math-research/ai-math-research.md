@@ -19,7 +19,7 @@ description: "Self-learning microlearning course on formal prompting, autonomous
 
 **AI-Powered Mathematical Research** is a self-paced microlearning program designed to transform how mathematical research is conducted in the AI era. It treats Large Language Models as research collaborators whose output is unverified until independently validated by a compiler (Lean 4 / Mathlib4), a computer algebra system (SageMath/SymPy), or a human referee.
 
-Participants progress through six modular units, mastering rhetorical prompt engineering (Ethos, Pathos, Logos), 5-gate paper construction, specialized agentic SKILL.md specifications, Directed Acyclic Graph (DAG) workflow orchestration, and compiler-grade auto-verification project scaffolds.
+Participants progress through seven modular units, mastering historical paradigm shifts (Donald Knuth, TeX, Universal Approximation Theorem), rhetorical prompt engineering (Ethos, Pathos, Logos), 5-gate paper construction, white-collar agentic delegation (Google Antigravity SDK, Agent Harness), specialized SKILL.md specs, Directed Acyclic Graph (DAG) workflow orchestration, and compiler-grade auto-verification project scaffolds.
 
 ---
 
@@ -27,53 +27,60 @@ Participants progress through six modular units, mastering rhetorical prompt eng
 
 By completing this self-learning microlearning program, you will be able to:
 
-1. **Map Literature Gaps**: Execute structured SOTA surveys on arXiv, MathSciNet, and zbMATH to systematically locate open research problems.
-2. **Apply Rigorous Prompting**: Use Ethos, Pathos, and Logos mode translation while enforcing the Four Qualifiers for Mathematical Integrity (Logical Soundness, Originality, IP, Hallucination Elimination).
-3. **Construct Proof Dependency Ledgers**: Build stage-chained CoT prompt workflows that prevent unverified proof gaps from propagating into formalization attempts.
-4. **Deploy Agentic SKILL.md Specs**: Use specialized AI agents (`Literature-Conjecture-Agent`, `Proof-Strategy-Agent`, `Lean4-Formalization-Agent`, `Counterexample-Search-Agent`) to automate research workflows.
-5. **Run Computational Stress Tests**: Write SageMath/SymPy scripts to computationally search for counterexamples before committing effort to formal proofs.
-6. **Master Compiler Auto-Verification**: Formalize mathematical arguments in Lean 4 with Mathlib4 imports, using clean `lake build` compilation (`sorry_count = 0`) as the definition of done.
+1. **Analyze Historical & AI Bedrock**: Trace the evolution from TeX to Lean 4, analyze Knuth's "Shock! Shock!" memo, and apply the Universal Approximation Theorem as AI's mathematical foundation.
+2. **Map Literature Gaps**: Execute structured SOTA surveys on arXiv, MathSciNet, zbMATH, and OEIS to systematically locate open research problems.
+3. **Apply Rigorous Prompting & Mitigate AI Limits**: Use Ethos, Pathos, and Logos mode translation, mitigate AI limitations (hallucinations, Jagged Intelligence Edge) via programmatic REST API retrieval, and maintain a Proof Dependency Ledger.
+4. **Master 5-Gate Paper Workflows**: Execute the 5-Gate Zero-to-One Paper Construction pipeline and run simulated referee reports.
+5. **Deploy Agentic Harness & SKILL.md Specs**: Delegate white-collar tasks via Google Antigravity SDK and specialized agents (`Literature-Conjecture-Agent`, `Proof-Strategy-Agent`, `Lean4-Formalization-Agent`, `Counterexample-Search-Agent`).
+6. **Orchestrate DAG & LOOP Engine**: Model proof development as a Directed Acyclic Graph (DAG) with Human-in-the-Loop (HITL) checkpoints and run stateful research loops.
+7. **Master Compiler Auto-Verification**: Formalize mathematical arguments in Lean 4 with Mathlib4 imports, using clean `lake build` compilation (`sorry_count = 0`) as the definition of done.
 
 ---
 
-## 📚 Unit Breakdown
+## 📚 Module Breakdown
 
 ```mermaid
 flowchart TD
-    U0["Unit 0: Problem Identification & Convergence"] --> U1["Unit 1: Prompt Engineering & Integrity"]
-    U1 --> U2["Unit 2: Strategic Conjecturing & Publication"]
-    U1 --> U3["Unit 3: SKILL.md Agent Architecture"]
-    U2 --> U4["Unit 4: DAG Engineering & LOOP Engine"]
-    U3 --> U4
-    U4 --> U5["Unit 5: Auto-Verification & Project Scaffold"]
+    M1["Module 1: Historical Evolution & AI Foundations"] --> M2["Module 2: Problem Identification & Convergence"]
+    M2 --> M3["Module 3: Prompt Engineering & Integrity"]
+    M3 --> M4["Module 4: Strategic Conjecturing & Publication"]
+    M3 --> M5["Module 5: SKILL.md & Agent Harness"]
+    M4 --> M6["Module 6: DAG Engineering & LOOP Engine"]
+    M5 --> M6
+    M6 --> M7["Module 7: Auto-Verification & Project Scaffold"]
 ```
 
-### Unit 0: Identifying the Research Problem & Iterative Convergence
+### Module 1: Historical Evolution & AI Foundations in Mathematics
+- Knuth's TeX story & "Shock! Shock!" (2024) memo
+- Universal Approximation Theorem (Cybenko, Hornik) & AI Bedrock
+- Open math problems solved by AI & Global AI Math Race
+
+### Module 2: Identifying the Research Problem & Literature Convergence
 - Expertise and interest elicitation prompting
-- SOTA literature gap mapping across arXiv, MathSciNet, zbMATH
+- SOTA literature gap mapping across arXiv, MathSciNet, zbMATH, OEIS
 - Iterative problem statement convergence loop
 
-### Unit 1: Foundational Prompt Engineering for Mathematical Research
+### Module 3: Foundational Prompt Engineering & Mathematical Integrity
 - Rhetorical prompt mode translation (Ethos, Pathos, Logos)
-- Four Qualifiers for Mathematical Integrity
-- Proof Dependency Ledger & Stage-Chained CoT Prompting
+- AI core limitations, Jagged Intelligence Edge, & Programmatic REST API retrieval
+- Four Qualifiers for Mathematical Integrity & Proof Dependency Ledger
 
-### Unit 2: Strategic Research, Conjecturing & Publication Best Practices
-- Literature-grounded gap mapping for conjecture generation
-- Do's and Don'ts of AI-assisted math research
+### Module 4: Strategic Conjecturing & Publication Workflows
+- Gap-mapping prompts for conjecture generation with search provenance
+- Do's and Don'ts matrix of AI math research
 - 5-Gate Zero-to-One Paper Construction & Referee Simulation
 
-### Unit 3: Autonomous Agent Architecture & SKILL.md Foundations
+### Module 5: Autonomous Agent Architecture & SKILL.md Foundations
+- White-collar task delegation, Agent Harness, & Google Antigravity SDK
 - SKILL.md specs for specialized mathematical research agents
-- Lean 4 formalization agent with `lake build` validation feedback loop
-- SageMath counterexample search agent & NotebookLM integration
+- Lean 4 formalization agent & SageMath counterexample search agent
 
-### Unit 4: Graph Engineering, Workflow Orchestration & The LOOP Engine
+### Module 6: Graph Engineering, Workflow Orchestration & The LOOP Engine
 - DAG topology for proof dependencies and HITL checkpoints
 - Schema-enforced inter-agent context handoffs
 - The Look-Orient-Operate-Ponder (LOOP) operational engine
 
-### Unit 5: Auto-Research Loops, Formal Auto-Verification & Project Scaffolding
+### Module 7: Auto-Research Loops, Formal Auto-Verification & Project Scaffolding
 - 4-Part Claim Validation Test (Surprising, Fruitful, Rigorous, Feasible)
 - Compiler-grade auto-verification (`sorry_count = 0`) and proof EVALs
 - Standardized project scaffold repository (`PROJECT_BRIEF.md`, `lean/`, `wiki/`, `paper/`)
