@@ -90,9 +90,20 @@ flowchart TD
 
 ---
 
+## 🖥️ Interactive Presentation & Microlearning Deck
+
+Explore the interactive slide deck compiled using Srujana-Bodha Presentation Creator:
+
+- 🔗 [Launch Full-Screen Presentation Deck](/presentations/ai-math-research/)
+
+<iframe src="/presentations/ai-math-research/" width="100%" height="600px" style={{ border: 'none', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} allowFullScreen />
+
+---
+
 ## 📖 Source Material & Full Course Descriptor
 
 - Full Guide: [AI-Powered Mathematical Research Guide](file:///d:/Github/CourseDesign/ai-researcher/AI-Powered-Mathematical-Research.md)
+- Program Syllabus: [AI Math Research Syllabus](file:///d:/Github/CourseDesign/ai-researcher/syllabus-ai-math-research.md)
 - Course Descriptor: [AI Math Research Descriptor](file:///d:/Github/CourseDesign/ai-researcher/course-descriptor-ai-math-research.md)
 
 ---
