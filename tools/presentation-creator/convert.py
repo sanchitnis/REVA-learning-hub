@@ -88,6 +88,14 @@ def parse_admonitions(text):
 
 def parse_h5p_directives(text, input_dir=None, glossary=None):
     """Parse all H5P-style custom directives, language tags, glossary tooltips, and visual elements."""
+    # 0.0. Mermaid Diagrams
+    mermaid_pattern = r'```mermaid\s*\n(.*?)\n```'
+    def mermaid_repl(match):
+        code = match.group(1).strip()
+        code = code.replace('&gt;', '>').replace('&lt;', '<').replace('&amp;', '&')
+        return f'\n<div class="mermaid text-center my-4 overflow-x-auto">{code}</div>\n'
+    text = re.sub(mermaid_pattern, mermaid_repl, text, flags=re.DOTALL)
+
     # 0. Compare Slider
     compare_pattern = r':::compare\n(.*?)\n:::'
     def compare_repl(match):

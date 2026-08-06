@@ -120,17 +120,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 - Apply the 4-Part Feasibility Pre-screen before writing code or prompts</p>
 `,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[`Learn to converge expertise, interest, and literature gaps before prompting`],interactionLevel:`none`,ai:{}},{title:`The Problem Convergence Loop`,is_major:!1,label:`05`,topic_idx:6,content:`<h2>The Problem Convergence Loop</h2>
 
-<pre><code>flowchart TD
-    E[Researcher Expertise Map] --&gt; C1{Converge?}
-    N[Researcher Interest Map] --&gt; C1
-    C1 --&gt;|no overlap| E
-    C1 --&gt;|candidate area| S[Literature Survey: SOTA + Gaps]
-    S --&gt; C2{Gap matches expertise?}
-    C2 --&gt;|no| S
-    C2 --&gt;|yes| P[Candidate Problem Statement]
-    P --&gt; V[4-Part Feasibility Test]
-    V --&gt;|pass| Module1[Proceed to Module 1]
-</code></pre>
+<div class="mermaid text-center my-4 overflow-x-auto">flowchart TD
+    E[Researcher Expertise Map] --> C1{Converge?}
+    N[Researcher Interest Map] --> C1
+    C1 -->|no overlap| E
+    C1 -->|candidate area| S[Literature Survey: SOTA + Gaps]
+    S --> C2{Gap matches expertise?}
+    C2 -->|no| S
+    C2 -->|yes| P[Candidate Problem Statement]
+    P --> V[4-Part Feasibility Test]
+    V -->|pass| Module1[Proceed to Module 1]</div>
 
 <blockquote class="border-l-4 border-sky-400 pl-4 italic my-4 text-slate-300">
   <p>💡 <em>A problem statement built on interest alone produces work you cannot execute; expertise alone produces work you will not sustain.</em></p>
@@ -302,12 +301,11 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 - Pin toolchains (<code>lean-toolchain</code>) for complete resumability</p>
 `,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The LOOP Operational Engine`,is_major:!1,label:`13`,topic_idx:18,content:`<h2>The LOOP Operational Engine</h2>
 
-<pre><code>flowchart LR
-    Look["Look:&lt;br/&gt;Gather Literature &amp; Mathlib Data"] --&gt; Orient["Orient:&lt;br/&gt;Frame against 4-Part Test"]
-    Orient --&gt; Operate["Operate:&lt;br/&gt;SageMath &amp; lake build Pass"]
-    Operate --&gt; Ponder["Ponder:&lt;br/&gt;Reflect &amp; Refine Tactics"]
-    Ponder --&gt; Look
-</code></pre>
+<div class="mermaid text-center my-4 overflow-x-auto">flowchart LR
+    Look["Look:<br/>Gather Literature & Mathlib Data"] --> Orient["Orient:<br/>Frame against 4-Part Test"]
+    Orient --> Operate["Operate:<br/>SageMath & lake build Pass"]
+    Operate --> Ponder["Ponder:<br/>Reflect & Refine Tactics"]
+    Ponder --> Look</div>
 
 <ul>
 <li><strong>Look:</strong> Gather primary evidence, Mathlib definitions, and literature.</li>
