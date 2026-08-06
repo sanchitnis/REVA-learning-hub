@@ -1071,7 +1071,7 @@ function App() {
 
         {/* Viewport content area */}
         <main className="flex-1 min-h-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-y-auto p-3 md:p-6 flex items-center justify-center">
-          <div className="w-full max-w-4xl min-h-full my-auto flex flex-col justify-center rounded-2xl relative">
+          <div className="w-full max-w-4xl mx-auto my-auto flex flex-col justify-center rounded-2xl relative">
             <div className="slide slide-container slide-active my-auto">
               <div className={`bg-slate-900/40 border border-slate-800/50 backdrop-blur rounded-2xl p-5 md:p-7 shadow-2xl animate-fade-up layout-${activeSlideData.layout || 'content'}`}>
                 
