@@ -34,6 +34,7 @@ Use the sidebar or the links below to navigate through the available courses:
 *   **[CSU101: Introduction to AI](./csu101-intro-ai/csu101-intro-ai.md)** - Exploring the foundations of Machine Learning and Neural Networks.
 *   **[CSU102: Modern Web Development](./csu102-modern-web-dev/csu102-modern-web-dev.md)** - Building scalable, high-performance web applications.
 *   **[CSA490: Software 3.0](./csa490-software3/csa490-software3.md)** - Agentic Software Engineering with LLMs, RAG, and multi-agent systems.
+*   **[AIMR501: AI-Powered Mathematical Research](./ai-math-research/ai-math-research.md)** - From Formal Prompting to Autonomous Verification and Lean Proof Systems.
 
 ---
 
@@ -43,6 +44,7 @@ Explore the interactive slide decks compiled using the REVA presentation creator
 *   [Sample Presentation](pathname:///presentations/sample-presentation/) - Demo slide deck showcasing quizzes and components.
 *   [Physical AI](pathname:///presentations/physical-ai/) - Introduction to Physical AI, hardware integration, and edge intelligence.
 *   [AI Driver's License](pathname:///presentations/ai-drivers-license/) - Professional development certification for AI-era pedagogy.
+*   [AI-Powered Mathematical Research](pathname:///presentations/ai-math-research/) - Formal prompting, Lean 4 proof systems, and agentic workflows by Sanjay Chitnis.
 
 ---
 

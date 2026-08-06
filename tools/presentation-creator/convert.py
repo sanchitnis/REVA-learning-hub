@@ -965,6 +965,59 @@ def generate_react_payload(front_matter, slides, input_dir=None, glossary=None):
         "slides": slide_metadata
     }
 
+def auto_update_intro_md(front_matter, output_dir):
+    """Automatically index new interactive presentations and course docs in docs/intro.md."""
+    try:
+        presentation_slug = output_dir.name
+        title = front_matter.get('title', presentation_slug)
+        tagline = front_matter.get('description', front_matter.get('subtitle', 'Interactive microlearning presentation.'))
+        author = front_matter.get('author', '')
+        desc_text = f"{tagline} (by {author})" if author and author not in tagline else tagline
+        
+        script_dir = Path(__file__).parent.absolute()
+        workspace_root = script_dir.parent.parent
+        intro_md = workspace_root / 'docs' / 'intro.md'
+        
+        if not intro_md.exists():
+            return
+            
+        with open(intro_md, 'r', encoding='utf-8') as f:
+            intro_content = f.read()
+            
+        pres_link = f"pathname:///presentations/{presentation_slug}/"
+        
+        # 1. Update Interactive Presentations section if not already present
+        if pres_link not in intro_content:
+            pres_section_regex = r'(## 🖥️ Interactive Presentations \{#interactive-presentations\}\s*\n\s*Explore the interactive slide decks compiled using the REVA presentation creator:\n)'
+            if re.search(pres_section_regex, intro_content):
+                intro_content = re.sub(
+                    pres_section_regex,
+                    rf'\1*   [{title}]({pres_link}) - {desc_text}\n',
+                    intro_content
+                )
+            
+        # 2. Check if a matching doc file exists under docs/{presentation_slug}/
+        doc_folder = workspace_root / 'docs' / presentation_slug
+        doc_file = doc_folder / f"{presentation_slug}.md"
+        if doc_file.exists():
+            doc_link = f"./{presentation_slug}/{presentation_slug}.md"
+            if doc_link not in intro_content:
+                course_code = front_matter.get('course_code', '')
+                code_prefix = f"{course_code}: " if course_code else ""
+                courses_section_regex = r'(## 🚀 Explore Our Courses \{#explore-our-courses\}\s*\n\s*Use the sidebar or the links below to navigate through the available courses:\n)'
+                if re.search(courses_section_regex, intro_content):
+                    intro_content = re.sub(
+                        courses_section_regex,
+                        rf'\1*   **[{code_prefix}{title}](./{presentation_slug}/{presentation_slug}.md)** - {tagline}\n',
+                        intro_content
+                    )
+                
+        with open(intro_md, 'w', encoding='utf-8') as f:
+            f.write(intro_content)
+        print(f"Automatically updated index in {intro_md}")
+    except Exception as e:
+        print(f"Note: Automatic indexing in intro.md skipped: {e}")
+
 def main():
     if len(sys.argv) < 2:
         print("Usage: python convert.py <markdown-file> [output-directory]")
@@ -1075,5 +1128,9 @@ def main():
     print(f"   - {out_html.name}")
     print(f"   - {out_assets.name}/")
 
+    # Automatically update docs/intro.md index
+    auto_update_intro_md(front_matter, output_dir)
+
 if __name__ == '__main__':
     main()
+
