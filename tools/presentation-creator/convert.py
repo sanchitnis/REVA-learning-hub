@@ -286,8 +286,7 @@ def parse_h5p_directives(text, input_dir=None, glossary=None):
         height_match = re.search(r'^height:\s*(.*?)$', content, re.MULTILINE)
         orient_match = re.search(r'^orientation:\s*(.*?)$', content, re.MULTILINE)
         
-        c_height = height_match.group(1).strip() if height_match else "300px"
-        c_orient = orient_match.group(1).strip() if orient_match else "vertical"
+        c_height = height_match.group(1).strip() if height_match else "auto"
         
         # Clean header lines
         content_clean = content
@@ -297,29 +296,39 @@ def parse_h5p_directives(text, input_dir=None, glossary=None):
             content_clean = re.sub(r'^orientation:\s*.*?$', '', content_clean, flags=re.MULTILINE)
         
         events = []
-        lines = [l.strip() for l in content_clean.split('\n') if l.strip()]
+        raw_lines = [l.strip() for l in content_clean.split('\n') if l.strip()]
+        # Filter out standalone pipe lines or separators
+        lines = [l for l in raw_lines if l != '|' and l != '---' and l != '===']
+        
         i = 0
         while i < len(lines):
             line = lines[i]
-            if '|' in line:
-                date_val, title = line.split('|', 1)
+            clean_line = re.sub(r'^(?:===|#{2,3}|\-|\*)\s*', '', line).strip()
+            if '|' in clean_line or ':' in clean_line:
+                parts = re.split(r'[:|]', clean_line, maxsplit=1)
+                date_val = parts[0].strip()
+                title = parts[1].strip()
                 desc = ""
                 i += 1
-                if i < len(lines) and '|' not in lines[i]:
-                    desc = lines[i]
-                    i += 1
-                events.append((date_val.strip(), title.strip(), desc))
+                if i < len(lines):
+                    next_clean = re.sub(r'^(?:===|#{2,3}|\-|\*)\s*', '', lines[i]).strip()
+                    if '|' not in next_clean and ':' not in next_clean:
+                        desc = lines[i]
+                        i += 1
+                events.append((date_val, title, desc))
             else:
                 i += 1
+                
         if not events:
             return match.group(0)
             
-        html_parts = [f'<div class="timeline-container border-l-2 border-slate-800 pl-4 py-2 space-y-6 my-4 text-left relative" style="max-height:{c_height}; overflow-y:auto;">']
+        html_parts = [f'<div class="timeline-container border-l-2 border-sky-400/40 pl-5 py-2 space-y-4 my-4 text-left relative" style="max-height:{c_height}; overflow-y:auto;">']
         for date_val, title, desc in events:
-            html_parts.append(f'''  <div class="relative">
-    <div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-sky-400 border-2 border-slate-950"></div>
-    <div class="text-xs font-mono font-bold text-sky-400">{date_val} &bull; {title}</div>
-    {f'<div class="text-[11px] text-slate-350 mt-1 leading-relaxed">{desc}</div>' if desc else ''}
+            desc_html = desc.replace('\n', '<br />') if desc else ''
+            html_parts.append(f'''  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">{date_val} <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">{title}</span></div>
+    {f'<div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">{desc_html}</div>' if desc else ''}
   </div>''')
         html_parts.append('</div>')
         return '\n'.join(html_parts)
