@@ -79,31 +79,21 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 </ul>
 `,layout:`content`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[`Establish the non-negotiable definition of mathematical verification`],interactionLevel:`none`,ai:{}},{title:`From TeX to Lean 4: Historical Timeline`,is_major:!1,label:`02`,topic_idx:1,content:`<h2>From TeX to Lean 4: Historical Timeline</h2>
 
-<div class="timeline-container border-l-2 border-slate-800 pl-4 py-2 space-y-6 my-4 text-left relative" style="max-height:280px; overflow-y:auto;">
-  <div class="relative">
-    <div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-sky-400 border-2 border-slate-950"></div>
-    <div class="text-xs font-mono font-bold text-sky-400">1977 &bull; TeX Created by Donald Knuth</div>
-    <div class="text-[11px] text-slate-350 mt-1 leading-relaxed">Knuth paused TAOCP Vol 2 to invent digital typesetting for mathematics.</div>
+<div class="timeline-container border-l-2 border-sky-400/40 pl-5 py-2 space-y-4 my-4 text-left relative" style="max-height:280px; overflow-y:auto;">
+  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">1977 <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">TeX Created by Donald Knuth</span></div>
+    <div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">Knuth paused TAOCP Vol 2 to invent digital typesetting for mathematics.</div>
   </div>
-  <div class="relative">
-    <div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-sky-400 border-2 border-slate-950"></div>
-    <div class="text-xs font-mono font-bold text-sky-400"> &bull; </div>
-
+  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">2024 <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">Knuth's "Shock! Shock!" Memo</span></div>
+    <div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">Reflected on modern LLMs solving complex math problems and generating proof code.</div>
   </div>
-  <div class="relative">
-    <div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-sky-400 border-2 border-slate-950"></div>
-    <div class="text-xs font-mono font-bold text-sky-400">2024 &bull; Knuth's "Shock! Shock!" Memo</div>
-    <div class="text-[11px] text-slate-350 mt-1 leading-relaxed">Reflected on modern LLMs solving complex math problems and generating proof code.</div>
-  </div>
-  <div class="relative">
-    <div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-sky-400 border-2 border-slate-950"></div>
-    <div class="text-xs font-mono font-bold text-sky-400"> &bull; </div>
-
-  </div>
-  <div class="relative">
-    <div class="absolute -left-[21px] top-1 h-2.5 w-2.5 rounded-full bg-sky-400 border-2 border-slate-950"></div>
-    <div class="text-xs font-mono font-bold text-sky-400">2025+ &bull; Lean 4 & Agentic Proof Engines</div>
-    <div class="text-[11px] text-slate-350 mt-1 leading-relaxed">Compiler-verified proof assistants and autonomous multi-agent research loops.</div>
+  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">2025+ <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">Lean 4 & Agentic Proof Engines</span></div>
+    <div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">Compiler-verified proof assistants and autonomous multi-agent research loops.</div>
   </div>
 </div>
 `,layout:`concept`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Visualizing Verification: Unverified Sketch vs. Lean 4`,is_major:!1,label:`03`,topic_idx:1,content:`<h2>Visualizing Verification: Unverified Sketch vs. Lean 4</h2>
@@ -256,22 +246,33 @@ Annotate unconfirmed identifiers: <code>-- illustrative name, confirm against Ma
 - Simulate referee reports evaluating correctness and novelty</p>
 `,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The 5-Gate Zero-to-One Paper Pipeline`,is_major:!1,label:`10`,topic_idx:13,content:`<h2>The 5-Gate Zero-to-One Paper Pipeline</h2>
 
-<p>:::timeline<br />
-=== Gate 1: Novelty Confirmed<br />
-Literature search confirms the problem is genuinely open and not subsumed by prior work.</p>
-
-<p>=== Gate 2: 4-Part Claim Test<br />
-Verified as Surprising, Fruitful, Rigorous, and Feasible against available machinery.</p>
-
-<p>=== Gate 3: Rigor / Gap Check<br />
-Proof Dependency Ledger contains zero unresolved <code>[GAP]</code> items.</p>
-
-<p>=== Gate 4: Clean Lake Build<br />
-Lean 4 compiler returns 0 errors and <code>sorry_count = 0</code> via <code>lake build</code>.</p>
-
-<p>=== Gate 5: Referee Simulation<br />
-Simulated referee report scores draft high on correctness, novelty, and clarity.<br />
-:::</p>
+<div class="timeline-container border-l-2 border-sky-400/40 pl-5 py-2 space-y-4 my-4 text-left relative" style="max-height:auto; overflow-y:auto;">
+  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">Gate 1 <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">Novelty Confirmed</span></div>
+    <div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">Literature search confirms the problem is genuinely open and not subsumed by prior work.</div>
+  </div>
+  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">Gate 2 <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">4-Part Claim Test</span></div>
+    <div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">Verified as Surprising, Fruitful, Rigorous, and Feasible against available machinery.</div>
+  </div>
+  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">Gate 3 <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">Rigor / Gap Check</span></div>
+    <div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">Proof Dependency Ledger contains zero unresolved \`[GAP]\` items.</div>
+  </div>
+  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">Gate 4 <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">Clean Lake Build</span></div>
+    <div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">Lean 4 compiler returns 0 errors and \`sorry_count = 0\` via \`lake build\`.</div>
+  </div>
+  <div class="relative group">
+    <div class="absolute -left-[25px] top-1 h-3 w-3 rounded-full bg-sky-400 border-2 border-slate-950 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></div>
+    <div class="text-xs font-mono font-bold text-sky-400">Gate 5 <span class="text-slate-400 mx-1">&bull;</span> <span class="text-slate-100 font-sans font-semibold">Referee Simulation</span></div>
+    <div class="text-xs text-slate-300 mt-1 leading-relaxed bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">Simulated referee report scores draft high on correctness, novelty, and clarity.</div>
+  </div>
+</div>
 `,layout:`timeline`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Research Discipline: Do's vs. Don'ts`,is_major:!1,label:`11`,topic_idx:13,content:`<h2>Research Discipline: Do's vs. Don'ts</h2>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4"><div class="flex-1 p-4 rounded-xl bg-slate-900/30 border border-slate-800/40"><h3>DO</h3>
