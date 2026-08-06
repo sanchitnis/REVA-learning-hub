@@ -549,6 +549,15 @@ function App() {
       
       // 2. Render Mermaid diagrams
       if (window.mermaid) {
+        const codeMermaids = document.querySelectorAll('pre code.language-mermaid, pre.language-mermaid, div.language-mermaid');
+        codeMermaids.forEach(el => {
+          const container = document.createElement('div');
+          container.className = 'mermaid text-center my-4 overflow-x-auto';
+          container.textContent = el.textContent.trim();
+          const target = el.parentElement && el.parentElement.tagName === 'PRE' ? el.parentElement : el;
+          target.replaceWith(container);
+        });
+
         const mermaidElements = document.querySelectorAll('.mermaid');
         if (mermaidElements.length > 0) {
           const unrendered = Array.from(mermaidElements).filter(el => !el.hasAttribute('data-processed'));
@@ -1061,40 +1070,40 @@ function App() {
         </header>
 
         {/* Viewport content area */}
-        <main className="flex-1 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-y-auto p-4 md:p-8 flex items-center justify-center max-h-[calc(100vh-9rem)]">
-          <div className="w-full max-w-4xl max-h-[calc(100vh-11rem)] overflow-y-auto rounded-2xl relative">
-            <div className="slide slide-container slide-active">
-              <div className={`bg-slate-900/40 border border-slate-800/50 backdrop-blur rounded-2xl p-6 md:p-8 shadow-2xl animate-fade-up layout-${activeSlideData.layout || 'content'}`}>
+        <main className="flex-1 min-h-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-y-auto p-3 md:p-6 flex items-center justify-center">
+          <div className="w-full max-w-4xl min-h-full my-auto flex flex-col justify-center rounded-2xl relative">
+            <div className="slide slide-container slide-active my-auto">
+              <div className={`bg-slate-900/40 border border-slate-800/50 backdrop-blur rounded-2xl p-5 md:p-7 shadow-2xl animate-fade-up layout-${activeSlideData.layout || 'content'}`}>
                 
                 {/* Dynamically Render Layout templates */}
                 {currentSlide === 0 ? (
-                  <div className="text-center py-6">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-[10px] font-bold uppercase tracking-widest mb-6 font-mono">
+                  <div className="text-center py-4">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-[10px] font-bold uppercase tracking-widest mb-4 font-mono">
                       <BookOpen className="h-3 w-3" /> Next Frontier of AI
                     </span>
-                    <h1 className="text-5xl font-bold font-serif mb-4 text-slate-100 tracking-tight">{title}</h1>
-                    <p className="text-lg italic text-sky-400 mb-8 font-serif">{tagline}</p>
-                    <p className="text-sm text-slate-400 max-w-xl mx-auto mb-12 leading-relaxed">
+                    <h1 className="text-4xl md:text-5xl font-bold font-serif mb-3 text-slate-100 tracking-tight">{title}</h1>
+                    <p className="text-base italic text-sky-400 mb-6 font-serif">{tagline}</p>
+                    <p className="text-xs md:text-sm text-slate-400 max-w-xl mx-auto mb-8 leading-relaxed">
                       An interactive, full-fledged React-rendered template demonstrating multi-column grids, live calculations, dynamic graphing, and adaptive H5P checks.
                     </p>
                     
                     {/* 3-Column Metadata Card Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto pt-8 border-t border-slate-800/60 text-left mt-12">
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800/40">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto pt-6 border-t border-slate-800/60 text-left mt-8">
+                      <div className="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/40">
                         <span className="text-[10px] uppercase tracking-wider text-slate-500 font-mono font-bold block mb-1">Presented By</span>
-                        <div className="flex items-center gap-2 text-slate-200 text-sm font-semibold">
+                        <div className="flex items-center gap-2 text-slate-200 text-xs font-semibold">
                           <User className="h-4 w-4 text-sky-400" /> {author}
                         </div>
                       </div>
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800/40">
+                      <div className="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/40">
                         <span className="text-[10px] uppercase tracking-wider text-slate-500 font-mono font-bold block mb-1">Date</span>
-                        <div className="flex items-center gap-2 text-slate-200 text-sm font-semibold">
+                        <div className="flex items-center gap-2 text-slate-200 text-xs font-semibold">
                           <Calendar className="h-4 w-4 text-sky-400" /> {date}
                         </div>
                       </div>
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800/40">
+                      <div className="p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/40">
                         <span className="text-[10px] uppercase tracking-wider text-slate-500 font-mono font-bold block mb-1">Hosted By</span>
-                        <div className="flex items-center gap-2 text-slate-200 text-sm font-semibold">
+                        <div className="flex items-center gap-2 text-slate-200 text-xs font-semibold">
                           <Award className="h-4 w-4 text-sky-400" /> {affiliation}
                         </div>
                       </div>
@@ -1110,7 +1119,7 @@ function App() {
         </main>
 
         {/* Footer controls */}
-        <footer className="h-20 border-t border-slate-800 bg-slate-950/80 backdrop-blur px-6 flex flex-col items-center justify-center z-30 shrink-0 relative select-none">
+        <footer className="h-16 border-t border-slate-800 bg-slate-950/90 backdrop-blur px-6 flex flex-col items-center justify-center z-30 shrink-0 relative select-none">
           <div className="flex items-center justify-between w-full">
             <button 
               id="prev-btn" 
@@ -1122,11 +1131,11 @@ function App() {
             </button>
             
             {/* Center dot indicators window pagination */}
-            <div className="flex flex-col items-center gap-1.5">
+            <div className="flex flex-col items-center gap-1">
               <div className="flex items-center gap-2" id="jump-dots">
                 {renderDots()}
               </div>
-              <div id="slide-progress" className="text-xs font-mono text-slate-300 font-bold">
+              <div id="slide-progress" className="text-[11px] font-mono text-slate-300 font-bold">
                 Presenter: {author} {presentationData.version ? `(${presentationData.version.trim()})` : ''} &bull; Slide {currentSlide + 1} of {slides.length}
               </div>
             </div>

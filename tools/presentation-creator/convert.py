@@ -88,24 +88,53 @@ def parse_admonitions(text):
 
 def parse_h5p_directives(text, input_dir=None, glossary=None):
     """Parse all H5P-style custom directives, language tags, glossary tooltips, and visual elements."""
+    # 0. Compare Slider
+    compare_pattern = r':::compare\n(.*?)\n:::'
+    def compare_repl(match):
+        content = match.group(1).strip()
+        before_m = re.search(r'^before:\s*(.*?)$', content, re.MULTILINE)
+        after_m = re.search(r'^after:\s*(.*?)$', content, re.MULTILINE)
+        label_b_m = re.search(r'^labelBefore:\s*(.*?)$', content, re.MULTILINE)
+        label_a_m = re.search(r'^labelAfter:\s*(.*?)$', content, re.MULTILINE)
+        height_m = re.search(r'^height:\s*(.*?)$', content, re.MULTILINE)
+        
+        before_url = before_m.group(1).strip() if before_m else ''
+        after_url = after_m.group(1).strip() if after_m else ''
+        label_b = label_b_m.group(1).strip() if label_b_m else 'Before'
+        label_a = label_a_m.group(1).strip() if label_a_m else 'After'
+        height = height_m.group(1).strip() if height_m else '440px'
+        
+        return f'''<div class="h5p-compare-slider border border-slate-800 rounded-xl overflow-hidden my-4 relative select-none bg-slate-950" style="height: {height};" onmousemove="if(this.isDragging){{const r=this.getBoundingClientRect();const p=Math.max(0,Math.min(100,((e.clientX-r.left)/r.width)*100));this.querySelector('.after-layer').style.clipPath='inset(0 ' + (100-p) + '% 0 0)';this.querySelector('.slider-handle').style.left=p + '%';}}" onmousedown="this.isDragging=true;" onmouseup="this.isDragging=false;" onmouseleave="this.isDragging=false;" ontouchmove="if(this.isDragging){{const r=this.getBoundingClientRect();const t=e.touches[0];const p=Math.max(0,Math.min(100,((t.clientX-r.left)/r.width)*100));this.querySelector('.after-layer').style.clipPath='inset(0 ' + (100-p) + '% 0 0)';this.querySelector('.slider-handle').style.left=p + '%';}}" ontouchstart="this.isDragging=true;" ontouchend="this.isDragging=false;">
+  <div class="before-layer absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('{before_url}');">
+    <span class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur text-sky-400 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border border-slate-800">{label_b}</span>
+  </div>
+  <div class="after-layer absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('{after_url}'); clip-path: inset(0 50% 0 0);">
+    <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur text-emerald-400 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border border-slate-800">{label_a}</span>
+  </div>
+  <div class="slider-handle absolute top-0 bottom-0 w-1 bg-sky-400 cursor-ew-resize shadow-[0_0_12px_rgba(56,189,248,0.8)]" style="left: 50%;">
+    <div class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-sky-400 text-slate-950 flex items-center justify-center font-bold text-xs shadow-lg">&#x2194;</div>
+  </div>
+</div>'''
+    text = re.sub(compare_pattern, compare_repl, text, flags=re.DOTALL)
+
     # 1. Accordion
     accordion_pattern = r':::accordion\n(.*?)\n:::'
     def accordion_repl(match):
         content = match.group(1).strip()
-        parts = re.split(r'^##\s+(.+)$', content, flags=re.MULTILINE)
+        parts = re.split(r'^(?:#{2,3}|\*\*|\-\s*\*\*)\s*(.+?)(?:\*\*|\:)?$', content, flags=re.MULTILINE)
         if len(parts) < 3:
             return match.group(0)
-        html_parts = ['<div class="h5p-accordion space-y-2 my-4 text-left">']
+        html_parts = ['<div class="h5p-accordion space-y-2.5 my-4 text-left">']
         for i in range(1, len(parts), 2):
-            title = parts[i].strip()
+            title = parts[i].strip().lstrip('#').strip()
             body = parts[i+1].strip() if i+1 < len(parts) else ""
             body_html = body.replace('\n', '<br />')
-            html_parts.append(f'''  <details class="group border border-slate-800 rounded-lg p-3 bg-slate-900/30">
+            html_parts.append(f'''  <details class="group border border-slate-800 rounded-xl p-3.5 bg-slate-900/50 hover:border-sky-500/30 transition-all">
     <summary class="font-semibold text-xs cursor-pointer text-sky-400 select-none flex justify-between items-center outline-none">
       <span>{title}</span>
-      <span class="text-[10px] transition-transform group-open:rotate-180">&#9662;</span>
+      <span class="text-[10px] transition-transform group-open:rotate-180 text-slate-400">&#9662;</span>
     </summary>
-    <div class="mt-2 text-xs text-slate-350 leading-relaxed pl-1">{body_html}</div>
+    <div class="mt-2.5 text-xs text-slate-300 leading-relaxed pl-1 pt-2 border-t border-slate-800/60">{body_html}</div>
   </details>''')
         html_parts.append('</div>')
         return '\n'.join(html_parts)
