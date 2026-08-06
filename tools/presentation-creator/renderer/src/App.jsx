@@ -1082,10 +1082,14 @@ function App() {
                       <BookOpen className="h-3 w-3" /> Next Frontier of AI
                     </span>
                     <h1 className="text-4xl md:text-5xl font-bold font-serif mb-3 text-slate-100 tracking-tight">{title}</h1>
-                    <p className="text-base italic text-sky-400 mb-6 font-serif">{tagline}</p>
-                    <p className="text-xs md:text-sm text-slate-400 max-w-xl mx-auto mb-8 leading-relaxed">
-                      An interactive, full-fledged React-rendered template demonstrating multi-column grids, live calculations, dynamic graphing, and adaptive H5P checks.
-                    </p>
+                    {(presentationData.subtitle || tagline) && (
+                      <p className="text-base italic text-sky-400 mb-4 font-serif">{presentationData.subtitle || tagline}</p>
+                    )}
+                    {presentationData.description && presentationData.description !== tagline && (
+                      <p className="text-xs md:text-sm text-slate-400 max-w-xl mx-auto mb-6 leading-relaxed font-sans">
+                        {presentationData.description}
+                      </p>
+                    )}
                     
                     {/* 3-Column Metadata Card Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto pt-6 border-t border-slate-800/60 text-left mt-8">

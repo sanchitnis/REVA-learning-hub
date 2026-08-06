@@ -968,12 +968,17 @@ def generate_react_payload(front_matter, slides, input_dir=None, glossary=None):
         })
         i += 1
         
+    subtitle = front_matter.get('subtitle', '')
+    description = front_matter.get('description', '')
+
     return {
         "title": title,
+        "subtitle": subtitle,
+        "description": description,
         "author": author,
         "affiliation": affiliation,
         "date": date_str,
-        "tagline": tagline,
+        "tagline": subtitle or description or tagline,
         "email": email,
         "social": social,
         "version": version,
