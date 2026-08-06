@@ -77,7 +77,29 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 <li><strong>Compiler-Grade Truth:</strong> "Verified" always means a clean <code>lake build</code> pass in Lean 4 (<code>sorry_count = 0</code>).</li>
 <li><strong>Skeptical Orchestration:</strong> The mathematician remains the ultimate referee over mathematical truth.</li>
 </ul>
-`,layout:`content`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[`Establish the non-negotiable definition of mathematical verification`],interactionLevel:`none`,ai:{}},{title:`Course Learning Objectives`,is_major:!1,label:`02`,topic_idx:1,content:`<h2>Course Learning Objectives</h2>
+`,layout:`content`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[`Establish the non-negotiable definition of mathematical verification`],interactionLevel:`none`,ai:{}},{title:`From TeX to Lean 4: The Second Revolution`,is_major:!1,label:`02`,topic_idx:1,content:`<h2>From TeX to Lean 4: The Second Revolution</h2>
+
+<ul>
+<li><strong>Donald Knuth &amp; TeX (1977):</strong> Paused <em>TAOCP</em> Vol 2 to invent TeX because digital typesetting destroyed mathematical beauty.</li>
+<li><strong>Knuth's "Shock! Shock!" Memo (2024):</strong> Reflected on modern LLMs solving complex math problems and generating code in seconds.</li>
+<li><strong>The New Paradigm:</strong> Moving from pencil-and-paper derivations to <strong>compiler-verified proof assistants (Lean 4)</strong> and <strong>autonomous agentic discovery</strong>.</li>
+<li><strong>Open Problems Solved:</strong> DeepMind's <em>FunSearch</em> (Cap Set Problem), <em>AlphaProof</em> (IMO Gold level), and the <em>Ramanujan Machine</em>.</li>
+</ul>
+`,layout:`concept`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Universal Approximation & AI Foundations`,is_major:!1,label:`03`,topic_idx:1,content:`<h2>Universal Approximation &amp; AI Foundations</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4"><div class="flex-1 p-4 rounded-xl bg-slate-900/30 border border-slate-800/40"><h3>Universal Approximation Theorem</h3>
+
+<p>Formulated by Cybenko (1989) &amp; Hornik (1991): Neural networks with non-linear activations can approximate any continuous function $f \\in C(K)$ to arbitrary precision $\\varepsilon &gt; 0$.</p>
+
+</div><div class="flex-1 p-4 rounded-xl bg-slate-900/30 border border-slate-800/40"><h3>Why Deep Math is Critical for Next-Gen AI</h3>
+
+<ul>
+<li><strong>Differential Geometry:</strong> Latent manifold Riemannian metrics</li>
+<li><strong>Topological Data Analysis:</strong> Persistent homology invariants</li>
+<li><strong>Optimal Transport:</strong> Score-based diffusion models &amp; Wasserstein flows</li>
+<li><strong>Optimization:</strong> Non-convex loss landscape topology</li>
+</ul>
+</div></div>`,layout:`two-column`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Course Learning Objectives`,is_major:!1,label:`04`,topic_idx:1,content:`<h2>Course Learning Objectives</h2>
 
 <p>By the end of this certification program, you will be able to:</p>
 
@@ -88,7 +110,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 <li><strong>Orchestrate DAG Workflows</strong>: Model research pipelines as Directed Acyclic Graphs with the LOOP Engine.</li>
 <li><strong>Achieve Lean 4 Verification</strong>: Prove theorems with zero build errors and zero <code>sorry</code> placeholders.</li>
 </ol>
-`,layout:`content`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 0: Identifying the Research Problem`,is_major:!0,label:``,topic_idx:4,content:`<h1>Module 0: Identifying the Research Problem</h1>
+`,layout:`content`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 0: Identifying the Research Problem`,is_major:!0,label:``,topic_idx:6,content:`<h1>Module 0: Identifying the Research Problem</h1>
 
 <p>Purpose: Problem identification is an iterative convergence process — matching genuine expertise and interest to a specifically named literature gap.</p>
 
@@ -96,7 +118,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 - Map demonstrated expertise vs. genuine intellectual interest<br />
 - Conduct structured SOTA surveys across arXiv, MathSciNet, and zbMATH<br />
 - Apply the 4-Part Feasibility Pre-screen before writing code or prompts</p>
-`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[`Learn to converge expertise, interest, and literature gaps before prompting`],interactionLevel:`none`,ai:{}},{title:`The Problem Convergence Loop`,is_major:!1,label:`03`,topic_idx:4,content:`<h2>The Problem Convergence Loop</h2>
+`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[`Learn to converge expertise, interest, and literature gaps before prompting`],interactionLevel:`none`,ai:{}},{title:`The Problem Convergence Loop`,is_major:!1,label:`05`,topic_idx:6,content:`<h2>The Problem Convergence Loop</h2>
 
 <pre><code>flowchart TD
     E[Researcher Expertise Map] --&gt; C1{Converge?}
@@ -113,7 +135,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 <blockquote class="border-l-4 border-sky-400 pl-4 italic my-4 text-slate-300">
   <p>💡 <em>A problem statement built on interest alone produces work you cannot execute; expertise alone produces work you will not sustain.</em></p>
 </blockquote>
-`,layout:`process`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 1: Foundational Prompt Engineering`,is_major:!0,label:``,topic_idx:6,content:`<h1>Module 1: Foundational Prompt Engineering</h1>
+`,layout:`process`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 1: Foundational Prompt Engineering`,is_major:!0,label:``,topic_idx:8,content:`<h1>Module 1: Foundational Prompt Engineering</h1>
 
 <p>Purpose: Master rhetorical prompt engineering (Ethos, Pathos, Logos) and enforce strict mathematical integrity qualifiers.</p>
 
@@ -121,7 +143,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 - Construct rhetorical prompts tailored to mathematical journals<br />
 - Apply the Four Qualifiers for Mathematical Integrity<br />
 - Build a Proof Dependency Ledger marking unjustified steps as <code>[GAP]</code></p>
-`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Rhetorical Modes in Mathematical Prompting`,is_major:!1,label:`04`,topic_idx:6,content:`<h2>Rhetorical Modes in Mathematical Prompting</h2>
+`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Rhetorical Modes in Mathematical Prompting`,is_major:!1,label:`06`,topic_idx:8,content:`<h2>Rhetorical Modes in Mathematical Prompting</h2>
 
 <table class="w-full border-collapse border border-slate-800 rounded-lg overflow-hidden my-4 text-sm">
 <thead>
@@ -149,7 +171,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 </tr>
 </tbody>
 </table>
-`,layout:`comparison`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The Four Qualifiers for Mathematical Integrity`,is_major:!1,label:`05`,topic_idx:6,content:`<h2>The Four Qualifiers for Mathematical Integrity</h2>
+`,layout:`comparison`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The Four Qualifiers for Mathematical Integrity`,is_major:!1,label:`07`,topic_idx:8,content:`<h2>The Four Qualifiers for Mathematical Integrity</h2>
 
 <div class="tabs-container border border-slate-850 rounded-lg overflow-hidden my-4 bg-slate-900/30">
             <div class="tabs-header flex border-b border-slate-800 bg-slate-955/40">
@@ -169,7 +191,7 @@ Annotate unconfirmed identifiers: <code>-- illustrative name, confirm against Ma
 </div><br />
             </div><br />
         </div></p>
-`,layout:`concept`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Knowledge Check: Integrity Qualifiers`,is_major:!1,label:`06`,topic_idx:6,content:`<h2>Knowledge Check: Integrity Qualifiers</h2>
+`,layout:`concept`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Knowledge Check: Integrity Qualifiers`,is_major:!1,label:`08`,topic_idx:8,content:`<h2>Knowledge Check: Integrity Qualifiers</h2>
 
 <div class="quiz border border-slate-800 bg-slate-900/50 rounded-lg p-3 my-2 border-l-4 border-l-purple-500 text-xs">
                         <div class="quiz-question font-semibold text-slate-100 text-sm mb-2"></div>
@@ -179,7 +201,7 @@ Annotate unconfirmed identifiers: <code>-- illustrative name, confirm against Ma
                         <div class="quiz-option p-2 bg-slate-950/40 border border-slate-800 rounded-lg cursor-pointer transition-all my-1.5 font-mono text-xs" onclick="checkAnswer(this, 'D', 'B')">D) Skip the lemma and claim the main theorem is proved</div>
                 </div>
 
-`,layout:`content`,purpose:`assess`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 2: Strategic Research & Publication Workflows`,is_major:!0,label:``,topic_idx:10,content:`<h1>Module 2: Strategic Research &amp; Publication Workflows</h1>
+`,layout:`content`,purpose:`assess`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 2: Strategic Research & Publication Workflows`,is_major:!0,label:``,topic_idx:12,content:`<h1>Module 2: Strategic Research &amp; Publication Workflows</h1>
 
 <p>Purpose: Deploy 5-Gate Zero-to-One Paper Construction and run automated referee report simulations.</p>
 
@@ -187,7 +209,7 @@ Annotate unconfirmed identifiers: <code>-- illustrative name, confirm against Ma
 - Enforce the Do's and Don'ts of AI-assisted math research<br />
 - Pass draft papers through 5 sequential verification gates<br />
 - Simulate referee reports evaluating correctness and novelty</p>
-`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The 5-Gate Zero-to-One Paper Pipeline`,is_major:!1,label:`07`,topic_idx:10,content:`<h2>The 5-Gate Zero-to-One Paper Pipeline</h2>
+`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The 5-Gate Zero-to-One Paper Pipeline`,is_major:!1,label:`09`,topic_idx:12,content:`<h2>The 5-Gate Zero-to-One Paper Pipeline</h2>
 
 <p>:::timeline<br />
 === Gate 1: Novelty Confirmed<br />
@@ -205,7 +227,7 @@ Lean 4 compiler returns 0 errors and <code>sorry_count = 0</code> via <code>lake
 <p>=== Gate 5: Referee Simulation<br />
 Simulated referee report scores draft high on correctness, novelty, and clarity.<br />
 :::</p>
-`,layout:`timeline`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Research Discipline: Do's vs. Don'ts`,is_major:!1,label:`08`,topic_idx:10,content:`<h2>Research Discipline: Do's vs. Don'ts</h2>
+`,layout:`timeline`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Research Discipline: Do's vs. Don'ts`,is_major:!1,label:`10`,topic_idx:12,content:`<h2>Research Discipline: Do's vs. Don'ts</h2>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4"><div class="flex-1 p-4 rounded-xl bg-slate-900/30 border border-slate-800/40"><h3>DO</h3>
 
@@ -222,7 +244,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 <li>Cite papers or Mathlib lemmas without live verification</li>
 <li>Treat a <code>sorry</code>-containing Lean file as complete</li>
 </ul>
-</div></div>`,layout:`two-column`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 3: Autonomous Agent Architecture & SKILL.md`,is_major:!0,label:``,topic_idx:13,content:`<h1>Module 3: Autonomous Agent Architecture &amp; SKILL.md</h1>
+</div></div>`,layout:`two-column`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 3: Autonomous Agent Architecture & SKILL.md`,is_major:!0,label:``,topic_idx:15,content:`<h1>Module 3: Autonomous Agent Architecture &amp; SKILL.md</h1>
 
 <p>Purpose: Transition from single-prompt narration to checkable intermediate artifacts using specialized <code>SKILL.md</code> agents.</p>
 
@@ -230,7 +252,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 - Define agent system instructions using structured YAML frontmatter<br />
 - Deploy specialized agents (<code>Literature-Conjecture</code>, <code>Proof-Strategy</code>, <code>Lean4-Formalization</code>, <code>Counterexample-Search</code>)<br />
 - Integrate NotebookLM for literature batch orientation</p>
-`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The Mathematical Agent Suite`,is_major:!1,label:`09`,topic_idx:13,content:`<h2>The Mathematical Agent Suite</h2>
+`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The Mathematical Agent Suite`,is_major:!1,label:`11`,topic_idx:15,content:`<h2>The Mathematical Agent Suite</h2>
 
 <p>:::accordion</p>
 
@@ -250,7 +272,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 
 <p>Writes SageMath/Python scripts to computationally test candidate claims over bounded search domains before formalization.<br />
 :::</p>
-`,layout:`content`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Micro-Assessment: Agent Artifacts`,is_major:!1,label:`10`,topic_idx:13,content:`<h2>Micro-Assessment: Agent Artifacts</h2>
+`,layout:`content`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Micro-Assessment: Agent Artifacts`,is_major:!1,label:`12`,topic_idx:15,content:`<h2>Micro-Assessment: Agent Artifacts</h2>
 
 <div class="quiz border border-slate-800 bg-slate-900/50 rounded-lg p-3 my-2 border-l-4 border-l-purple-500 text-xs">
                         <div class="quiz-question font-semibold text-slate-100 text-sm mb-2">A Lean 4 file that compiles with \`sorry\` placeholders present is considered incomplete, and \`sorry_count > 0\` means the Definition of Done is NOT met.</div>
@@ -258,7 +280,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
                         <div class="quiz-option p-2 bg-slate-950/40 border border-slate-800 rounded-lg cursor-pointer transition-all my-1.5 font-mono text-xs" onclick="checkAnswer(this, 'B', 'A')">B) False</div>
                 </div>
 
-`,layout:`content`,purpose:`assess`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 4: Graph Engineering & The LOOP Engine`,is_major:!0,label:``,topic_idx:16,content:`<h1>Module 4: Graph Engineering &amp; The LOOP Engine</h1>
+`,layout:`content`,purpose:`assess`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 4: Graph Engineering & The LOOP Engine`,is_major:!0,label:``,topic_idx:18,content:`<h1>Module 4: Graph Engineering &amp; The LOOP Engine</h1>
 
 <p>Purpose: Model paper development as a Directed Acyclic Graph (DAG) and run stateful research loops using the LOOP engine.</p>
 
@@ -266,7 +288,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 - Design DAG topologies with human-in-the-loop (HITL) checkpoints<br />
 - Execute the Look-Orient-Operate-Ponder (LOOP) cycle<br />
 - Pin toolchains (<code>lean-toolchain</code>) for complete resumability</p>
-`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The LOOP Operational Engine`,is_major:!1,label:`11`,topic_idx:16,content:`<h2>The LOOP Operational Engine</h2>
+`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`The LOOP Operational Engine`,is_major:!1,label:`13`,topic_idx:18,content:`<h2>The LOOP Operational Engine</h2>
 
 <pre><code>flowchart LR
     Look["Look:&lt;br/&gt;Gather Literature &amp; Mathlib Data"] --&gt; Orient["Orient:&lt;br/&gt;Frame against 4-Part Test"]
@@ -281,7 +303,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 <li><strong>Operate:</strong> Write scripts, compile Lean files (<code>lake build</code>), generate artifacts.</li>
 <li><strong>Ponder:</strong> Evaluate gaps, refine tactic heuristics, update daily logs.</li>
 </ul>
-`,layout:`process`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 5: Auto-Verification & Project Scaffolding`,is_major:!0,label:``,topic_idx:18,content:`<h1>Module 5: Auto-Verification &amp; Project Scaffolding</h1>
+`,layout:`process`,purpose:`explain`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Module 5: Auto-Verification & Project Scaffolding`,is_major:!0,label:``,topic_idx:20,content:`<h1>Module 5: Auto-Verification &amp; Project Scaffolding</h1>
 
 <p>Purpose: Establish compiler-grade auto-verification systems and maintain standardized research project scaffolds.</p>
 
@@ -289,7 +311,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 - Apply the 4-Part Claim Validation Test as an automated gate<br />
 - Enforce compiler verification where <code>lake build</code> clean pass is mandatory<br />
 - Maintain a standardized knowledge artifact scaffold (<code>lean/</code>, <code>wiki/</code>, <code>paper/</code>)</p>
-`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Standardized Research Project Scaffold`,is_major:!1,label:`12`,topic_idx:18,content:`<h2>Standardized Research Project Scaffold</h2>
+`,layout:`section`,purpose:`introduce`,duration:90,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Standardized Research Project Scaffold`,is_major:!1,label:`14`,topic_idx:20,content:`<h2>Standardized Research Project Scaffold</h2>
 
 <pre><code>math-project/
 ├── PROJECT_BRIEF.md        # One-page brief: conjecture &amp; target journal
@@ -305,7 +327,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 &lt;/span&gt; glossary
 └── paper/                    # Release drafts (v0.1 -&gt; v0.2 -&gt; vFinal)
 </code></pre>
-`,layout:`content`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Capstone Portfolio Requirements`,is_major:!1,label:`13`,topic_idx:18,content:`<h2>Capstone Portfolio Requirements</h2>
+`,layout:`content`,purpose:`explain`,duration:150,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Capstone Portfolio Requirements`,is_major:!1,label:`15`,topic_idx:20,content:`<h2>Capstone Portfolio Requirements</h2>
 
 <p>To complete the <strong>AI-Powered Mathematical Research Certification</strong>, you must submit:</p>
 
@@ -317,7 +339,7 @@ Simulated referee report scores draft high on correctness, novelty, and clarity.
 <li><strong>Custom Agent Spec</strong>: <code>SKILL.md</code> formatted for your research domain</li>
 <li><strong>Referee Simulation Report</strong>: Itemized review pass on draft <code>v1.0.md</code></li>
 </ol>
-`,layout:`summary`,purpose:`summarize`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Congratulations!`,is_major:!0,label:``,topic_idx:21,content:`<div class="text-center py-12"><h1>Congratulations!</h1>
+`,layout:`summary`,purpose:`summarize`,duration:120,importance:`normal`,learningObjective:[],interactionLevel:`none`,ai:{}},{title:`Congratulations!`,is_major:!0,label:``,topic_idx:23,content:`<div class="text-center py-12"><h1>Congratulations!</h1>
 
 <p><strong>AI-Powered Mathematical Research</strong></p>
 
