@@ -41,6 +41,11 @@ Use the sidebar or the links below to navigate through the available courses:
 ## 🖥️ Interactive Presentations {#interactive-presentations}
 
 Explore the interactive slide decks compiled using the REVA presentation creator:
+*   [Creativity, Innovation & Enterprising Mindset](pathname:///presentations/creativity-and-innovation/) - Master design thinking, divergent ideation, lean startup business models, and intellectual property to turn creative ideas into real-world innovations. (by REVA School of Interdisciplinary Studies)
+*   [Business Analysis & Software Design](pathname:///presentations/BASD/) - Foundational software engineering course on systems thinking, user stories, UML modeling, modular decomposition, and AI-scaffolded design. (by Department of Computer Science & Engineering)
+*   [AI Creator: Productivity & Synthesis](pathname:///presentations/ai-creator/) - Intermediate microlearning course teaching multi-source RAG synthesis, automated data analysis, and custom AI agent creation. (by REVA AI Creator Team)
+*   [AI Citizen: Modern AI Literacy](pathname:///presentations/ai-citizen/) - Foundational microlearning course establishing baseline AI literacy, responsible prompt engineering, and ethical boundaries for all students. (by REVA AI Literacy Team)
+*   [Introduction to Srujana-Bodha](pathname:///presentations/intro-srujana-bodha/) - A professional development platform for REVA faculty to author interactive microlearning courses, embed H5P assessments, and deploy AI tutors. (by REVA AI Learning Hub Team)
 *   [Sample Presentation](pathname:///presentations/sample-presentation/) - Demo slide deck showcasing quizzes and components.
 *   [Physical AI](pathname:///presentations/physical-ai/) - Introduction to Physical AI, hardware integration, and edge intelligence.
 *   [AI Driver's License](pathname:///presentations/ai-drivers-license/) - Professional development certification for AI-era pedagogy.

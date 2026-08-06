@@ -1055,6 +1055,16 @@ def main():
     if not os.path.exists(input_file):
         print(f"Error: File '{input_file}' not found")
         sys.exit(1)
+
+    # 0. Validate input file against REVA IPS specification
+    try:
+        from validate import validate_presentation_markdown
+        if not validate_presentation_markdown(input_file):
+            print("\n[CONVERTER ABORTED] Input file failed REVA IPS specification validation.")
+            print("Please fix the non-conforming input markdown rather than altering convert.py.")
+            sys.exit(1)
+    except ImportError:
+        pass
         
     script_dir = Path(__file__).parent.absolute()
     renderer_dir = script_dir / 'renderer'

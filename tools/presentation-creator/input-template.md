@@ -2,6 +2,15 @@
 
 This document defines the hybrid markdown format specification for the `presentation-creator` tool. It provides a comprehensive reference of all supported metadata properties, slide layouts, semantic blocks, custom MDX elements, and H5P interactions.
 
+> [!IMPORTANT]
+> **Strict Specification & Automatic Validation**
+> All presentation slide decks (`-slides.md`) must strictly conform to this specification.
+> Before building, always run the standalone validator script:
+> ```bash
+> python tools/presentation-creator/validate.py <path-to-slides-file.md>
+> ```
+> `convert.py` automatically executes `validate.py` prior to compilation and will abort if any non-conforming syntax is detected.
+
 ---
 
 ## 1. Global Document Frontmatter
