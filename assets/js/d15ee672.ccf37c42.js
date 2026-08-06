@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunktemp_hub=globalThis.webpackChunktemp_hub||[]).push([[3066],{81849(e){e.exports=JSON.parse('{"metadata":{"permalink":"/REVA-learning-hub/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
